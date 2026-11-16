@@ -1,0 +1,4025 @@
+# 学术写作可判定规则库
+# v1.2.0（2026-11-11）
+# 字段：id / genre / section / rule / source / signal / fix
+# 可选：track（quant|predictive|qualitative|basic-science|clinical|reporting）
+#       example_bad（违反本条的典型写法）/ example_good（改正后写法）
+#       note（提示性规则说明）/ conflict（误报豁免）/ scope（process 类非文本规则）
+# section 取值统一为：abstract / title / introduction / related-work / method /
+#   experiments / results / discussion / conclusion / references / rebuttal /
+#   review / ethics / submission / general / chapter-structure / contribution / defense
+# 纪律：写不出 signal 的规则不入库；每条必须有 source；宁缺毋滥。
+
+rules:
+rules:
+- id: SCI-ABS-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: abstract
+  rule: 摘要须含目的、方法、主要结果（含量化值）、结论四要素
+  source: Day & Gastel 9e, ch.9 p.59-61
+  signal: 摘要只讲背景与方法，无任何数据结果
+  fix: 补一句带数值的结果，如 tensile strength increased from 42 to 58 MPa
+- id: SCI-ABS-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: abstract
+  rule: 摘要不得引用参考文献，不得使用未展开的缩写
+  source: Day & Gastel 9e, ch.9 p.63
+  signal: 摘要出现 [12] 或 SEM/TGA 等缩写首次出现未展开
+  fix: 删除文献引用，缩写首次出现写全称
+- id: WRI-ABS-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: abstract
+  rule: 摘要须含四要素：问题、现有不足、本文方法、关键结果
+  source: Day & Gastel 9e, ch. 9
+  signal: 摘要只讲方法、无量化结果
+  fix: 补一句带数字的结果，例如 "improves F1 by +3.2% over baseline"
+- id: WRI-ABS-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: abstract
+  rule: 摘要不使用未定义缩写
+  source: Day & Gastel 9e, ch. 9
+  signal: 摘要出现首字母缩写但全文未展开
+  fix: 首次出现写全称，如 "Graph Neural Network (GNN)"
+- id: WRI-ABS-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: abstract
+  rule: 摘要通常不引用文献，也不写 "We review relevant literature"
+  source: Zobel 3e, ch.5 p.57
+  signal: 摘要出现 [1] 引用或 "We review..."
+  fix: 删除引用，改为直接陈述结论
+- id: WRI-ABS-004
+  genre:
+  - ei-conf
+  - ai-conf
+  section: abstract
+  rule: 摘要须具体，用数字而非空泛形容词
+  source: Zobel 3e, ch.5 p.57
+  signal: 出现 "significantly reduced" 而无数字
+  fix: 改为 "reduced by 60%"，写出量化结果
+- id: WRI-ABS-010
+  genre:
+  - sci-journal
+  section: abstract
+  rule: 研究论文摘要须为 informative（陈述数据与结论），而非 indicative（目录式罗列主题）
+  source: Day & Gastel 9e, ch.9 p.62
+  signal: 摘要只罗列文章涉及的主题，未陈述具体发现、数据或结论
+  fix: 改写为 informative 摘要，陈述问题、方法、主要数据与结论
+- id: WRI-ABS-011
+  genre:
+  - sci-journal
+  section: abstract
+  rule: 摘要不得出现正文中未有的信息或结论
+  source: Day & Gastel 9e, ch.9 p.60
+  signal: 摘要包含正文中未出现的结论或数据
+  fix: 删除该信息，或将其写入正文相应位置
+- id: SCI-TIT-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: title
+  rule: 标题须具体，含研究对象/体系与关键处理，避免宽泛词与未定义缩写
+  source: Day & Gastel 9e, ch.7 p.46-49
+  signal: 标题为 "A Study on the Properties of Materials" 一类无信息量表述
+  fix: 改为含体系与关键变量的具体标题，如 "Thermal Conductivity of Graphene Oxide Films Below 50 nm"
+- id: WRI-TIT-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: title
+  rule: 标题具体、含方法与任务，避免 "A Study of..."
+  source: Day & Gastel 9e, ch. 8
+  signal: 标题为 "A Study on Deep Learning"
+  fix: '改为 "Method + Task + Dataset" 形式，如 "GraphFormer: ... on ..."'
+- id: SCI-INT-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: introduction
+  rule: 引言须按"领域现状→已知→未知→本研究目的"推进，并以研究目的收尾
+  source: Day & Gastel 9e, ch.10 p.66
+  signal: 引言以文献综述结束，未出现本研究要解决什么
+  fix: 末段补明确目的句，如 the aim of this work was to determine whether…
+- id: SCI-INT-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: introduction
+  rule: 引言只写必要背景，不得写成小综述（详细文献讨论留给讨论章）
+  source: Day & Gastel 9e, ch.10 p.67
+  signal: 引言占全文 30% 以上，且大段罗列他人工作
+  fix: 压缩至 15% 以内，把对比性讨论移入讨论
+- id: WRI-INT-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: introduction
+  rule: 引言按漏斗结构推进：背景→问题→gap→做法→贡献
+  source: Booth et al., The Craft of Research 5e, ch. 13-14
+  signal: 引言跳跃，问题未收敛就讲方法
+  fix: 先写清"研究问题"一句，再过渡到方法
+- id: WRI-INT-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: introduction
+  rule: 引言必须有 gap 句（However / remains / limited 等转折）
+  source: Day & Gastel 9e, ch. 5
+  signal: 只有现象罗列，无转折指出不足
+  fix: 补 "However, existing methods still suffer from..."
+- id: WRI-INT-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: introduction
+  rule: 贡献必须明确可识别（bullet 列表或清晰的叙述句），不得缺失
+  source: Zobel, Writing for Computer Science 3e, ch. 5
+  signal: 引言读完后无法列出"本文贡献是什么"
+  fix: '补 bullet "We make three contributions: (1)... (2)... (3)..." 或一句清晰的 "We propose X, the first ... that ..."'
+- id: WRI-INT-004
+  genre:
+  - ei-conf
+  - ai-conf
+  section: introduction
+  rule: 禁止空泛宣称（"novel framework""significantly outperforms"而无依据）
+  source: Zobel, Writing for Computer Science 3e, ch. 5
+  signal: 出现 novel/state-of-the-art 但无量化支撑
+  fix: 用具体数字替代形容词，或删除"novel"改为具体贡献描述
+- id: WRI-INT-005
+  genre:
+  - ei-conf
+  - ai-conf
+  section: introduction
+  rule: 引言结尾须让读者理解 scope 与 contribution（新在哪、为何可信、用何方法）
+  source: Zobel 3e, ch.5 p.57-58
+  signal: 读完整引言仍说不出"本文贡献是什么"
+  fix: 补 contribution 段：what is new + why plausible + what method
+- id: WRI-INT-006
+  genre:
+  - ei-conf
+  - ai-conf
+  section: introduction
+  rule: 引言须明示结果，不能把结果藏到结尾制造"惊喜"
+  source: Zobel 3e, ch.5 p.58
+  signal: 引言只暗示"有惊喜结果"但不点明
+  fix: 引言末段直接给出关键结果数字
+- id: WRI-INT-010
+  genre:
+  - sci-journal
+  section: introduction
+  rule: 引言须在首次出现时定义专门术语与缩写
+  source: Day & Gastel 9e, ch.10 p.70
+  signal: 引言首次出现专业术语或缩写时未展开全称或给出定义
+  fix: 在首次出现处给出全称或简要定义
+- id: WRI-REL-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: related-work
+  rule: 相关工作按方法谱系分组，不按时间顺序罗列
+  source: Zobel, Writing for Computer Science 3e, ch. 6
+  signal: 段落以 "In 2018, X..." "In 2020, Y..." 开头
+  fix: 按技术路线分组，如 "Learning-based approaches..." "Graph-based approaches..."
+- id: WRI-REL-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: related-work
+  rule: 每段收尾点出"与本文最接近的工作及其差异"
+  source: Booth et al., The Craft of Research 5e, ch. 6
+  signal: 只复述他人工作，无对比定位
+  fix: 段末加 "Closest to ours is [X], but it requires labeled data, whereas we..."
+- id: WRI-REL-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: related-work
+  rule: 文献综述应集中成单独 section，不分散到各处
+  source: Zobel 3e, ch.5 p.60-61
+  signal: 相关工作散落在引言/方法/结果各处，无独立 section
+  fix: 聚合成 "Related Work" section，集中比较
+- id: WRI-REL-004
+  genre:
+  - ei-conf
+  - ai-conf
+  section: related-work
+  rule: 综述须点明前人方法各自优劣，而非只罗列
+  source: Zobel 3e, ch.5 p.60
+  signal: 综述只复述 "X 做了 Y"，无 strengths/weaknesses
+  fix: 每条补一句优劣，如 "but it requires labeled data"
+- id: PRD-MET-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 指标须与研究目标一致；类别不平衡时不得只用 accuracy
+  source: APM, ch.11 p.247 (Measuring Performance in Classification Models)
+  signal: 正类占比 <10% 却以 accuracy 作为唯一评价指标
+  fix: 补 precision/recall/F1 与 PR-AUC，并说明为何这些指标更贴合目标
+  example_bad: Our fraud detector achieves 98.7% accuracy, outperforming all baselines.
+  example_good: Because only 1.2% of transactions are fraudulent, accuracy is uninformative; we report precision 0.71, recall 0.63 and AUPRC 0.68 against a 0.012 prevalence baseline.
+- id: PRD-MET-002
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 分类任务须至少报告两项互补指标（如 recall + precision，或 AUC + 校准）
+  source: APM, ch.11 p.247
+  signal: 结果表只有一列 accuracy 或一列 AUC
+  fix: 补第二项指标，并说明二者在本任务中的权衡
+  example_bad: The model reaches an AUC of 0.91, indicating strong performance.
+  example_good: We report AUC 0.91 alongside precision 0.78 at the deployed threshold and calibration (Brier 0.11), since AUC alone hides threshold behaviour and probability quality.
+- id: PRD-MET-003
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 回归任务须报 RMSE/MAE 与 R²，且给出基线模型的同一指标
+  source: APM, ch.5 p.95 (Measuring Performance in Regression Models)
+  signal: 只报 RMSE，无 R²、无基线对照
+  fix: 补基线（均值预测/上一期值）的同口径指标
+  example_bad: Our regressor attains RMSE 4.31, a strong result.
+  example_good: Our model attains RMSE 4.31 / MAE 3.02 / R² 0.64, against RMSE 5.87 / MAE 4.55 / R² 0.41 for the mean-prediction baseline and 5.02 / 3.88 / 0.52 for gradient boosting.
+- id: PRD-MET-004
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: experiments
+  rule: 须设置朴素基线（trivial baseline），证明模型增益不是来自任务本身容易
+  source: APM, ch.5 p.95; ch.2 p.19
+  signal: 只与同类复杂模型比较，无"常数预测/随机预测"基线
+  fix: 补 trivial baseline 行，并报告相对提升幅度
+  example_bad: The transformer improves F1 by 7 points over the previous state of the art.
+  example_good: Against the trivial majority-class baseline (F1 0.31) and a bag-of-words logistic regression (F1 0.62), the transformer reaches F1 0.74, so the gain is not an artefact of task difficulty.
+- id: PRD-MET-005
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 概率输出须做校准评估（校准曲线或 Brier 分数），不能只报区分度
+  source: APM, ch.11 p.247
+  signal: 输出概率用于决策，但只报 AUC，无校准检验
+  fix: 补 reliability diagram 与 Brier score
+  example_bad: The classifier outputs well-separated probabilities (AUC 0.93).
+  example_good: Discrimination is high (AUC 0.93), but the reliability diagram shows systematic overconfidence above 0.8; after temperature scaling, ECE falls from 0.09 to 0.03.
+- id: SCI-MET-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: method
+  rule: 材料须给精确规格、数量、来源，并优先使用通用名而非商标名（商标名首次出现须标注册信息）
+  source: Day & Gastel 9e, ch.11 p.72
+  signal: 只写 "commercial graphene" 或 "a well-known reagent"，无纯度、厂家、批号
+  fix: 补通用名、纯度、厂家与产地，如 graphene oxide (≥99%, Xianfeng Nanotech, Nanjing, China)
+- id: SCI-MET-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: method
+  rule: 方法须写到他人可重复：步骤顺序、关键参数、时长、环境条件齐全
+  source: Day & Gastel 9e, ch.11 p.73
+  signal: 只写 "samples were annealed"，无温度、时间、气氛
+  fix: 补全条件，如 annealed at 400 °C for 2 h under Ar flow (50 sccm)
+- id: SCI-MET-003
+  genre:
+  - sci-journal
+  track: basic-science
+  section: method
+  rule: 仪器与测量须给型号、厂家与关键采集参数；领域专属标准（如 ACS/IUPAC）需另行遵循并在文中声明
+  source: Day & Gastel 9e, ch.11 p.74 (Measurements and Analysis)
+  note: 本包不含领域表征标准原文，具体参数清单须按目标期刊作者指南核对
+  signal: 写 "XRD was used to characterize the samples" 而无靶材、扫描速率、步长
+  fix: 补仪器型号与参数，如 Bruker D8 Advance, Cu Kα, 2°/min, 0.02° step
+- id: SCI-MET-004
+  genre:
+  - sci-journal
+  track: basic-science
+  section: method
+  rule: 统计方法须写明检验类型、显著性水平、重复次数与所用软件
+  source: Day & Gastel 9e, ch.11 p.74; Montgomery, Design and Analysis of Experiments 8e, ch.2
+  signal: 只说 "data were statistically analyzed"，无检验名与软件
+  fix: 补 one-way ANOVA with Tukey HSD, α = 0.05, n = 5, OriginPro 2023
+- id: SCI-MET-005
+  genre:
+  - sci-journal
+  track: basic-science
+  section: method
+  rule: 实验设计须说明重复、随机化与区组安排，避免混杂批次效应
+  source: Montgomery, Design and Analysis of Experiments 8e, ch.1-2
+  signal: 多批次样品混合处理，但未提随机化或区组
+  fix: 补 randomization 与 blocking 说明，或声明采用完全随机设计及理由
+- id: WRI-MET-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: method
+  rule: 方法开头先给整体 pipeline 图与符号表
+  source: Zobel, Writing for Computer Science 3e, ch. 7
+  signal: 直接进入公式，无总览图
+  fix: '补一张 pipeline 图 + "Table 1: Notation"'
+- id: WRI-MET-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: method
+  rule: 关键设计决策须写"为什么这样选"，为消融埋伏笔
+  source: Zobel, Writing for Computer Science 3e, ch. 7
+  signal: 只写 "we use X" 不写原因
+  fix: 补 "We choose X because ... (ablated in Sec. 5.2)"
+- id: WRI-MET-010
+  genre:
+  - sci-journal
+  section: method
+  rule: 材料须给出精确规格、数量与来源，优先使用通用名而非商标名
+  source: Day & Gastel 9e, ch.11 p.72
+  signal: 试剂或材料只给名称，缺少规格、数量或来源；或随意使用商标名
+  fix: 补精确规格、数量、来源或制备方法；优先用通用名，仅当产品间差异关键时用商标名并注明厂商
+- id: WRI-MET-011
+  genre:
+  - sci-journal
+  section: method
+  rule: 生物材料须标明属、种、株系及年龄性别等特征
+  source: Day & Gastel 9e, ch.11 p.73
+  signal: 实验动物、植物或微生物只写"小鼠""菌株"等，无属种株系、来源或年龄性别等特征
+  fix: 补充 genus、species、strain 及年龄、性别、遗传与生理状态等特征
+- id: WRI-MET-012
+  genre:
+  - sci-journal
+  section: method
+  rule: 涉及人或动物的实验须附知情同意与伦理委员会批准说明
+  source: Day & Gastel 9e, ch.11 p.73
+  signal: 含人或动物实验，但正文无 informed consent 与伦理委员会（IRB/IACUC）批准说明
+  fix: 补充知情同意声明与相应伦理委员会批准说明
+- id: WRI-MET-013
+  genre:
+  - sci-journal
+  section: method
+  rule: 方法须精确回答"如何做"与"多少"，给出定量参数
+  source: Day & Gastel 9e, ch.11 p.74
+  signal: 方法中出现"加热""适量""一段时间"等无定量表述，合格同行无法复现
+  fix: 补充具体温度、浓度、时间、用量等定量参数，使实验可被重复
+- id: PRD-DAT-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: experiments
+  rule: 须明确三分 train / validation / test，并声明 test 集只用于最终评估一次
+  source: Kuhn & Johnson, Applied Predictive Modeling, ch.2 p.19 (A Short Tour of the Predictive Modeling Process)
+  signal: 只提 "we split the data"，未说明比例、是否分层、test 何时使用
+  fix: 补 "70/15/15 stratified split; the test set was touched once, after model selection"
+  example_bad: We split the data into training and test sets and tune hyperparameters on the test set for the best result.
+  example_good: Data are split 70/15/15 into train/validation/test; hyperparameters are tuned on validation only, and the test set is evaluated once after all choices are frozen.
+- id: PRD-DAT-002
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 所有预处理（标准化、插补、编码、降维）须仅在训练集内拟合后再应用到验证/测试集
+  source: APM, ch.3 p.27 (Data Pre-processing)
+  signal: 描述"先对全量数据标准化/插补，再切分"，构成信息泄漏
+  fix: 改为 "all preprocessing steps were estimated on the training fold only and applied unchanged to held-out data"
+  example_bad: Features were standardized and imputed on the full dataset before cross-validation.
+  example_good: Standardization and median imputation are fitted inside each training fold and then applied to the held-out fold, so no validation statistics leak into training.
+- id: PRD-DAT-003
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 时间序列或面板数据须按时间切分，且禁止用未来信息构造特征
+  source: APM, ch.4 p.61; ISLR 2e, ch.5
+  signal: 时序数据用随机切分或 k-fold 交叉验证
+  fix: 改为滚动/前向验证（rolling-origin），并说明预测时点
+  example_bad: We randomly split the panel of monthly observations into train and test.
+  example_good: 'We split chronologically: models are trained on 2015–2020, validated on 2021, and tested on 2022; all features use only information available at prediction time.'
+- id: PRD-DAT-004
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 须显式排查目标泄漏与重复样本（同一实体跨集合出现）
+  source: APM, ch.20 p.521 (Factors That Can Affect Model Performance)
+  signal: 特征中含明显由结果派生的变量（如"最终状态""结案金额"），或同一患者/企业在多个集合出现
+  fix: 补泄漏排查说明：按实体分组切分（grouped split），删除派生特征
+  example_bad: We removed duplicate rows and randomly assigned the remaining records to folds.
+  example_good: Because the same patient contributes multiple visits, we group splits by patient ID and audit for target leakage; no patient appears in more than one fold.
+- id: PRD-DAT-005
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 缺失数据处理方式须说明（删除/单一插补/多重插补/模型内处理）及比例
+  source: APM, ch.3 p.27; ISLR 2e, ch.5
+  signal: 只写 "missing values were removed"，未报删除比例与是否导致选择偏差
+  fix: 报各变量缺失率、处理方式，并做"删除 vs 插补"的敏感性对照
+  example_bad: Missing values were handled appropriately.
+  example_good: Income is missing for 18.4% of records; we impute with chained equations (10 imputations) fitted on training data and report results under complete-case analysis as a robustness check.
+- id: WRI-DAT-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 实验/数据章节除样本量外，须报告关键数据质量维度的测量值（完整性、有效性、唯一性等）
+  source: McGilvray, Executing Data Quality Projects 2e, ch.3 p.42 (Data Quality Dimensions), ch.4 p.133
+  signal: 只写“我们使用了 N 条数据”，未给出缺失率、重复率、字段有效性等任何数据质量指标
+  fix: 至少补报 completeness/fill rate、validity、uniqueness 三项的 count+percentage，并说明数据清洗前后规模变化
+  conflict: 使用公开第三方基准数据集（如 MNIST/CIFAR/ImageNet）时，以引用替代质量自报，不强制去重/有效性报告（验收发现：Dropout JMLR 稿即此模式）
+  category: data-quality
+- id: WRI-DAT-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: method
+  rule: 字段缺失须区分必填/可空/条件必填，并给出 fill rate 判定标准
+  source: McGilvray, Executing Data Quality Projects 2e, ch.4 Step 3.3 (Completeness/fill rate) p.133
+  signal: 数据存在缺失字段，却未说明哪些字段必填、可空、条件必填，读者无法判断缺失是否可接受
+  fix: 逐字段标注 required/optional/conditional 及条件；必填字段 fill rate 须为 100%，否则解释缺失原因与处理方式
+  category: data-quality
+- id: WRI-DAT-003
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 数据须查重并报告唯一性/去重结果，避免重复记录污染统计
+  source: McGilvray 2e, ch.4 Step 3.5 (Uniqueness and Deduplication) p.140
+  signal: 未见去重说明，同一实体（用户/设备/记录）可能被重复计数
+  fix: 按业务键查重并报重复率，写明去重规则（确定性/概率匹配）与去重后规模
+  conflict: 公开基准数据集不强制自报去重；本规则主要针对自采/业务数据（验收发现：Dropout JMLR 稿用公开基准，无去重义务）
+  category: data-quality
+- id: WRI-DAT-004
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: method
+  rule: 多来源/多表数据合并须检查字段一致性
+  source: McGilvray 2e, ch.4 Step 3.6 (Consistency and Synchronization) p.146
+  signal: 数据来自多个设备/表/时间段，合并后未说明字段口径是否一致
+  fix: 报 consistency 检查：同一字段在不同源取值是否等价、口径差异与映射规则，给出合并后一致性比例
+  category: data-quality
+- id: WRI-DAT-005
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: method
+  rule: 数据时间窗与时效性须说明
+  source: McGilvray 2e, ch.4 Step 3.7 (Timeliness) p.148
+  signal: 未写数据覆盖的时间范围、更新频率、切片截止时间
+  fix: 说明数据时间窗、更新频率、切片截止点，判断数据是否 current 并据此限定结论
+  category: data-quality
+- id: WRI-DAT-006
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 报“准确/正确”须有参照，说明与哪个权威来源核对
+  source: McGilvray 2e, ch.4 Step 3.4 (Accuracy) p.135
+  signal: 声称数据或标注“准确”，却未说明与何参照比对（金标准/人工抽检/规则）
+  fix: 写明 accuracy 的 authoritative reference、抽检规模与一致率；无金标准则如实写“以人工抽检为参照”
+  category: data-quality
+- id: WRI-EXP-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 基线须含 SOTA 与简单基线（simple baseline）
+  source: Zobel, Writing for Computer Science 3e, ch. 8
+  signal: 只对比 SOTA，无简单/无模型基线
+  fix: 加随机基线或 "majority class" 作为下界参照
+- id: WRI-EXP-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 必须有消融或等价的分析性实验；dataset/benchmark 论文可豁免
+  source: Zobel, Writing for Computer Science 3e, ch. 8
+  signal: 只有主结果表，无逐组件移除/逐因素分析的对比，且非 benchmark 类论文
+  fix: 加 "Ablation study" 或 "Analysis" 小节，逐组件 on/off
+- id: WRI-EXP-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 写清复现细节：超参、硬件、随机种子
+  source: National Academies, Reproducibility and Replicability (2019)
+  signal: 无超参设置、无种子、无硬件说明
+  fix: 补 "Hyperparameters / Hardware / Seeds" 段落或附录
+- id: WRI-EXP-020
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 区分观察阶段与确认阶段，禁止在用于调参的数据上验证结论
+  source: Zobel 3e, ch.14 p.202
+  signal: 在测试数据上反复调参后仍在同一数据上报告性能（数据泄漏）
+  fix: 拆分观察（调参）与确认（验证）数据集，参数只在留出的独立数据上验证
+- id: WRI-EXP-021
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 结论应基于多个真正独立的数据集，而非单一数据或同一数据的子抽样
+  source: Zobel 3e, ch.14 p.202
+  signal: 全部结论只基于一个数据集，或多个"数据集"实为同一大数据集的子抽样
+  fix: 增加来源真正独立的数据集，或明确单数据集结论的适用范围
+- id: WRI-EXP-022
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 检查结果是否存在其他解释，并用控制实验排除混淆因素
+  source: Zobel 3e, ch.14 p.203
+  signal: 对"更快/更好"只给单一归因，未排除速度来自数据、磁盘或其他实现因素
+  fix: 补充控制实验隔离变量，如固定数据只变算法、固定算法只变数据
+- id: WRI-EXP-023
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 不下超出结果的结论，序数尺度的指标不能做差值/倍数表述
+  source: Zobel 3e, ch.14 p.204
+  signal: 从特殊情形成功外推到一般，或对序数指标宣称"高 20% 的满意度"
+  fix: 将结论限定在被测范围与尺度，只用"高于/低于"描述序数指标差异
+- id: WRI-EXP-024
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 多指标须统一报告、禁止挑报，并同时报告相互制约的指标
+  source: Zobel 3e, ch.14 p.204
+  signal: 不同方法各报有利指标（一个报 AP、另一个报 nDCG），或只报单一有利指标
+  fix: 所有方法统一报告同一组指标，尤其同时报告处于张力中的指标（如 FP 与 TP）
+- id: WRI-EXP-025
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 异常结果须解释或讨论，不得随意丢弃
+  source: Zobel 3e, ch.14 p.206
+  signal: 报告跳过明显偏离的数据点或运行，且不作任何说明
+  fix: 保留并解释异常值（如系统负载、离群运行），必要时单独讨论
+- id: WRI-EXP-026
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 实验应展示随变量变化的趋势，而非只在单一点上的结果
+  source: Zobel 3e, ch.14 p.207
+  signal: 只在一个数据规模或参数值下给出单一结论，无随规模/参数变化的趋势
+  fix: 在参数或数据规模范围内多点取值，用曲线展示趋势
+- id: WRI-EXP-027
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 明确评估基准并保证比较公平，不得偏向被展示的方法
+  source: Zobel 3e, ch.14 p.208
+  signal: 未说明比较维度（功能 vs 速度、渐近 vs 典型、真实 vs 合成），或比较设置明显利于本方
+  fix: 写明评估准则与环境，使对比方法处于同等的实现质量与数据条件下
+- id: WRI-EXP-028
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 人类评估须代表性样本、清晰指令、盲测、匿名、对照与伦理审批
+  source: Zobel 3e, ch.14 p.211
+  signal: 用同学/同事作被试、未遮蔽方法归属、无对照、无伦理审批
+  fix: 选代表性被试，遮蔽方法来源，设对照组，并取得伦理审批
+- id: WRI-EXP-029
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 失败与负结果须与成功同等显著地报告，不得隐瞒
+  source: Zobel 3e, ch.14 p.213
+  signal: 只报成功的数据集，对某些数据集上的失败只字不提
+  fix: 明确列出失败情形，与成功并重呈现
+- id: WRI-EXP-030
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 公开代码与数据，供他人复核并建立基线
+  source: Zobel 3e, ch.14 p.214
+  signal: 论文声称有贡献却未提供代码/数据，也无合理说明
+  fix: 将代码与数据上线公开，或说明不可公开的原因
+- id: SCI-RES-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: results
+  rule: 结果只呈现发现，不作解释与文献比较（解释留讨论）
+  source: Day & Gastel 9e, ch.12 p.77
+  signal: 结果段出现 "this implies that…" 或与他人结果对比
+  fix: 移入讨论，结果段只保留观测与统计陈述
+- id: SCI-RES-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: results
+  rule: 数值须给有效数字、单位与不确定度（或标准差/标准误），且全文口径一致
+  source: Day & Gastel 9e, ch.12 p.78 (How to Handle Numbers)
+  signal: 报 "58.2341 MPa" 或 "58 MPa ± 2"（未说明是 SD 还是 SE）
+  fix: 统一有效数字，并注明 mean ± SD, n = 5
+- id: SCI-RES-003
+  genre:
+  - sci-journal
+  track: basic-science
+  section: results
+  rule: 放入补充材料的图/表/数据须在正文显式指路，并说明其内容
+  source: Day & Gastel 9e, ch.12 p.79 (Supplementary Material Online)
+  signal: 正文只有 "see Supplementary Information"，未说明 SI 里有什么
+  fix: 改写为 "additional XRD patterns for all samples are given in Fig. S3"
+- id: WRI-RES-001
+  genre:
+  - sci-journal
+  section: results
+  rule: 结果节开头应给出实验的整体描述，而非补充遗漏的方法
+  source: Day & Gastel 9e, ch.12 p.77
+  signal: Results 开头出现方法性描述（如漏掉的实验步骤）
+  fix: 将方法内容移回 Materials and Methods，Results 开头改为对实验的整体描述
+- id: WRI-RES-002
+  genre:
+  - sci-journal
+  section: results
+  rule: 结果应呈现代表性数据，而非全部重复数据
+  source: Day & Gastel 9e, ch.12 p.78
+  signal: 正文或图表堆砌大量重复测定（如同实验重复多次的全部结果）
+  fix: 只保留代表性数据，重复数据放入表格或在线补充材料
+- id: WRI-RES-003
+  genre:
+  - sci-journal
+  section: results
+  rule: 正文不得复述图表已呈现的数据，引用图表要简洁
+  source: Day & Gastel 9e, ch.12 p.79
+  signal: 正文逐字重复图表中的数值，或出现 "It is clearly shown in Table X that..." 式冗长引用
+  fix: 正文只写结论性语句并用 "(Table X)" 式简洁引用，把数值留给图表
+- id: WRI-RES-004
+  genre:
+  - sci-journal
+  section: results
+  rule: 结果应报告负性发现（未产生影响的因素）
+  source: Day & Gastel 9e, ch.12 p.78
+  signal: 只报了有影响的变量，未提及"未观察到影响"的变量或阴性结果
+  fix: 补充负性结果，说明哪些因素未产生影响
+- id: SCI-DIS-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: discussion
+  rule: 讨论开篇须用一句话给出本研究的主要发现，而非重复引言背景
+  source: Day & Gastel 9e, ch.13 p.82 (Components of the Discussion)
+  signal: 讨论第一段是背景复述，第三段才出现本研究结果
+  fix: 首句改为 "We show that…"
+- id: SCI-DIS-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: discussion
+  rule: 须与既有文献逐项比较，并对不一致之处给出可能解释
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 讨论只重申自己的结果，未与任何具体文献对照
+  fix: 补 2–3 处对照，并解释差异来源（样品、条件、方法差异）
+- id: SCI-DIS-003
+  genre:
+  - sci-journal
+  track: basic-science
+  section: discussion
+  rule: 须写局限：样品范围、条件边界、方法局限，并说明结论的适用边界
+  source: Day & Gastel 9e, ch.13 p.82 (Noting Strengths and Limitations)
+  signal: 讨论无 limitations 段落，或只写未来工作
+  fix: 补一段列出 2–3 项具体限制及其对结论的影响
+- id: WRI-DIS-001
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论应提炼结果揭示的原理、关系与推广，而非逐句复述结果
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 讨论段落重复 Results 已给出的数据与数值，却没有概括出任何原理、关系或推广
+  fix: 将复述句改写为"该结果揭示了什么原理/关系/规律"，具体数值留给 Results 与图表
+- id: WRI-DIS-002
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论须逐一回应引言提出的研究问题或假设
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 引言提出了研究问题或假设，讨论中找不到对这些问题的直接回答
+  fix: 对照引言逐条核对，在讨论中明确写出每个问题或假设的答案或否证
+- id: WRI-DIS-003
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论须指出例外、无相关与未决点，不得掩盖不符数据
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 结果中存在与主结论不符的数据点、反例或无相关性，讨论对此只字未提
+  fix: 明确写出这些例外或未决点并反思其可能原因，不得删除或淡化
+- id: WRI-DIS-004
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论须将结果与既往工作对照，并解释差异原因
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 讨论只陈述自家结果，未引用或比较任何已发表工作
+  fix: 为每个主要发现补充与既往文献一致或矛盾的对照，并说明差异的可能原因
+- id: WRI-DIS-005
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论须说明工作的理论含义与可能的应用
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 讨论止于现象描述，未提及理论含义或实践应用
+  fix: 补写该结果的理论含义与潜在实际应用
+- id: WRI-DIS-006
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 每条结论须概括其所依据的证据
+  source: Day & Gastel 9e, ch.13 p.82
+  signal: 讨论给出若干结论但未指明支撑它们的图、表或结果
+  fix: 为每条结论补一句其依据的数据、图表或结果
+- id: WRI-DIS-007
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论须注明研究的重要优势与局限，不回避局限
+  source: Day & Gastel 9e, ch.13 p.83
+  signal: 研究存在明显的重要优势或局限（如样本量、随访时间、技术），讨论未提及
+  fix: 主动写出重要优势与局限，并说明局限对结论的影响
+- id: WRI-DIS-008
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 讨论须以研究意义的总结收尾
+  source: Day & Gastel 9e, ch.13 p.84
+  signal: 读完讨论仍无法回答"这项工作有何意义"
+  fix: 在讨论末尾补一段关于研究意义的总结或结论
+- id: WRI-DIS-009
+  genre:
+  - sci-journal
+  section: discussion
+  rule: 结论不得外推到数据支持范围之外
+  source: Day & Gastel 9e, ch.13 p.85
+  signal: 结论或意义表述超出数据所能支撑的范围，如把局部发现推广为整体结论
+  fix: 将结论收紧到数据可支撑的范围，删去过度的外推
+- id: CLN-CON-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: title
+  rule: 标题须明确标识为随机对照试验（CONSORT 第 1a 项）
+  source: CONSORT 2025, item 1a
+  signal: 标题只写 "Effect of X on Y"，读者无法判断是 RCT
+  fix: 改为 "…—a randomized controlled trial" 的标题句式
+- id: CLN-CON-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须提供受试者流程图，覆盖招募、分配、随访、分析四阶段，每阶段给人数与排除原因（第 13a/13b 项）
+  source: CONSORT 2025, items 13a-13b and flow diagram
+  signal: 只有文字描述入组人数，无流程图
+  fix: 补标准四阶段流程图，标注各环节 n 与脱落原因
+- id: CLN-CON-003
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须报随机序列生成方法与随机类型（含区组大小等限制）（第 8a/8b 项）
+  source: CONSORT 2025, items 8a-8b
+  signal: 只写 "participants were randomized"，无生成方法
+  fix: 补 "computer-generated sequence with permuted blocks of four, generated by an independent statistician"
+- id: CLN-CON-004
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须报分配隐藏机制（如中心分配、编号密封容器）（第 9 项）
+  source: CONSORT 2025, item 9
+  signal: 提了随机但未提分配隐藏，导致选择偏倚无法评估
+  fix: 补隐藏机制描述，如 central web-based allocation
+- id: CLN-CON-005
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须报盲法实施情况：谁被盲、如何盲；若未盲须说明原因（第 11a/11b 项）
+  source: CONSORT 2025, items 11a-11b
+  signal: 只写 "double-blind" 而不说明对谁盲、如何实现
+  fix: 拆写为 participants, care providers, outcome assessors 三类分别说明
+- id: CLN-CON-006
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须报样本量确定依据（效应量假设、α、把握度），并说明中期分析与终止规则（第 7a/7b 项）
+  source: CONSORT 2025, items 7a-7b
+  signal: 只写 "sample size was calculated"，无参数
+  fix: 补 "assuming a 15% absolute difference, α = 0.05, power = 0.80, requiring 210 per arm"
+- id: CLN-CON-007
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 主要与次要结局须预设定义、测量时点与工具，并说明试验开始后的任何变更（第 6a/6b 项）
+  source: CONSORT 2025, items 6a-6b
+  signal: 结局在结果部分才首次出现，无法判断是否预设
+  fix: 在方法中列结局表（名称/工具/时点/主要或次要），并声明与方案一致
+- id: CLN-CON-008
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须报告各组所有重要不良事件与严重不良事件（第 19 项）
+  source: CONSORT 2025, item 19
+  signal: 只写 "no serious adverse events"，无具体事件类型与例数
+  fix: 补不良事件表：事件、各组例数、严重程度、与干预的关系
+- id: CLN-CON-009
+  genre:
+  - sci-journal
+  track: clinical
+  section: general
+  rule: 须给试验注册号与注册机构名称，且注册时间应早于首例入组（第 23 项 + ICMJE 要求）
+  source: CONSORT 2025, item 23; ICMJE clinical trial registration policy
+  signal: 无注册号，或注册日期晚于入组开始日期
+  fix: 补注册号与日期；若为回顾性注册须明确披露并说明原因
+- id: CLN-CON-010
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须提供各组基线人口学与临床特征表（第 15 项）
+  source: CONSORT 2025, item 15
+  signal: 无基线表，仅有文字描述"两组相似"
+  fix: 补基线表（Table 1），列各组均值/频数并给组间比较
+- id: WRI-CON-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: conclusion
+  rule: 结论须含明确局限性（2–3 条）
+  source: Day & Gastel 9e, ch. 8
+  signal: 结论全是优点，无 limitations
+  fix: 加 "Our approach is limited to ... and future work should..."
+- id: WRI-REV-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 论文贡献由原创性(originality)与有效性(validity)共同构成，二者缺一不可
+  source: Zobel 3e, ch.3 p.27
+  signal: 稿件只强调做法新颖却无正确性证据，或只验证正确却无新意
+  fix: 分别明确写出 originality（新、重要、有趣）与 validity（可被他人验证的正确性证明）
+- id: WRI-REV-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 用影响(impact)判断贡献大小，即论文发表后能带来多大改变
+  source: Zobel 3e, ch.3 p.27
+  signal: 无法判断稿件是 trivial increment 还是 groundbreaking
+  fix: 评估发表并被广泛阅读后是否改变实践、是否催生后续新结果，据此区分重要与次要
+- id: WRI-REV-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 事后显而易见(obvious in retrospect)不构成拒稿理由
+  source: Zobel 3e, ch.3 p.27
+  signal: 以「想法显而易见」为由否定稿件
+  fix: 区分「事后看来简单」与「无新意」，确认真正成就是否在于提出正确问题或重新组织已有想法
+- id: WRI-REV-004
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 有效性必须通过可被他人验证的方式证明，仅凭直觉声称不成立
+  source: Zobel 3e, ch.3 p.27
+  signal: 稿件只凭直觉断言方案有效，无证明、无实验、无分析
+  fix: 要求提供 proof/analysis、modelling、simulation 或 experiment 中一种或多种，并与现有方法对比
+- id: WRI-REV-005
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 实验评估需足够样本、适当对照、并与现有工作对比
+  source: Zobel 3e, ch.3 p.28
+  signal: 实验样本过小、无对照组、未与已有算法比较
+  fix: 要求补充大样本、合理对照，并加入与现有方法的比较以支撑有效性
+- id: WRI-REV-006
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 先识别论文的假设(hypothesis)，再判断全篇是否切题、是否有缺漏
+  source: Zobel 3e, ch.3 p.28
+  signal: 读完全文仍说不清论文的主张是什么
+  fix: 显式写出 hypothesis，逐节检查是否服务于该假设、重要材料是否缺失
+- id: WRI-REV-007
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 评审不只看对错，还要评估时效性、venue 相关性、篇幅与可读性
+  source: Zobel 3e, ch.3 p.28
+  signal: 只判断技术对错，未考虑读者与投稿场合是否匹配
+  fix: 逐一追问：贡献是否 timely、是否切合该 venue 读者、缺少或多余什么、篇幅能否撑起内容、是否清晰可读
+- id: WRI-REV-008
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 用参考文献数量与结构判断作者是否熟悉领域
+  source: Zobel 3e, ch.3 p.28
+  signal: 参考文献过少、自引过多、无近期文献、缺本领域主流会议期刊
+  fix: 检查引用质量，要求补齐近期与主流 venue 的引用，并让作者用正确引用给出新颖性证据
+- id: WRI-REV-009
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 数学符号混乱暗示作者未仔细核对结果，可构成拒稿理由
+  source: Zobel 3e, ch.3 p.29
+  signal: 下标错乱、记号反复变大小写、公式前后不一致
+  fix: 将此视为未认真核对的证据，可拒稿并要求作者复核后重投
+- id: WRI-REV-010
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 区分拒稿与大修：可合理工作量达标则建议大修，需大量新研究则拒稿
+  source: Zobel 3e, ch.3 p.29
+  signal: 在 reject 与 major revision 之间犹豫不决
+  fix: 判断达到可接受标准所需工作量；合理则 resubmit，需大量额外研究与写作则 reject
+- id: WRI-REV-011
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 正面评价须明确陈述贡献，负面评价须给出解释与证据
+  source: Zobel 3e, ch.3 p.30
+  signal: 接受意见只是复述论文，拒稿意见只断言「不新颖」却无证据
+  fix: 正面意见写清 contribution；负面意见给出具体 faults 及引用或解释
+- id: WRI-REV-012
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 拒稿或大修须给作者明确的下一步改进指引
+  source: Zobel 3e, ch.3 p.30
+  signal: 只下结论不给方向，作者无从着手修改
+  fix: 指出有价值核心并说明如何改进；若毫无价值，解释作者如何自行得出同样结论
+- id: WRI-REV-013
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 推荐接受意味着你是见刊前最后把关者，须核对实质正确性
+  source: Zobel 3e, ch.3 p.31
+  signal: 推荐 accept 但未核对数学、证明逻辑、实验、引用、claim 是否夸大
+  fix: 检查无数学/逻辑错误、无可疑实验结果、无引用问题、无夸大 claim、无关键信息遗漏
+- id: WRI-REV-014
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 给出具体可执行改进方向即可，不要替作者完成研究
+  source: Zobel 3e, ch.3 p.31
+  signal: 审稿意见越界，替作者设计完整解决方案或补全实验
+  fix: 指出具体改进点与方向，把落实与完成交还给作者
+- id: WRI-REV-015
+  genre:
+  - ei-conf
+  - ai-conf
+  section: review
+  rule: 不要捏造与主题无关的泛泛缺陷
+  source: Zobel 3e, ch.3 p.31
+  signal: 出现「未考虑并行架构」等与论文主题无关的套话式批评
+  fix: 确有真实问题则具体描述并举例子，否则不写
+- id: WRI-REV-020
+  genre:
+  - sci-journal
+  - ei-conf
+  section: review
+  rule: 投稿后超过 8 周未收到决定也无延迟说明时，应主动联系编辑部询问
+  source: Day & Gastel 9e, ch.21 p.140
+  signal: 投稿已超过 8 周，未收到 accept/reject/modify 决定，也无任何延期解释
+  fix: 发邮件或致电编辑部确认稿件状态，查明通知是否未送达或审稿延迟
+- id: WRI-REV-021
+  genre:
+  - sci-journal
+  - ei-conf
+  section: review
+  rule: 收到修改信后先冷静一两天再读意见，避免情绪化反应
+  source: Day & Gastel 9e, ch.21 p.142
+  signal: 收到 modify 意见时立即感到不满，想冲动回复或直接放弃
+  fix: 搁置一两天再重读意见，会发现多数要求并不繁重
+- id: WRI-REV-022
+  genre:
+  - sci-journal
+  - ei-conf
+  section: review
+  rule: 审稿人误解你的表述时应视为需要澄清并改写；不同意其建议时不要忽略，应礼貌说明并提出替代方案
+  source: Day & Gastel 9e, ch.21 p.143
+  signal: 意见源于审稿人误解原意，或你不同意某条修改建议，倾向直接忽略或反驳
+  fix: 对误解之处改写使表述无歧义；对不认可的建议礼貌解释理由或提出替代解决方案
+- id: WRI-REV-023
+  genre:
+  - sci-journal
+  - ei-conf
+  section: review
+  rule: 被拒后不要气馁，利用审稿意见决定下一步（补实验或改投更专门的期刊）
+  source: Day & Gastel 9e, ch.21 p.144-145
+  signal: 收到拒稿（含 desk reject）后不知如何处置审稿意见，或想放弃该论文
+  fix: 依据审稿意见判断：需补实验则补做；意见可改则修改后改投更匹配的期刊
+- id: WRI-REB-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: rebuttal
+  rule: rebuttal 须逐条回应每个审稿人每个点，不遗漏
+  source: Zobel, Writing for Computer Science 3e, ch. 11
+  signal: 只回主要问题，忽略小问题
+  fix: 用 "R1Q1 / R1Q2..." 编号，逐条对应
+- id: WRI-REB-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: rebuttal
+  rule: 每条回应须落到"已改于 Lxx"或"不采纳+理由"
+  source: Zobel, Writing for Computer Science 3e, ch. 11
+  signal: 回应只说 "We agree" 无改动定位
+  fix: 补 "(revised, see L123)" 或 "(we respectfully disagree because...)"
+- id: WRI-STY-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 删除 deadwood/waffle，每句必要，文字紧凑
+  source: Zobel 3e, ch.6 p.76 (Economy)
+  signal: 大量套话如 "has been rapidly increasing in recent years"
+  fix: 逐句删冗余词，简化结构
+- id: WRI-STY-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 一句一个 idea，短句短段落
+  source: Zobel 3e, ch.6 p.77 (Tone)
+  signal: 一句话塞多个 idea，段落超 8 行
+  fix: 拆短句、拆段落
+- id: WRI-STY-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 用主动语态 we/I 区分新旧结果，避免过度被动
+  source: Zobel 3e, ch.6 p.77
+  signal: 通篇被动语态 "it was shown that"
+  fix: 改为 "we show that..."
+- id: WRI-STY-004
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 避免 overqualify（每个 claim 都加一堆 caveat）
+  source: Zobel 3e, ch.6 p.77
+  signal: claim 被 "likely/may/depending on" 层层包裹
+  fix: 直接陈述结果，caveat 单独成句
+- id: WRI-STY-005
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 避免 buzzwords/clichés/slang 与文学腔
+  source: Zobel 3e, ch.6 p.77-78
+  signal: 出现 "alchemical process""quintessence" 等文学措辞
+  fix: 换成平实直接的表述
+- id: CLN-GEN-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: discussion
+  rule: 须讨论结果的外推性（人群、场景、医疗体系差异），不得直接推广到所有人群
+  source: CONSORT 2025, item 21; STROBE item 21
+  signal: 讨论直接声称 "this treatment should be adopted widely"
+  fix: 改写为限定条件的适用性表述，并说明需在何种人群中进一步验证
+- id: PRD-GEN-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 须至少给一种外部验证（不同时间段、不同机构、不同地区）以支持泛化性
+  source: APM, ch.20 p.521
+  signal: 全部结果来自单一时段单一样本，却在讨论中大谈推广价值
+  fix: 补时间外/样例外验证，或把结论限定在样本范围内
+  example_bad: The model generalizes well, as shown by high accuracy on our held-out test set.
+  example_good: Beyond the internal test set, the model retains 0.79 AUROC on a later cohort (2023) and 0.74 at a second hospital, indicating the gain is not specific to the development sample.
+- id: WRI-GEN-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 论文必须有单一清晰的研究问题/目标 + 明确的 contribution 声明
+  source: Zobel 3e, ch.5 p.67 (Irrelevance)
+  signal: 读两分钟说不清"这篇论文要解决什么问题、贡献是什么"
+  fix: 在引言末段补 research question + contribution 清单
+- id: WRI-GEN-002
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 实验必须充分支持 claims；数据集不能太假、太小、或与问题无关
+  source: Zobel 3e, ch.5 p.69 (Inadequacy)
+  signal: 方法有趣但实验 trivial，或小数据集支撑大 claim
+  fix: 补强实验规模/真实数据，或缩小 claim 范围
+- id: WRI-GEN-003
+  genre:
+  - ei-conf
+  - ai-conf
+  section: experiments
+  rule: 必须说明数据来源、内容、规模、采集方式
+  source: Zobel 3e, ch.5 p.70
+  signal: 只写 "200 documents" 不说来源/内容/规模
+  fix: 补数据描述段：来源、规模、统计、采集方式
+- id: WRI-GEN-004
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: abstract 与 introduction 必须可读，不能语无伦次
+  source: Zobel 3e, ch.5 p.70 (Incomprehensibility)
+  signal: 摘要/引言一句话读不懂或堆砌术语
+  fix: 重写为短句，一句一个意思
+- id: WRI-GEN-005
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 不花篇幅解释读者已知的常识
+  source: Zobel 3e, ch.5 p.71 (Ignorance)
+  signal: 用数段解释本科级常识
+  fix: 压缩为一行术语澄清，或删除
+- id: WRI-GEN-006
+  genre:
+  - ei-conf
+  - ai-conf
+  section: related-work
+  rule: 不能忽略关键 past work；文献综述不能被压缩成几段
+  source: Zobel 3e, ch.5 p.71-72
+  signal: 综述只有两三段，明显漏掉标题搜索就能找到的相关工作
+  fix: 补充检索，纳入关键相关工作并对比
+- id: WRI-GEN-007
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 图表、布局、字体必须专业，无格式错误
+  source: Zobel 3e, ch.5 p.71 (Ugliness)
+  signal: 图表粗糙、字体不一致、大量拼写/引用错误
+  fix: 用官方模板重排，逐项检查图表与格式
+- id: WRI-GEN-008
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: general
+  rule: 先识别论文体裁（IMRaD / Letter / Science 短格式），Letter 格式无显式章节标题不视为缺陷
+  source: 验收测试发现（Dropout Science 版 vs JMLR 版）
+  signal: 稿件无 Introduction/Methods/Results 标题，但为 Nature/Science Letter 等短格式
+  fix: 按体裁选择审查规则：短格式只查内容要素，不查标题存在性
+- id: CLN-ETH-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须报伦理委员会名称与批号、知情同意形式（书面/口头/豁免）
+  source: ICMJE Recommendations; STROBE item 9
+  signal: 只写 "ethical approval was obtained"，无机构与批号
+  fix: 补机构名、批号与同意形式
+- id: CLN-ETH-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: general
+  rule: 须给数据共享声明（可得/受限/不可得及原因），并说明获取途径
+  source: ICMJE data sharing statement requirement
+  signal: 无数据可得性声明
+  fix: 补 "de-identified data are available from the corresponding author upon reasonable request and ethics approval"
+- id: QLT-ETH-001
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须报伦理审批、知情同意方式、匿名化规则与数据保管方案
+  source: Miles & Huberman, QDA 3e, ch.3 (Ethical Issues in Analysis)
+  signal: 只写 informed consent was obtained，无审批号、无匿名化规则
+  fix: 补伦理批号、同意形式（口头/书面）、化名规则与数据保存期限
+  example_bad: Participants consented to take part in the study.
+  example_good: The study was approved by the university ethics committee (Ref. 2022-118); all participants gave written informed consent, names were replaced by P-codes, and recordings are stored on an
+    encrypted drive accessible only to the research team for five years.
+- id: SCI-ETH-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: ethics
+  rule: 涉及人类或动物实验须报伦理审批机构与批号，并说明处置方式
+  source: Day & Gastel 9e, ch.5 p.31 (Ethical Treatment of Humans and Animals)
+  signal: 动物实验未提伦理审批
+  fix: 补审批机构与批号，如 approved by the Institutional Animal Care Committee (No. 2023-041)
+- id: SCI-ETH-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: ethics
+  rule: 须披露利益冲突与资助来源，并说明资助方在研究中的角色
+  source: Day & Gastel 9e, ch.5 p.31 (Disclosure of Conflicts of Interest)
+  signal: 致谢只写感谢某人，无资助编号与角色说明
+  fix: 补基金编号与 "the funder had no role in study design"
+- id: WRI-ETH-001
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 论文数据必须真实获得并如实呈现，不得捏造数据、删除离群点或做误导性图像/统计处理
+  source: Day & Gastel 9e, ch.5 p.27-28
+  signal: 文中数据点无原始实验记录可对应，或图表经删改与原始数据不符（如删离群点、局部修饰图像）
+  fix: 回查实验记录逐条核对，删除无法溯源的数据；恢复被删数据点或写明排除标准
+- id: WRI-ETH-002
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 同一手稿不得同时投给两家及以上期刊（simultaneous submission）
+  source: Day & Gastel 9e, ch.5 p.28
+  signal: 手稿已处于某期刊审稿中，又将其（或几乎相同版本）投给另一期刊
+  fix: 一次只投首选期刊，收到拒稿或撤稿后再投下一家
+- id: WRI-ETH-003
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 不得把一个完整研究切成多篇"最小可发表单位"以充数量（salami science）
+  source: Day & Gastel 9e, ch.5 p.29
+  signal: 同一项目数据被拆成多篇高度重叠的论文，各篇单独看信息量不足以独立成文
+  fix: 将可合并的结果整合为一篇完整论文；确需拆分时说明独立贡献并相互引用
+- id: WRI-ETH-004
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 引用他人文字须加引号并标注出处，使用他人的想法/结果须给予 credit
+  source: Day & Gastel 9e, ch.5 p.29-30
+  signal: 段落中出现他人原文或仅做个别词替换的近似原文，但无引号或未标注来源
+  fix: 直接引用加引号并附出处；或用自己的话重写后再对照核查，仍高度相似则加引号标注
+- id: WRI-ETH-005
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 大量逐字复用自己已发表文本（尤其方法部分）须符合文本复用规范并如实披露
+  source: Day & Gastel 9e, ch.5 p.31
+  signal: 新论文方法与既往论文大段逐字相同，且未按目标期刊政策声明文本复用
+  fix: 对照 Text Recycling Research Project 判断可否复用；核查期刊政策并说明复用
+- id: WRI-ETH-006
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 作者名单只包含满足署名标准者且不遗漏满足者，达不到署名标准的贡献列入致谢
+  source: Day & Gastel 9e, ch.5 p.31
+  signal: 作者名单含未实质贡献者（挂名/送礼署名），或遗漏了实质参与研究或写作的贡献者
+  fix: 按期刊署名标准逐人核对实质贡献并增删名单；达不到署名标准者写入 Acknowledgements
+- id: WRI-ETH-007
+  genre:
+  - sci-journal
+  - ei-conf
+  section: ethics
+  rule: 与研究对象或资助方存在可能影响客观性的财务、咨询等关系时，须如实披露利益冲突（COI）
+  source: Day & Gastel 9e, ch.5 p.31-32
+  signal: 作者持有被研究产品公司的股票、担任其顾问或接受相关资助，但投稿时未填报 COI 声明
+  fix: 按期刊 COI 声明表如实填写所有相关关系，并确认这些关系未影响研究客观性
+- id: WRI-SUB-001
+  genre:
+  - sci-journal
+  - ei-conf
+  section: submission
+  rule: 动笔前先选定目标期刊，使主题、受众与期刊 scope 匹配，避免投错刊
+  source: Day & Gastel 9e, ch.6 p.33-35
+  signal: 手稿主题明显超出目标期刊 scope，或其受众并非该刊读者群
+  fix: 核对期刊 aims and scope 与近期同类论文，选择匹配受众的期刊；不匹配则改投
+- id: WRI-SUB-002
+  genre:
+  - sci-journal
+  - ei-conf
+  section: submission
+  rule: 投稿前识别并避开掠夺性期刊（以收费为目的、无真实同行评审）
+  source: Day & Gastel 9e, ch.6 p.39
+  signal: 期刊承诺"一周内保证发表"、网站多拼写错误、使用虚假指标、未收入主流数据库
+  fix: 用 Think.Check.Submit. 核验期刊，存疑时咨询馆员或资深同事
+- id: WRI-SUB-003
+  genre:
+  - sci-journal
+  - ei-conf
+  section: submission
+  rule: cover letter 须由通讯作者署名，声明原创、未一稿多投、COI 及既往发表情况
+  source: Day & Gastel 9e, ch.20 p.131-132
+  signal: 投稿缺 cover letter，或信中未声明原创与独家投稿、未披露 COI
+  fix: 补写 cover letter，逐项声明原创与未同时他投、作者均满足署名标准、COI 情况
+- id: WRI-SUB-004
+  genre:
+  - sci-journal
+  - ei-conf
+  section: submission
+  rule: cover letter 应说明论文为何适合该刊，推荐审稿人须熟悉领域且无利益冲突
+  source: Day & Gastel 9e, ch.20 p.132-133
+  signal: 论文与该刊相关性不明显却未在信中说明；或推荐本单位同事/导师等存在 COI 者作审稿人
+  fix: 用一两句说明论文对该刊的贡献与适配性；仅推荐熟悉领域且无利益冲突的同行
+- id: WRI-REF-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: references
+  rule: 双盲下引用自己先前工作用第三人称，不写 "our prior work"
+  source: NeurIPS/CVPR 双盲政策
+  signal: 出现 "our previous method [1]"
+  fix: 改为 "This builds on [1]"（匿名引用）
+- id: WRI-DBL-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 正文不出现机构名、基金、致谢、作者主页链接
+  source: 各顶会 CFP（NeurIPS/CVPR）
+  signal: 正文含 "Our lab at ..." 或基金号
+  fix: 删除并在 camera-ready 阶段恢复
+- id: WRI-WRD-001
+  genre:
+  - ei-conf
+  - ai-conf
+  section: general
+  rule: 引言不超过全文约 19%（8 页中约 1.5 页）
+  source: 体裁 playbook 篇幅配比
+  signal: 引言超过 2 页、方法被压缩
+  fix: 删背景铺垫，把细节移到相关工作或附录
+- id: WRI-ARG-001
+  genre:
+  - ssci
+  section: introduction
+  rule: 研究问题（problem）须含两部分：条件(condition)与代价/后果(cost/consequence)，不能只有现状描述
+  source: Booth et al., The Craft of Research 5e, ch.2
+  signal: 引言只描述现状（"In recent years, X has grown..."），却未写"若不解决会怎样/已造成什么代价"
+  fix: 补代价/后果句，如 "This imposes costs on... / Without resolving this, we cannot explain..."
+- id: WRI-ARG-002
+  genre:
+  - ssci
+  section: general
+  rule: 分清务实(practical)主张与概念(conceptual)主张：社科论文核心主张应为概念性（认识/机制），务实建议放结论
+  source: Booth et al., The Craft of Research 5e, ch.2, ch.6
+  signal: 核心主张是"应当/应该怎么做"(action/policy)，却无概念性 claim（定义/因果/评价）支撑
+  fix: 把"应做X"降为结论的建议，先把概念性 claim（X 是什么/为何/好还是坏）作为正文核心主张
+- id: WRI-ARG-003
+  genre:
+  - ssci
+  section: introduction
+  rule: 必须显式回答 significance（So What），写清"谁关心、为何重要"
+  source: Booth et al., The Craft of Research 5e, ch.1, ch.2
+  signal: 读完引言与结论仍说不出"这个研究对谁重要、重要在哪"
+  fix: 补 significance 句："This matters to (audience) because (cost/consequence)"
+- id: WRI-ARG-004
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 每个 claim 须有显式 reason（理由），不能直接跳到例子或数据
+  source: Booth et al., The Craft of Research 5e, ch.5, ch.7
+  signal: claim 句后紧跟一段例子/数据，却无一明确"因为(because)"句把 claim 与证据连起来
+  fix: 在 claim 与例子之间补一句 reason："Because (reason), we expect that (claim)"
+- id: WRI-ARG-005
+  genre:
+  - ssci
+  section: general
+  rule: 区分 reason（理由）与 evidence（证据）：证据是具体数据/事实，理由是把证据引向 claim 的逻辑陈述
+  source: Booth et al., The Craft of Research 5e, ch.7
+  signal: 把学者观点或"普遍认为"当证据使用（"研究者普遍认为X有效，因此…"），缺具体数据支撑理由
+  fix: 把具体观察/数据作为 evidence，另写一句 reason 说明该证据如何支持 claim
+- id: WRI-ARG-006
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: claim 与 reason 之间缺 warrant（一般原理）时须补写，否则论证跳步
+  source: Booth et al., The Craft of Research 5e, ch.8
+  signal: 论证出现"这说明了什么"跳步：证据是具体的，结论是一般性的，中间无一般原理过渡
+  fix: 补 warrant 句："When X, then Y" 或 "Given the general principle that (...), (reason) implies (claim)"
+- id: WRI-ARG-007
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 面向跨领域或不熟背景的读者时，须显式陈述 warrant，不能默认读者已知
+  source: Booth et al., The Craft of Research 5e, ch.8
+  signal: 论证依赖领域内部共识却不写出，读者会反复问"这一步为什么能推出那一步"
+  fix: 在跳步处补一句显式 warrant（一般原理），再据此推出 claim
+- id: WRI-ARG-008
+  genre:
+  - ssci
+  section: general
+  rule: warrant 与 claim 用 hedge（usually/probably/most/typically）限定，不做全称判断
+  source: Booth et al., The Craft of Research 5e, ch.8
+  signal: warrant 或结论用了 all/always/never/every 等全称词，未留例外空间
+  fix: 加 hedge："usually/probably/most"，并说明例外是否会影响你的 reason 与 claim
+- id: WRI-ARG-009
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 须 acknowledgment & response：预判读者异议并先自己提出、再以子论证回应
+  source: Booth et al., The Craft of Research 5e, ch.9
+  signal: 全文通篇只有自己的正面论证，无一处"有人可能会说/当然有人会反对"式预期异议句
+  fix: 补 acknowledgment 句（"Someone might object that ..."）并紧跟 response（"but we respond that ..."）
+- id: WRI-ARG-010
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: claim 须限定(qualify)其范围与确定性，不超出证据可支撑的程度
+  source: Booth et al., The Craft of Research 5e, ch.6
+  signal: 结论把局部/特定样本的发现外推为一般、确定结论，或 claim 用词绝对化
+  fix: 限定 claim 适用范围与确定性，如 "for this population"、"suggests/probably"
+- id: WRI-ARG-011
+  genre:
+  - ssci
+  - dissertation
+  section: general
+  rule: claim 必须可争议(contestable)，读者有理由反对，而非自明真理
+  source: Booth et al., The Craft of Research 5e, ch.6
+  signal: 论点是无人会反对的自明命题（如"社交媒体影响广泛"），没有可争论的空间
+  fix: 把 claim 改写成可争论的具体命题（"A 对 B 的影响强于 C"），再给论证
+- id: WRI-ARG-012
+  genre:
+  - ssci
+  section: method
+  rule: 证据来源须评估其可信度（来源可靠性），不可把二手转述当一手证据
+  source: Booth et al., The Craft of Research 5e, ch.7
+  signal: 证据来自单一小样本、二手引用或无出处转述，却直接支撑大 claim
+  fix: 说明证据来源及可信度依据，替换/补充可靠来源，或相应缩小 claim
+- id: WRI-ARG-013
+  genre:
+  - ssci
+  section: results
+  rule: 区分 evidence（一手证据）与 report of evidence（他人对证据的报告）
+  source: Booth et al., The Craft of Research 5e, ch.7
+  signal: 结果段把"某研究报道了 X"当作本研究自己的直接发现使用，混同二者
+  fix: 用 "X found/claims that ..." 标明为二手报告，与本研究数据分开呈现
+- id: WRI-ARG-014
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 论证口吻须尊重对手：不嘲讽、不用贬义词，用证据反驳而非人身贬低
+  source: Booth et al., The Craft of Research 5e, ch.6
+  signal: 出现 "obviously naive/ridiculous/absurd" 或对前人工作的嘲讽式措辞
+  fix: 改为中性描述对方主张，再用证据指出其不足
+- id: WRI-ARG-015
+  genre:
+  - ssci
+  section: introduction
+  rule: 引言按 context → problem → response 推进，先交代背景再抛问题
+  source: Booth et al., The Craft of Research 5e, ch.14
+  signal: 引言开头直接抛研究问题或方法，读者像"半路进入对话"
+  fix: 补 context 段（读者已知的共识/现状），再过渡到 problem
+- id: WRI-ARG-016
+  genre:
+  - ssci
+  section: conclusion
+  rule: 结论须回引言 claim 并陈述意义，而非重复结果
+  source: Booth et al., The Craft of Research 5e, ch.14
+  signal: 结论章/段只复述发现与数据，未回应该 claim 是否成立、有何意义
+  fix: 补"本文主张 X 成立/不成立，其意义在于..."，并回应 significance
+- id: WRI-ARG-017
+  genre:
+  - ssci
+  section: related-work
+  rule: 公平总结他人观点（fair summary），不曲解、不稻草人化以利己
+  source: Booth et al., The Craft of Research 5e, ch.12
+  signal: 文献综述把他人的论点简化/扭曲成易驳倒的版本，再轻松反驳
+  fix: 用对方最强版本重述其主张，再据实指出其真实局限
+- id: WRI-DSG-001
+  genre:
+  - ssci
+  section: method
+  rule: 方法章须显式声明研究范式与具体设计类型（质性/量化/混合）
+  source: Creswell & Creswell, Research Design 6e, ch.1
+  signal: 方法章未点明这是质性、量化还是混合研究，也未写具体设计（如 case study / survey / convergent）
+  fix: 补声明句："This qualitative (case study) design..." 或 "This convergent mixed methods design..."
+- id: WRI-DSG-002
+  genre:
+  - ssci
+  section: introduction
+  rule: 须有单一明确的目的陈述(purpose statement)，用标准句式
+  source: Creswell & Creswell, Research Design 6e, ch.6
+  signal: 引言读完仍无法用一句话概括"本文要做什么、为什么"，意图散落多处且无收束
+  fix: 补单一目的陈述，套用范式对应模板（质性/量化/混合）
+  conflict: 不要求字面出现 "The purpose of this study is to..."——只要意图能一句话概括即可（验收发现：CSCW 顶会稿用 "we seek to systematically analyze..." 亦达标）
+- id: WRI-DSG-003
+  genre:
+  - ssci
+  section: method
+  rule: 质性目的陈述须含 central phenomenon（单一中心现象）+ 参与者 + 地点 + 一般性工作定义
+  source: Creswell & Creswell, Research Design 6e, ch.6
+  signal: 质性研究目的陈述无单一中心现象，或把多个现象并列，也无参与者/地点
+  fix: 按模板补齐：understand/explore the (central phenomenon) for (participants) at (site)，并给一般定义
+- id: WRI-DSG-004
+  genre:
+  - ssci
+  section: method
+  rule: 量化目的陈述须含变量及其关系（relate/compare）与所用理论，并给操作性定义
+  source: Creswell & Creswell, Research Design 6e, ch.6
+  signal: 量化目的陈述无自变量/因变量，或无语义动词（relate/compare/predict），无变量操作定义
+  fix: 按模板补齐：test the theory that (IV) relates/compares to (DV)，并定义每个变量的操作化
+- id: WRI-DSG-005
+  genre:
+  - ssci
+  section: method
+  rule: 量化研究须给研究问题(RQ) + 方向性假设(directional hypothesis)
+  source: Creswell & Creswell, Research Design 6e, ch.7
+  signal: 量化研究只写 RQ 未给假设，或假设无方向（只写"X 与 Y 相关"不写"正/负相关"）
+  fix: '补方向性假设，如 "H1: X is positively related to Y"'
+- id: WRI-DSG-006
+  genre:
+  - ssci
+  section: method
+  rule: 质性研究用 central question + sub-questions，不用 hypothesis 与变量语言
+  source: Creswell & Creswell, Research Design 6e, ch.7
+  signal: 质性研究套用假设/变量语言（"验证 X 与 Y 的假设"），与质性范式矛盾
+  fix: 改为 central question（"What is/How does ..."）+ 若干 sub-questions
+- id: WRI-DSG-007
+  genre:
+  - ssci
+  section: method
+  rule: 质性方法章须列出并落实效度策略（triangulation/member checking/thick description/reflexivity/negative info 等）
+  source: Creswell & Creswell, Research Design 6e, ch.9
+  signal: 质性方法章对"如何保证发现可信"只字不提，无任何 rigor 措施（编码共识/三角验证/成员核查/反例检视等皆无）
+  fix: 列出所采用的 rigor 措施并说明如何落实
+  conflict: 不强制使用 Creswell 具名术语；HCI/CSCW 常用多编码者共识、constant comparison、cross-validation 等，属等价 rigor 手段（验收发现：CSCW 顶会稿即此模式）
+- id: WRI-DSG-008
+  genre:
+  - ssci
+  section: method
+  rule: 量化实验须识别并最小化内部效度威胁（history/maturation/selection/regression 等）
+  source: Creswell & Creswell, Research Design 6e, ch.8
+  signal: 实验研究的方法或讨论中未提及任何内部效度威胁及其控制
+  fix: 列出主要内部效度威胁并说明控制措施（对照、随机分配、同期测量等）
+- id: WRI-DSG-009
+  genre:
+  - ssci
+  section: method
+  rule: 质性研究须做成员核查(member checking)：把主题/结论返回参与者确认
+  source: Creswell & Creswell, Research Design 6e, ch.9
+  signal: 质性研究通篇无 member checking 环节，参与者对其解读无确认机会
+  fix: 补 member checking 步骤：将主题/分析返回给参与者核实并说明结果
+  conflict: member checking 是教育/健康等质性范式首选，但 HCI/CSCW 常以多编码者共识 + constant comparison 替代，等同效度保障，不强求（验收发现：CSCW 顶会稿即此模式）
+- id: WRI-DSG-010
+  genre:
+  - ssci
+  section: method
+  rule: 变量/概念须给操作性定义(operational definition)，说明如何测量
+  source: Creswell & Creswell, Research Design 6e, ch.6
+  signal: 出现变量/概念却无操作化定义（无测量方式、量表或指标说明）
+  fix: 补变量操作定义：用何量表/指标/测量方式，必要时列 Definition of Terms 表
+- id: WRI-DSG-011
+  genre:
+  - ssci
+  section: method
+  rule: 混合方法须声明设计类型与两阶段时序（convergent / explanatory sequential / exploratory sequential），并说明为何需要两种数据
+  source: Creswell & Creswell, Research Design 6e, ch.10
+  signal: 只写"本文同时使用质性与量化方法"，未指明设计类型、时序，也未说明为何需要混合
+  fix: '声明设计类型与时序（如 explanatory sequential: 先量化后质性），并写"为什么单一范式不足以回答问题"'
+- id: WRI-DSG-012
+  genre:
+  - ssci
+  section: introduction
+  rule: 引言按 deficiencies model 四要素：问题 → 文献证据 → 已有研究不足(deficiencies) → 对读者之重要性
+  source: Creswell & Creswell, Research Design 6e, ch.5
+  signal: 引言只有问题与文献罗列，未明确指出已有研究的具体不足，也未写研究为何重要
+  fix: 补 deficiencies 段（已有文献缺少/未解释什么）与 importance 段（对读者的意义）
+- id: WRI-DSG-013
+  genre:
+  - ssci
+  section: results
+  rule: 质性结果须呈现负性/相悖信息(discrepant information)，不掩盖与主题相矛盾的证据
+  source: Creswell & Creswell, Research Design 6e, ch.9
+  signal: 质性结果只呈现支持主题的证据，对与主题相矛盾的数据只字不提
+  fix: 补述与主题相悖的零散信息并讨论其对结论可信度的意义
+- id: WRI-TSY-001
+  genre:
+  - ssci
+  section: introduction
+  rule: 开头先给"they say"（他人已主张什么）再亮"I say"，快速进入对话
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.1
+  signal: 引言通篇无"近来研究者主张/普遍认为/Common wisdom has it that ..."式 they say，直接抛自己观点
+  fix: 开头补 they say 模板："A number of scholars have suggested that ...; we, however, argue ..."
+- id: WRI-TSY-002
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 每处转述他人观点用 voice marker 划清"他们说的"与"我说的"，避免混同
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.5
+  signal: 读到某句无法判断是作者观点还是被引学者观点，"他们"与"我"混在一起
+  fix: 加 voice marker："X argues that ...; my view, however, is that ..." 或 "According to X, ..."
+- id: WRI-TSY-003
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 引文须"三明治"：引入（谁说的）→ 引文 → 解释（引文什么意思、与你论点何关）
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.3
+  signal: 出现悬挂引文(hit-and-run quote)：直接贴一段引文，未说明谁说的、也未解释其含义
+  fix: 用 introduce + explain 模板包起引文，如 "As X puts it, ...; in other words, X is warning that ..."
+- id: WRI-TSY-004
+  genre:
+  - ssci
+  section: general
+  rule: 回应他人须表态（同意/反对/兼有）并给理由，不能只"not"或空洞反对
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.4
+  signal: 只写 "I disagree" 或 "X is wrong"，或仅给否定（"并非如此"）而无任何理由
+  fix: 用模板并给理由："X is mistaken because she overlooks ... / rests on the questionable assumption that ..."
+- id: WRI-TSY-005
+  genre:
+  - ssci
+  section: general
+  rule: 同意他人也要带来新东西（点出新证据/新推论），避免纯复述
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.4
+  signal: 整段 "I agree with X" 却无任何新增，仅把 X 的观点换个说法重复
+  fix: 用模板补充新贡献："X is right that ..., because, as she may not be aware, ..."
+- id: WRI-TSY-006
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: discussion
+  rule: plant a naysayer：主动写出预期反方（labeled 反方更佳）并让步+守住立场
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.6
+  signal: 全文无"有人会反对/当然有人会说/Some may object"式反驳句，也未做任何让步回应
+  fix: 补 naysayer 句："(Labeled group) may object that ...; although I concede ..., I still maintain ..."
+- id: WRI-TSY-007
+  genre:
+  - ssci
+  section: introduction
+  rule: 须回答 "so what / who cares"：写清谁关心这结论 + 接受它有何现实后果
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.7
+  signal: 读完不知"谁在乎这个结论、它若成立会改变什么"，无任何 who cares / so what 表述
+  fix: 补："My point matters to (audience) because ..." 与 "Ultimately, what is at stake is ..."
+- id: WRI-TSY-008
+  genre:
+  - ssci
+  - sci-journal
+  - dissertation
+  section: general
+  rule: 用元评论(metacommentary)引导读者解读：In other words / My point is not X but Y
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.10
+  signal: 论证只堆 claim 而无任何"换言之/我的意思不是...而是..."式自我解释句
+  fix: 在易误解处补元评论句："In other words, ..." 或 "My point is not ..., but ..."
+- id: WRI-TSY-009
+  genre:
+  - ssci
+  section: general
+  rule: 用转接词(transition)标注逻辑关系，段与段、观点与观点之间不能硬切
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.8
+  signal: 段落间/观点切换处无连接词，读者看不出是递进、转折还是对比
+  fix: 补转接词/句："As a result / However / In contrast / Building on ..."，点明逻辑关系
+- id: WRI-TSY-010
+  genre:
+  - ssci
+  section: related-work
+  rule: 把反方观点讲到最强再反驳（believing game），不丑化、不稻草人化
+  source: Graff & Birkenstein, They Say/I Say 5e, ch.6
+  signal: 把反对观点简化/曲解成易驳倒的版本，未认真对待其合理性
+  fix: 用"最强、最可信"的版本重述反方，再正面回应其真实要点
+- id: WRI-THE-001
+  genre:
+  - dissertation
+  section: chapter-structure
+  rule: 整本论文按"引言→背景→核心→综合"四段组织，且各段显式相连（结论逐条回应 aim、背景预示核心）
+  source: Better Thesis 3e, ch.2 p.11-12
+  signal: 章节像按实验时间顺序排的"日记"，或读者无法从 aim 走到 conclusion
+  fix: 重组为四段；核对每条结论是否逐条回应引言中声明的 aim，背景章是否为核心章做了铺垫
+- id: WRI-THE-002
+  genre:
+  - dissertation
+  section: chapter-structure
+  rule: 每一章都要写正式的引言和结论，引言说明"为何需要本章、本章 aim、如何展开"
+  source: Better Thesis 3e, ch.4 p.48-50
+  signal: 章节开头直接进内容、无链接与本章 aim；结尾只罗列"本章讲了 A/B/C"而无 significance
+  fix: 写三段式引言（链接前一章→本章 aim→结构预览）；结尾用"讨论+小结"回应本章 aim 并引出下一章
+  conflict: 背景章（Background/Literature Review）可无独立 Introduction 小节，但应有小结并显式链接后续核心章（验收发现：工程论文背景章常直接以 Notation/概念开头）
+- id: WRI-THE-003
+  genre:
+  - dissertation
+  section: chapter-structure
+  rule: 章节数控制在 5–10 章，超过多半是把"节"误当成了"章"
+  source: Better Thesis 3e, ch.2 p.13
+  signal: 论文出现 10 个以上零散短章，或章节标题随意、论证被切碎
+  fix: 合并碎片章节，确保每章在四段骨架中承担明确角色
+- id: WRI-THE-004
+  genre:
+  - dissertation
+  section: chapter-structure
+  rule: 结论章只从讨论章抽取已论证的结论，不新增未论证的结论，也不再展开讨论
+  source: Better Thesis 3e, ch.10 p.122-123
+  signal: 结论章出现正文/讨论章从未论证过的新结论，或仍在引文献、继续讨论
+  fix: 删去未论证结论（或补写进讨论章）；结论章保持 2–3 页、无新讨论
+  conflict: 结论章内嵌的 Discussion/Future Work 小节引用文献、延伸讨论不视为违规（验收发现：工程论文常把二者并入末章）
+- id: WRI-THE-005
+  genre:
+  - dissertation
+  section: introduction
+  rule: aim 必须唯一、由问题陈述逻辑推出、并与末章结论呼应
+  source: Better Thesis 3e, ch.5 p.65
+  signal: 一句 aim 里塞进多个不同层次目标（如 establish… analyze… investigate…），或动词杂糅难判断主目标
+  fix: 只保留一个核心 aim，其余降为方法步骤移入研究设计章；写完结论后回读 aim 校验是否呼应
+  conflict: 同一目标的并列子项不算缺陷（如"提升训练效率与内存效率"属于一个优化目标的两个方面；验收发现 qiu 2025 即此模式）
+- id: WRI-THE-006
+  genre:
+  - dissertation
+  section: introduction
+  rule: 引言先给领域 context 再陈述问题，问题陈述按"历史→近期变化→现有认知不足→聚焦因素"四步
+  source: Better Thesis 3e, ch.5 p.61-64
+  signal: 开头直接谈问题，读者像"半路进入对话"；问题陈述无历史/无不足点明
+  fix: 补 context 段；问题陈述按四步重写，末尾给出可检验的问题或子问题
+- id: WRI-THE-007
+  genre:
+  - dissertation
+  section: introduction
+  rule: 引言章不用 hypothesis 一词，区分 aim（目标）与 hypothesis（待检验命题）；精确 RQ 放到背景章之后
+  source: Better Thesis 3e, ch.5 p.69-70
+  signal: 把 aim 写成 hypothesis（"to demonstrate that…"），或 aim/RQ/hypothesis 三词混用
+  fix: aim 改为 "investigate the relationship…" 式；hypothesis 首次出现移到贡献章并按其本义使用
+- id: WRI-THE-008
+  genre:
+  - dissertation
+  section: contribution
+  rule: 先给贡献定位维度（观察 vs 创新、study vs case study、理论 vs 应用），再据此选择叙事结构
+  source: Better Thesis 3e, ch.7 p.84-85
+  signal: 无法一句话说清自己是在"观察"还是"创新"；或自称 case study 却在 aim/title 中混入具体案例名
+  fix: 先明确维度；若是 case study，从 aim/title 移除具体案例，把案例描述移到后续章节
+- id: WRI-THE-009
+  genre:
+  - dissertation
+  section: contribution
+  rule: 方法选择必须给出理由（即使是标准方法），并主动排查并排除 confound（竞争性解释）
+  source: Better Thesis 3e, ch.7 p.89-90
+  signal: 只说"用了 X 方法"不说为何选它；对混淆变量、其他可能解释只字未提；或采用非标准/自造指标却无辩护
+  fix: 补"可用方法清单+选择理由"；逐条列出 confound 并论证其不推翻结论
+  conflict: 工程/系统类论文采用领域标准方法与指标并给出对比基线时，不因"未列备选方法清单"触发（验收发现：qiu 2025 用标准 GPU kernel 优化方法未列备选方法，不构成缺陷）
+- id: WRI-THE-010
+  genre:
+  - dissertation
+  section: contribution
+  rule: 测量/评估指标本身需要 justification，说明为何选它而非备选指标
+  source: Better Thesis 3e, ch.7 p.90-92
+  signal: 直接采用某指标（如丢弃吨数、销量变化）却不说为何选它、为何不选备选指标
+  fix: 列出备选指标并说明取舍；写明指标与假设的对应关系，暴露并论证其隐含假设
+  conflict: 工程论文用领域标准指标（throughput/accuracy/speedup）且明确定义、给出基线对比时不触发；本规则主要针对社科/自造指标（验收发现：qiu 2025 通篇用标准指标，不构成缺陷）
+- id: WRI-THE-011
+  genre:
+  - dissertation
+  section: contribution
+  rule: 多个子贡献须由一条主线 argument 串联，每个贡献章像 mini-thesis（RQ→创新→结果→分析）
+  source: Better Thesis 3e, ch.7 p.83
+  signal: 多章由已发表论文拼成，彼此无过渡、无统一 aim、无整体论证
+  fix: 加统一 aim 与叙事线；每章开头点明"该贡献在整体 argument 中的位置"
+- id: WRI-THE-012
+  genre:
+  - dissertation
+  section: general
+  rule: 讨论章先用 brainstorm 列出结论、归并成 3–4 组作为节标题来搭结构，并逐条回应 aim
+  source: Better Thesis 3e, ch.9 p.115-116
+  signal: 讨论章无从下手、结构散乱，或通篇未回应引言声明的 aim
+  fix: 列出"现在知道、开始时不知道"的 20–30 条结论，归并成 3–4 组作节标题，逐条与 aim 对齐
+- id: WRI-THE-013
+  genre:
+  - dissertation
+  section: general
+  rule: 主动写 limitations；case study 必须讨论结论的可推广性（generalization/transference）
+  source: Better Thesis 3e, ch.9 p.117-118
+  signal: 全文无 limitations 段，或 case study 却未讨论结论能否推广到类似情境
+  fix: 加 limitations（非道歉口吻，直陈不足与理想做法）；case study 补可推广性讨论
+- id: WRI-THE-014
+  genre:
+  - dissertation
+  section: general
+  scope: process
+  rule: 与导师分章提交、对进展诚实，并把导师反馈当作 guidance（指引）而非指令独立判断
+  source: Better Thesis 3e, ch.11 p.125-127
+  signal: 一次性把整本初稿甩给导师；对导师意见要么盲从、要么全盘推翻重写
+  fix: 改成分章提交；逐条判断反馈，有异议先分析再沟通，不隐瞒进展与问题
+- id: WRI-THE-015
+  genre:
+  - dissertation
+  section: defense
+  scope: process
+  rule: 口头报告按 problem/aim→精简背景→findings→implications 展开，聚焦"新与意义"，不逐页复述
+  source: Better Thesis 3e, ch.12 p.143-144
+  signal: 30 分钟报告还想覆盖全文、逐页照读 slides、无主次
+  fix: 只讲"为什么有趣、哪里新、有何意义"；brainstorm 出 2–3 条核心信息作为主线
+- id: WRI-VLD-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 实验须重复多次并报告变异（均值+标准差/置信区间），不得只报单点数值
+  source: Montgomery, Design and Analysis of Experiments 8e, ch.1 (replication)
+  signal: 只跑一次或只报一个数值，无重复运行、无标准差/置信区间
+  fix: 至少多次独立运行（多个随机种子），报告均值±标准差或置信区间，结论建立在分布而非单次运行上
+  category: experiment-design
+- id: WRI-VLD-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 多模型/多方法对比须随机化并固定种子与划分，保证公平比较
+  source: Montgomery, Design and Analysis of Experiments 8e, ch.1 (randomization)
+  signal: 对比多个方法但数据划分、超参、预训练、环境未统一或未说明，比较可能不公平
+  fix: 固定同一数据划分、同一随机种子、相同预训练与特征，只让被比较的因子变化，并写明随机化方案
+  category: experiment-design
+- id: WRI-VLD-003
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 数据存在已知批次/来源/时间差异时，用区组（blocking）控制
+  source: Montgomery, Design and Analysis of Experiments 8e, ch.4 (Randomized Complete Block Design) p.139
+  signal: 数据明显有设备/批次/来源/时间段差异，却直接混在一起比较
+  fix: 把设备/批次/时间段作为 blocking 变量，报告区组后或分层的比较结果
+  category: experiment-design
+- id: WRI-VLD-004
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 多因子（结构×增强×训练策略）应识别交互，用因子设计而非逐个单变量扫描
+  source: Montgomery, Design and Analysis of Experiments 8e, ch.5 (Advantage of Factorials) p.186
+  signal: 多个因子一个一个单独调，未考虑因子间交互效应
+  fix: 用 factorial 设计报告主效应与交互；资源受限时说明哪些因子被固定、哪些被扫描
+  category: experiment-design
+- id: WRI-VLD-005
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 报告“无显著差异”须有功效/样本量/效应量支撑
+  source: Montgomery, DOE 8e, ch.2.4.3 (Choice of Sample Size) p.44, ch.3.7 (Determining Sample Size) p.105
+  signal: 断言“无显著差异”，却从未做过 power 分析，也未报效应量/置信区间
+  fix: 报效应量与置信区间，说明当前样本量能检测的最小差异；样本不足时改为“未检测到差异”
+  category: experiment-design
+- id: WRI-VLD-006
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: method
+  rule: 因果/实证结论须自评并控制四类效度威胁（统计结论/内部/构念/外部效度）
+  source: Shadish, Cook & Campbell, Experimental and Quasi-Experimental Designs for Generalized Causal Inference (2002), ch.2 (validity types), ch.3 (threats)
+  signal: 给出因果或强结论，却未在任何处讨论效度威胁及控制措施
+  fix: 至少逐条排查 internal validity 与 construct validity 威胁，写清用随机化/对照/测量等手段如何排除
+  category: validity-threat
+- id: WRI-VLD-007
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: method
+  rule: 内部效度威胁（selection/history/maturation/attrition 等）须列出并逐一排除
+  source: Shadish et al., Experimental and Quasi-Experimental Designs for Generalized Causal Inference (2002), ch.2 (internal validity threats)
+  signal: 存在自选择、时间趋势、中途退出等风险，却只字不提内部效度威胁
+  fix: 列出主要内部效度威胁并说明控制手段（随机分配、同期对照、追踪完整率等）
+  category: validity-threat
+- id: WRI-CCL-001
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: method
+  note: 因果类规则（CCL-001~006）为提示性审查：需人工判断是否随机化/观测/是否调 mediator，仅当文本出现"导致/因果/提升/失效"等措辞时二次触发，不作自动硬判
+  rule: 观测数据下因果结论须画 DAG 并列出 confounder（X 与 Y 的公共原因）
+  source: 'Pearl, Causal Inference in Statistics: A Primer (2019), ch.2 (DAG), ch.3.3 (Backdoor Criterion) p.61'
+  signal: 用观测/未随机化数据断言因果，却未提任何 confounder、未画因果图
+  fix: 画 DAG 标出 confounder/collider/mediator，用 back-door criterion 确定需调整的变量集
+  category: causal
+- id: WRI-CCL-002
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: method
+  rule: 条件于 collider（或其后代）会引入伪相关，须排查 selection/collider bias
+  source: 'Pearl, Causal Inference in Statistics: A Primer (2019), ch.2.3 (Colliders) p.40-41'
+  signal: 出现 Simpson 悖论式反转，或按某结果变量筛选样本后出现反常关联
+  fix: 检查是否条件于 collider 或其子节点，移除对 collider 的调整，改调真正的 confounder
+  category: causal
+- id: WRI-CCL-003
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: results
+  rule: 区分总效应与直接效应，勿对 mediator 过度调整；干预用 do 算子而非条件
+  source: 'Pearl, Causal Inference in Statistics: A Primer (2019), ch.3.2 (Adjustment Formula) p.55, ch.4 (mediation)'
+  signal: 调整中介变量导致“效应消失”被解释为无因果，或把 P(Y|X) 当作 P(Y|do(X))
+  fix: 用 do-算子区分 total effect 与 controlled direct effect，明确哪些变量是 mediator 且不应被调整
+  category: causal
+- id: WRI-CCL-004
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: method
+  rule: 实验组/对照组非随机形成时须承认并量化 selection bias
+  source: Angrist & Pischke, Mostly Harmless Econometrics, ch.2 (Selection Bias) p.12-15
+  signal: 组别由自选/按阈值/按历史行为形成，却当作随机化一样下因果结论
+  fix: 写清 selection bias 的方向与符号、量化其影响，并说明识别策略（IV/DiD/RD/自然实验）或 CIA 假设
+  category: causal
+- id: WRI-CCL-005
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: method
+  rule: 观测因果须显式陈述识别策略（identifying assumption）及可检验含义
+  source: Angrist & Pischke, Mostly Harmless Econometrics, ch.3 (CIA), ch.4-6 (IV/DiD/RD)
+  signal: 观测因果估计无任何识别策略说明，只给一个回归系数就下结论
+  fix: 写清识别策略（IV/DiD/RD/CIA+协变量），陈述关键假设并给出可检验/稳健性验证
+  category: causal
+- id: WRI-CCL-006
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: results
+  rule: 把预测性关联写成因果（“用 X 所以得 Y”）时须区分预测与因果
+  source: Angrist & Pischke, Mostly Harmless Econometrics, ch.3.2 (Omitted Variables Bias) p.44; Pearl, A Primer, ch.1 (association is not causation)
+  signal: 将特征/变量与结果的回归关联表述为“X 导致/提升了 Y”，却无因果依据
+  fix: 区分“预测性关联”与“干预性因果”；对特征只做预测声明，因果声明另配识别/干预设计
+  category: causal
+- id: PRD-REP-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: general
+  rule: 须提供代码、随机种子、环境版本与数据可得性说明
+  source: APM, ch.2 p.19; NASEM, Reproducibility, ch.3
+  signal: 仅称"code available upon request"
+  fix: 给仓库链接或 DOI，并附 requirements/环境文件与种子设定
+  example_bad: Code and data are available upon reasonable request.
+  example_good: Code, fixed random seeds (42 for splits, 7 for initialization), and the conda environment are released at <repo>; the processed dataset is public, and access conditions for the restricted
+    subset are described in Appendix C.
+- id: WRI-REP-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 论文须公开代码/数据/环境/随机种子/超参，使他人可用同一输入重跑出同一结果
+  source: NASEM, Reproducibility and Replicability in Science (2019), ch.3 p.42, ch.4 p.55-70
+  signal: 缺代码、数据、版本号、随机种子、超参、环境说明中的任一关键项
+  fix: 公开代码与数据（或说明不可公开原因），固定依赖版本、随机种子、超参、硬件环境
+  conflict: 分两级判定——"随机种子/超参/环境"为硬性要求（无则触发）；"代码/数据公开"视录用场景与年代（老论文/无 artifact 机制的会议不强制），已给种子+超参+数据公开者不因"缺代码"触发（验收发现：2014 Dropout JMLR 稿）
+  category: reproducibility
+- id: WRI-REP-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: method
+  rule: 数据/结论须可追溯（provenance），任一数字能回溯到原始数据与生成代码
+  source: NASEM, Reproducibility and Replicability in Science (2019), ch.4 (Inadequate Recordkeeping / Nontransparent Reporting) p.67-69
+  signal: 结果表/图中数字无来源，中间处理步骤不可追溯
+  fix: 记录每步输入/输出/脚本/参数，做到每个数字可回溯到原始数据与生成代码
+  category: reproducibility
+- id: WRI-REP-003
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: general
+  rule: 区分可复现（同数据同代码）与可复制（新数据重做），勿用单次结果冒充稳健结论
+  source: NASEM, Reproducibility and Replicability in Science (2019), ch.5 (Replicability) p.71
+  signal: 把单一运行结果表述为稳健结论，未说明是否被独立数据或他人重跑验证
+  fix: 声明本文属于可复现还是已复制；单次结果如实标注，鼓励补充独立数据/他人重跑的说明
+  conflict: 仅当"宣称普遍结论却只跑单次"才触发；已按多种子/多划分报告均值±方差者不触发（验收发现：Dropout JMLR 稿多种子均值，不构成缺陷）
+  category: reproducibility
+- id: WRI-REP-004
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 结果须多随机种子/多次运行报均值与变异性，而非单种子单点
+  source: NASEM, Reproducibility and Replicability in Science (2019), ch.4 (precision of measurement) p.46
+  signal: 只用一个种子的单次结果，可能落在有利的随机波动上
+  fix: 多随机种子重复运行，报告均值与方差/置信区间
+  category: reproducibility
+- id: WRI-MLD-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 排查数据泄漏：时间相关数据按时间划分，划分后再做预处理
+  source: Huyen, Designing ML Systems, ch.5 (Data Leakage) p.135-140
+  signal: 时间相关数据用随机划分，或预处理/特征选择在划分前完成（"指标异常高"仅作提示，不作触发条件）
+  fix: 按时间划分（前段训练、后段测试），在划分后再缩放/归一/选特征；检查标签是否泄漏进特征
+  category: ml-data
+- id: WRI-MLD-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 训练与推理的特征/预处理/分布须一致，报告 train/serve skew 处理
+  source: Huyen, Designing ML Systems, ch.8 (distribution shifts & monitoring)
+  signal: 未说明训练与推理时的特征定义、预处理、采样是否一致
+  fix: 说明训练/推理特征与预处理一致性，报告部署后输入分布监控并处理不一致
+  category: ml-data
+- id: WRI-MLD-003
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 区分 covariate shift / label shift / concept drift 并说明其可能性
+  source: Huyen, Designing ML Systems, ch.8 (Data Distribution Shifts) p.238
+  signal: 只报离线效果，未讨论上线后输入/标签/条件分布可能漂移
+  fix: 区分三种 shift（P(X)、P(Y)、P(Y|X) 谁变），说明每种是否可能及缓解（重训/监控/回退）
+  category: ml-data
+- id: WRI-MLD-004
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: method
+  rule: 报告标签来源与质量：手工/自然/弱监督、标注者数量与一致性
+  source: Huyen, Designing ML Systems, ch.4 (Labeling) p.88-94
+  signal: 用弱标注/规则标注/自动标签当监督信号与评估基准，却不报标注质量/一致性
+  fix: 报标签来源、标注者数量与 IAA 一致性、错误标签处理；评估时用人工抽检的干净子集核对
+  category: ml-data
+- id: WRI-MLD-005
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: experiments
+  rule: 特征定义/口径在训练与评估间保持一致，并对“涨点特征”做泛化性说明
+  source: Huyen, Designing ML Systems, ch.5 (Engineering Good Features / Feature Generalization) p.141-144
+  signal: 特征在训练与评估口径不同，或“加一个特征涨点”未解释其可复用/泛化性
+  fix: 统一特征抽取管线并报告特征一致性；对新特征做泛化性评估与可复用说明
+  category: ml-data
+- id: CLN-PRI-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须提供完整可复制的检索策略（每个数据库的检索式、日期、限定条件）
+  source: PRISMA 2020, item 7
+  signal: 只写 "we searched PubMed and Web of Science"，无检索式
+  fix: 把各库检索式原文放入附录，正文说明检索日期与语言限定
+- id: CLN-PRI-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须给文献筛选流程图（识别、筛选、纳入三阶段，各阶段 n 与排除原因）
+  source: PRISMA 2020, item 16a and flow diagram
+  signal: 只有文字"最终纳入 32 篇"
+  fix: 补 PRISMA 流程图，标出各阶段剔除数与原因
+- id: CLN-PRI-003
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须说明偏倚风险评估工具（RoB 2 / ROBINS-I 等）与评估方式（几人独立、分歧如何解决）
+  source: PRISMA 2020, item 11
+  signal: 只写 "study quality was assessed"，无工具与流程
+  fix: 写明工具名称、评估人数与分歧解决方式
+- id: CLN-PRI-004
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须报告证据确定性（GRADE 分级），并说明降级理由
+  source: PRISMA 2020, item 15d; GRADE approach
+  signal: 给出合并效应但无证据确定性评价
+  fix: 补 GRADE 表：结局、研究数、起始等级、降级理由、最终等级
+- id: CLN-PRI-005
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须说明是否预注册（PROSPERO 等）及注册号；若无须声明
+  source: PRISMA 2020, item 5
+  signal: 未提预注册状态
+  fix: 补 "Registered in PROSPERO (CRD42023xxxxxx)" 或声明未注册及原因
+- id: CLN-RPG-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须在方法部分声明遵循哪一份报告规范及其版本（如 CONSORT 2025），并附完整清单
+  source: EQUATOR Network, reporting guideline catalogue; CONSORT 2025 Statement
+  signal: 试验报告通篇未提 CONSORT，或只说 "reported according to international guidelines"
+  fix: 写明 "This study is reported in accordance with CONSORT 2025"，并把 30 项清单作为附件提交
+- id: CLN-RPG-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 规范选择须由研究设计决定：RCT→CONSORT、观察性→STROBE、系统综述→PRISMA、诊断准确性→STARD、单病例→CARE
+  source: EQUATOR Network, choosing a reporting guideline
+  signal: 队列研究用了 CONSORT，或系统综述未用 PRISMA
+  fix: 按设计改选正确规范，并在方法首段说明选择理由
+- id: CLN-RPG-003
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 若目标规范存在更具体的扩展版（如整群随机、非劣效、AI 预测模型 TRIPOD+AI），须优先使用扩展版并声明
+  source: EQUATOR Network, guideline extensions
+  signal: 整群随机试验只对 CONSORT 核心清单，未用 cluster extension
+  fix: 改用对应扩展版，并在方法中写明所用扩展
+- id: CLN-STA-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 每个主要结局须给效应量点估计与 95% 置信区间，不得只给 p 值
+  source: CONSORT 2025, item 17a; STROBE item 16
+  signal: 结果通篇 "p < 0.05"，无效应量与区间
+  fix: 补效应量（均值差/OR/HR）与 95% CI
+- id: CLN-STA-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 二分类结局须同时报绝对效应与相对效应（如风险差与风险比）
+  source: CONSORT 2025, item 17b
+  signal: 只报 OR 或 RR，无绝对风险差
+  fix: 补绝对风险差与 NNT，避免相对效应夸大
+- id: CLN-STA-003
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 亚组与调整分析须标注为预设或探索性，并说明多重比较处理
+  source: CONSORT 2025, item 18
+  signal: 亚组分析结果与主分析混排，未标注性质
+  fix: 标注 prespecified/exploratory，并说明是否校正
+- id: CLN-STB-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须说明受试者选择流程：纳入排除标准、来源人群、随访方式
+  source: STROBE, items 5-6
+  signal: 只写 "we enrolled patients from our hospital"，无标准与流程
+  fix: 补纳入排除标准清单与招募时间窗
+- id: CLN-STB-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须说明混杂因素的控制方式（设计阶段匹配/分层，或分析阶段调整），并列出所控变量
+  source: STROBE, item 9 and item 16a
+  signal: 只写 "multivariable adjustment"，未列变量与控制理由
+  fix: 补变量清单与选择依据（DAG 或既有文献）
+- id: CLN-STB-003
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须说明样本量如何确定，这是 STROBE 最常被漏报的条目
+  source: STROBE, item 10
+  signal: 观察性研究完全未提样本量依据
+  fix: 补样本量推算或说明"基于可用数据的全样本，未做事前推算"
+- id: CLN-STB-004
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须报缺失数据比例、处理方式（完整病例/多重插补）及敏感性分析
+  source: STROBE, item 12c and 14c
+  signal: 结果 N 小于入组 N，但未解释缺失
+  fix: 补缺失率表与处理方式，并给完整病例与插补两套结果对照
+- id: CLN-STB-005
+  genre:
+  - sci-journal
+  track: clinical
+  section: discussion
+  rule: 须讨论偏倚方向与可能影响，不得只列偏倚名称
+  source: STROBE, item 19
+  signal: 只写 "recall bias may exist"，未说明偏倚方向与对结论的影响
+  fix: 补偏倚方向判断（高估/低估）及其对主效应的影响
+- id: CLN-STD-001
+  genre:
+  - sci-journal
+  track: clinical
+  section: method
+  rule: 须说明索引检验与参考标准的实施方式、判读顺序与是否独立判读
+  source: STARD 2015, items 10-11
+  signal: 只写 "all patients underwent CT and pathology"，无判读设置
+  fix: 补判读者数量、经验、是否对彼此结果设盲
+- id: CLN-STD-002
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须报告不可判定结果的处理方式及其数量
+  source: STARD 2015, item 22
+  signal: 全样本均有明确阳性/阴性结果，无不可判定类别
+  fix: 补不可判定例数及处理方式（排除/计为阴性/重复检测）
+- id: CLN-STD-003
+  genre:
+  - sci-journal
+  track: clinical
+  section: results
+  rule: 须报告灵敏度、特异度及其 95% 置信区间，并提供 2×2 表
+  source: STARD 2015, items 21-24
+  signal: 只给 AUC，无灵敏度/特异度与区间
+  fix: 补 2×2 表与点估计加 95% CI
+- id: PRD-CLB-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 类别不平衡须说明处理方式（重采样/代价敏感/阈值调整）及其对指标的影响
+  source: APM, ch.16 p.419 (Remedies for Severe Class Imbalance)
+  signal: 正负比严重失衡但方法只字未提
+  fix: 补处理方式，并报处理前后的 precision-recall 对照
+  example_bad: We address class imbalance by oversampling the minority class.
+  example_good: We combine class-weighted loss (ω = 8.3) with threshold tuning on validation data; minority-class recall rises from 0.41 to 0.63 at unchanged precision 0.70.
+- id: PRD-CV-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: experiments
+  rule: 须说明重采样方案（k 折/重复次数/分层/分组）及选择理由
+  source: APM, ch.4 p.61 (Over-Fitting and Model Tuning)
+  signal: 只说 "cross-validation"，无折数、无重复、无分层说明
+  fix: 补 "10-fold CV repeated 5 times, stratified by outcome; folds grouped by firm to avoid leakage"
+  example_bad: We use 5-fold cross-validation.
+  example_good: We use 5-fold stratified cross-validation repeated 3 times, stratified on the label and grouped by hospital, because observations within a hospital are not exchangeable.
+- id: PRD-CV-002
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: experiments
+  rule: 调参与性能评估须嵌套：外层评估、内层调参，不得用同一折同时调参与报告
+  source: APM, ch.4 p.61
+  signal: 报告的"交叉验证准确率"正是用来选超参的同一指标
+  fix: 改为嵌套 CV，或单列独立 test 集结果作为唯一报告口径
+  example_bad: We tune hyperparameters with 5-fold CV and report the best fold's score.
+  example_good: 'Tuning uses nested CV: an inner 5-fold loop selects hyperparameters, and an outer 5-fold loop estimates performance, so reported scores never reuse tuning folds.'
+- id: PRD-CV-003
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: experiments
+  rule: 须报告性能的变异（折间标准差或置信区间），不得只给单点均值
+  source: APM, ch.4 p.61; NASEM, Reproducibility, ch.4
+  signal: 结果表只有单个准确率数值，无方差或区间
+  fix: 补均值 ± 标准差，并注明折数
+  example_bad: Cross-validation yields an F1 of 0.74.
+  example_good: Cross-validation yields F1 0.74 (SD 0.031 across folds; 95% CI [0.71, 0.77] from a bootstrap over folds), and we report this spread rather than a single point estimate.
+- id: PRD-FS-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 特征选择须在重采样内部完成，不得在全集上先筛特征再交叉验证
+  source: APM, ch.19 p.487 (An Introduction to Feature Selection)
+  signal: 描述"先用全样本做相关性筛选/T 检验，再做 10 折交叉验证"
+  fix: 把特征选择嵌入每一折，或改用嵌套流程
+  example_bad: We first select the top 200 features by mutual information on the full dataset, then run 10-fold cross-validation.
+  example_good: 'Feature selection is performed inside each resampling iteration: mutual-information ranking is recomputed on the training portion only, avoiding selection bias in the CV estimate.'
+- id: PRD-IMP-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 报告变量重要性须说明方法，并提示其在不相关特征存在时的不稳定性
+  source: APM, ch.18 p.463 (Measuring Predictor Importance)
+  signal: 给出一张"重要性排序"图，未说明是 permutation、impurity 还是系数
+  fix: 补方法说明，并报告至少两种方法的一致性（或说明不一致处）
+  example_bad: Permutation importance shows that income is the most important predictor.
+  example_good: We report permutation importance (10 repeats) with confidence bands; because correlated predictors split credit, income and wealth rank unstably, so we also report grouped (cluster) importance.
+- id: PRD-IMP-002
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: discussion
+  rule: 不得把预测重要性解释为因果效应
+  source: APM, ch.18 p.463; Pearl, Primer, ch.1
+  signal: 由特征重要性直接得出"X 是驱动因素，应加大投入"的结论
+  fix: 改为 "X improves predictive accuracy"；若要做因果主张，另设识别策略
+  example_bad: The model shows that raising price decreases demand, confirming the pricing theory.
+  example_good: Price has high predictive importance, but this reflects association in the training distribution, not a causal effect; we make no causal claim from the model.
+- id: PRD-OVF-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 须同时报告训练集与留出集的性能，并解释差距
+  source: APM, ch.4 p.61; ch.20 p.521
+  signal: 只报测试性能，或训练与测试性能完全相同（异常信号）
+  fix: 补两列对照，并在差距过大时讨论过拟合或分布差异
+  example_bad: Training accuracy reaches 0.99, demonstrating model quality.
+  example_good: Training accuracy is 0.99 versus 0.86 on the held-out set; the 13-point gap indicates overfitting, which we reduce by dropout and early stopping (gap narrows to 3 points).
+- id: PRD-OVF-002
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 当特征数接近或超过样本量时，须使用正则化或降维，并说明强度选择依据
+  source: APM, ch.6 p.101 (Linear Regression and Its Cousins); ISLR 2e, ch.6
+  signal: p ≫ n 场景下仍用无正则的 OLS/逻辑回归并报告全部系数
+  fix: 改用 ridge/lasso/elastic net，并报 λ 选择路径（CV 曲线）
+  example_bad: We fit a deep network to 180 samples with 2,000 features.
+  example_good: With 2,000 features and 180 samples (p ≫ n), we use elastic-net regularization with the penalty chosen by nested CV, and compare against PCA-50 plus ridge as a low-variance baseline.
+- id: PRD-OVF-003
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: discussion
+  rule: 须讨论模型复杂度与可解释性的取舍，说明为何选择该复杂度
+  source: APM, ch.20 p.521
+  signal: 直接采用最复杂模型，未给"简单模型是否已足够"的对照
+  fix: 补一条复杂度阶梯（线性→树→集成）的性能对照曲线
+  example_bad: We use a gradient-boosted ensemble because it is the most accurate model.
+  example_good: We trade a 1.5-point AUROC loss for interpretability by deploying a regularized logistic model in the clinical workflow, and keep the boosted ensemble as an offline benchmark.
+- id: PRD-TUN-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 须报超参搜索空间与搜索方法（网格/随机/贝叶斯），以及最终选定的参数值
+  source: APM, ch.4 p.61
+  signal: 只写 "we tuned hyperparameters"，无搜索范围与最终取值
+  fix: 补超参表：参数、范围、搜索方法、最优值
+  example_bad: We tuned the model until performance was satisfactory.
+  example_good: We search learning rate ∈ {1e-4…1e-2} (log), depth ∈ {2,4,8}, and L2 ∈ {0,0.1,1} by random search (60 draws); the selected configuration is lr=3e-3, depth=4, L2=0.1.
+- id: PRD-TUN-002
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: method
+  rule: 禁止在测试集上调参或用测试集结果反向修改模型
+  source: APM, ch.2 p.19; ch.4 p.61
+  signal: 文中出现"在测试集表现不佳后调整了模型，再报告测试集结果"
+  fix: 改用验证集完成所有选择，测试集只报一次
+  example_bad: We iterated on the architecture while monitoring test accuracy and stopped at the best test score.
+  example_good: Architecture choices were made on validation data only; the test set was touched once, after freezing the model, and any post-hoc change is reported as exploratory.
+- id: PRD-UNC-001
+  genre:
+  - sci-journal
+  - ei-conf
+  track: predictive
+  section: results
+  rule: 关键预测须给不确定性（预测区间或集合预测），而非单点值
+  source: APM, ch.5 p.95
+  signal: 面向决策的预测只给点估计，无区间
+  fix: 补预测区间或 conformal 预测集
+  example_bad: The model predicts a 7.3% drop in demand next quarter.
+  example_good: The point forecast is a 7.3% drop, with an 80% prediction interval of [2.1%, 12.6%] from conformal prediction; intervals are wider for low-volume regions.
+- id: QLT-CAS-001
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须展示证据链（chain of evidence）：问题→数据→分析→结论可逐环追溯
+  source: Yin, Case Study Research 6e, ch.4 p.111 (chain of evidence)
+  signal: 结论直接给出，读者无法回溯到具体证据来源
+  fix: 补证据链说明，并让引文编号、编码表、结论三者可互查
+  example_bad: Three themes emerged from the interviews, and the school appears to have a strong improvement culture.
+  example_good: 'The argument runs as a traceable chain: RQ1 (how teachers made sense of the reform) → interviews with 18 teachers (Appendix A) → first-cycle codes T1–T9 → theme "borrowed urgency" → case-level
+    claim, each step cross-referenced in Table 3.'
+- id: QLT-CAS-002
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须建立案例研究资料库（case study database），并说明其构成与可得性
+  source: Yin 6e, ch.4 p.111 (case study database)
+  signal: 未说明原始资料如何归档、是否可供复核
+  fix: 补一句 database 构成：transcripts、field notes、documents、coding files
+  example_bad: Data were collected through interviews and observations over one semester.
+  example_good: All materials are held in a case-study database (interview transcripts, field notes, documents, photographs) indexed by date and source, with a read-only copy deposited under the access
+    conditions in Appendix B.
+- id: QLT-CAS-003
+  genre:
+  - ssci
+  track: qualitative
+  section: discussion
+  rule: 须主动处理竞争性解释（rival explanations），并说明为何被排除
+  source: Yin 6e, ch.5 (Analyzing Case Study Evidence)
+  signal: 只给一种解释路径，无替代解释的排查
+  fix: 补 rival explanations 小节，列 2–3 个替代机制并给排除依据
+  example_bad: An alternative explanation is that teachers were simply tired.
+  example_good: 'Two rival explanations are considered: (a) reform fatigue and (b) leadership turnover. Both predict declining engagement across all departments, yet engagement rose in the two departments
+    with stable leadership, which weakens (a) and (b) (see §5.2).'
+- id: QLT-CAS-004
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 多案例研究须先逐个案例呈现，再做跨案例综合，不得直接跳到综合结论
+  source: Yin 6e, ch.5; ch.6 (Reporting Case Studies)
+  signal: 无个案描述，直接给跨案例分析
+  fix: 补个案小节（每案 1–2 页），再设 cross-case synthesis 一节
+  example_bad: Across the four schools, teachers resisted the reform because it threatened their autonomy.
+  example_good: We present each school in turn (Cases A–D, §4.1–4.4), then compare them in §4.5, where "autonomy threat" appears in A and C but not B and D, a divergence we explain by governance structure.
+- id: QLT-CAS-005
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须说明数据收集的六类证据来源中实际使用了哪几类，并交代各自的采集规程
+  source: Yin 6e, ch.4 p.111 (six sources of evidence)
+  signal: 只写 we conducted interviews，其他来源一概不提
+  fix: 列表说明访谈、观察、档案、文件、参与者观察、实物证据的使用情况
+  example_bad: We used multiple sources of evidence to ensure rigor.
+  example_good: 'We draw on four of Yin''s six sources: 22 semi-structured interviews, 60 hours of non-participant observation, internal memoranda (n=34), and physical artefacts; each source''s collection
+    protocol is specified in Appendix A.'
+- id: QLT-COD-001
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须报编码方法：属第一轮还是第二轮、采用哪一类（结构/描述/情感/价值/主题化）
+  source: Saldaña, Coding Manual 1e, ch.3 p.45 (First Cycle), ch.4 p.149 (Second Cycle)
+  signal: 只写 data were coded thematically，未说明编码类型与轮次
+  fix: 写明两轮编码的具体方法，如 initial descriptive coding followed by pattern coding
+  example_bad: The transcripts were coded thematically.
+  example_good: 'Coding followed Miles, Huberman and Saldaña''s two-cycle approach: first-cycle descriptive coding (n=63 codes) and second-cycle pattern coding into 8 categories and 3 themes.'
+- id: QLT-COD-002
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须提供编码本示例（codebook）：编码名、定义、判定标准、示例片段
+  source: Saldaña, Coding Manual 1e, ch.1 p.21 (The codebook or code list)
+  signal: 提到 coding scheme，但附录与正文都无编码定义
+  fix: 附表给出至少 5 个核心编码的定义与原文示例
+  example_bad: A codebook was developed and applied consistently.
+  example_good: 'The codebook (Table 2) lists each code with a definition, inclusion/exclusion criteria, and an anchor quotation, e.g. code "borrowed urgency": "references to external threat used to justify
+    internal change".'
+- id: QLT-COD-003
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须说明第一轮编码如何归并为第二轮类别/主题，并给出归并规则
+  source: Saldaña, Coding Manual 1e, ch.4 p.149; ch.1 p.9 (From codes to categories)
+  signal: 直接呈现主题，中间从编码到主题的转换过程缺失
+  fix: 补一张归并示意（code → category → theme），并说明合并依据
+  example_bad: Codes were grouped into themes based on similarity.
+  example_good: 'Codes were merged by a stated rule: codes sharing a consequence (not merely a topic) were clustered; e.g. T3 "deadline panic", T7 "audit dread" and T9 "public ranking shame" merged into
+    "evaluative pressure" because all describe sanctions, not workload.'
+- id: QLT-COD-004
+  genre:
+  - ssci
+  track: qualitative
+  section: general
+  rule: 须严格区分 code（片段标签）、category（归类）、theme（解释性陈述），不得混用
+  source: Saldaña, Coding Manual 1e, ch.1 p.13 (Differences between codes and themes)
+  signal: 同一个词既被称为 coding 又被称为 theme
+  fix: 全文统一术语，并在方法段给三者的操作性定义
+  example_bad: The theme "leadership" covers codes about principals, trust, and meeting frequency.
+  example_good: Code "principal visits" (segment label) → category "administrative presence" (grouping of similar codes) → theme "leadership as surveillance" (interpretive claim linking presence to teacher
+    compliance).
+- id: QLT-COD-005
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须体现分析性备忘录（analytic memo）的使用，说明备忘录如何推动主题形成
+  source: Saldaña, Coding Manual 1e, ch.2 p.32 (Writing Analytic Memos)
+  signal: 分析过程只有 coding，无任何反思性记录
+  fix: 补一段说明备忘录的书写频率与作用，并引 1 条备忘录摘录
+  example_bad: Analytic memos were written throughout the analysis.
+  example_good: 'Memo 12 (2023-03-04) records the analytic turn: noticing that teachers described inspections as "weather", we re-read all segments on anticipation and revised the theme from "resistance"
+    to "pre-emptive compliance".'
+- id: QLT-COD-006
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 多人编码时须报编码者间一致性（系数值与计算方法），单人编码须声明并说明校验方式
+  source: Saldaña, Coding Manual 1e, ch.1 p.27; Miles & Huberman, QDA 3e, ch.4
+  signal: 有两位以上研究者参与分析，但未报一致性
+  fix: 补 kappa 或一致性百分比，并说明分歧如何解决
+  example_bad: Two coders coded the data and agreement was good.
+  example_good: Two coders independently coded 20% of transcripts; Cohen's κ = 0.81 (95% CI [0.72, 0.89]) for first-cycle codes, with disagreements resolved by discussion and codebook revision.
+- id: QLT-COD-007
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须报编码载体与工具（软件及版本，或手工编码的实现方式）
+  source: Saldaña, Coding Manual 1e, ch.1 p.21 (Manual and CAQDAS Coding)
+  signal: 全文未提编码在何处进行（NVivo/ATLAS.ti/Excel/纸质）
+  fix: 补一句，如 coded in NVivo 14 with a shared project file
+  example_bad: Data were analysed using standard qualitative software.
+  example_good: Coding was carried out in NVivo 14 (Windows), with the codebook and query exports archived; the audit trail records each merge of codes and its date.
+- id: QLT-DSN-001
+  genre:
+  - ssci
+  track: qualitative
+  section: introduction
+  rule: 须论证为何质性路径适合该研究问题（而非默认选择）
+  source: Yin, Case Study Research 6e, ch.1 p.9 (When to Use the Different Methods)
+  signal: 只写 we conducted a qualitative study，未说明为何量化无法回答该问题
+  fix: 补一句对照论证，如 how/why 型问题需要过程性证据，问卷无法捕捉
+  example_bad: A qualitative approach was adopted because the topic is complex.
+  example_good: The research question concerns how teachers interpret a reform over time, which requires access to meaning-making in situ; a qualitative case design is therefore necessary rather than default,
+    since survey items cannot capture reinterpretation.
+- id: QLT-DSN-002
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须命名具体质性传统（案例研究/现象学/扎根理论/民族志/叙事），并说明其对方法选择的约束
+  source: Yin 6e, ch.1 p.13; Miles & Huberman, QDA 3e, ch.1 (Genres of Qualitative Research)
+  signal: 只说 qualitative research 或 qualitative interviews，无传统归属
+  fix: 明确写 we adopt an instrumental case study design 或 interpretive phenomenological analysis
+  example_bad: We conducted a qualitative study using interviews.
+  example_good: We adopt instrumental case study (Stake) because the case illuminates a broader policy process; this commits us to bounding the case and to using multiple data sources rather than interview-only
+    evidence.
+- id: QLT-DSN-003
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 抽样须为有目的抽样，并写出纳入标准、排除标准与信息饱和的依据
+  source: Miles & Huberman, QDA 3e, ch.2 (Research Design and Management); Yin 6e, ch.2
+  signal: 只报样本量 N=24，未说明为何是这 24 人、如何找到
+  fix: 补抽样框、标准清单与招募渠道；说明最大变异抽样或同质抽样策略
+  example_bad: We interviewed 15 teachers who were available.
+  example_good: 'Purposive maximum-variation sampling: inclusion required ≥3 years'' tenure and direct exposure to the reform; exclusion covered administrators. Recruitment stopped at n=18, when two consecutive
+    interviews yielded no new codes (saturation log, Appendix C).'
+- id: QLT-DSN-004
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 案例研究须界定单个案例的边界（时间、地点、活动、角色），否则案例不可辨识
+  source: Yin 6e, ch.2 p.25 (Designing Case Studies), ch.1 p.14 (Definition)
+  signal: 案例以一个公司/城市命名，但未说明案例的内部边界与时间窗
+  fix: 补一句界定，如 the case is bounded by the firm’s 2018–2021 digital unit and its 140 staff
+  example_bad: We studied a school that implemented the new curriculum.
+  example_good: 'The case is bounded as: Riverton High School, one academic year (2022–23), the grade-9 mathematics department (7 teachers, 4 classrooms), excluding district-level actors.'
+- id: QLT-DSN-005
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 多案例研究须说明案例选择逻辑（逐字复制/理论复制），并预告跨案例比较方式
+  source: Yin 6e, ch.2 (literal vs theoretical replication)
+  signal: 选了三家案例，但未说明为何是三家、彼此是什么关系
+  fix: 补选择逻辑，如 three cases chosen for theoretical replication on governance type
+  example_bad: We compare four schools to increase generalizability.
+  example_good: 'Cases are selected by theoretical replication: two schools with high reform uptake and two with low uptake, all matched on size and intake; cross-case comparison tests whether uptake tracks
+    governance (literal replication) or resources (theoretical replication).'
+- id: QLT-DSP-001
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 结果须用矩阵或网络图等显示形式承载，不能只有连续文字叙述
+  source: Miles & Huberman, QDA 3e, ch.5 (Designing Matrix and Network Displays)
+  signal: 结果部分全是大段引文串讲，无任何表格或图示
+  fix: 补一张主题-案例矩阵（rows 主题、columns 案例、cell 标证据强度）
+  example_bad: In the following pages we describe, one after another, what each teacher said about the reform.
+  example_good: 'Figure 2 presents a theme-by-case matrix (rows: 3 themes; columns: 4 cases; cells: evidence strength), and Figure 3 maps code co-occurrence; the text walks the reader through the matrix.'
+- id: QLT-DSP-002
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 每个主题须至少配两条独立原始引文作为证据，不得一句引文撑一个主题
+  source: Miles & Huberman, QDA 3e, ch.7 (Methods of Describing); ch.11
+  signal: 主题下有且只有一句引文，或引文为概括性转述
+  fix: 每个主题补足两条以上引文，并优先纳入不同案例/不同受访者的证据
+  example_bad: 'Teachers felt surveilled: "It feels like someone is always watching" (P4).'
+  example_good: 'The surveillance theme rests on convergent evidence from independent participants: "someone is always watching" (P4), "we perform when the door opens" (P9), and "you learn the sound of
+    her heels" (P12), plus two observed instances of pre-inspection tidying.'
+- id: QLT-DSP-003
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 引文须标注可追溯的参与者代号与资料来源（访谈/观察/文件），并保持匿名一致
+  source: Miles & Huberman, QDA 3e, ch.6 (Methods of Exploring)
+  signal: 引文只写一位受访者表示，无编号
+  fix: 统一标注为 P07, interview, 2023-04
+  example_bad: One teacher said the reform was "exhausting".
+  example_good: '"It is exhausting" (P07, interview 2, 2023-03-11); the same participant''s observation notes (OB-14) record her leaving the staffroom during the audit visit.'
+- id: QLT-DSP-004
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 须主动呈现与主题相矛盾的负面案例（negative case），并解释其含义
+  source: Miles & Huberman, QDA 3e, ch.11 (Drawing and Verifying Conclusions)
+  signal: 所有证据都整齐地支持结论，无一处例外
+  fix: 补一段 contrary evidence，并说明它如何限定结论范围
+  example_bad: All participants experienced the reform as a loss of autonomy.
+  example_good: 'Two negative cases complicate the pattern: P11 and P15 described the reform as "freeing", because it displaced routines they disliked; we discuss what this implies for the autonomy thesis
+    in §5.3.'
+- id: QLT-DSP-005
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 须保证从原始数据到编码到主题的链条可追溯（数据浓缩不丢链）
+  source: Miles & Huberman, QDA 3e, ch.4 (Fundamentals of Qualitative Data Analysis)
+  signal: 主题陈述无法回溯到具体片段，读者只能相信作者
+  fix: 补附录映射表：主题 → 编码 → 片段编号
+  example_bad: After condensing the data we arrived at three themes.
+  example_good: 'Table 4 preserves the reduction chain: 214 raw segments → 63 codes (with counts) → 8 categories → 3 themes, each cell linked to transcript IDs so any claim can be traced back.'
+- id: QLT-IPA-001
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: IPA 研究须体现双重诠释（double hermeneutic）：研究者解释受访者对自身经验的解释
+  source: Smith, Flowers & Larkin, IPA 2e, ch.2 (The theoretical foundations of IPA)
+  signal: 采用 IPA 但分析只是归纳主题，无对受访者意义建构的再解释
+  fix: 补一层解释，说明受访者如何理解其经历，以及研究者的解释性介入
+  example_bad: We interpret participants' accounts of returning to work after cancer.
+  example_good: 'Analysis works at two levels: participants make sense of returning to work ("I had to prove I was still me"), and we interpret that sense-making as a strategy of restoring a spoiled identity—an
+    interpretation participants themselves did not offer.'
+- id: QLT-IPA-002
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: IPA 须呈现超级主题表（superordinate themes with subthemes），并与个案逐一对应
+  source: Smith et al., IPA 2e, ch.5 (Analysis)
+  signal: 主题呈现为平面清单，无层级结构
+  fix: 补主题层级表，标出每个超级主题下的子主题与对应个案
+  example_bad: 'Three themes captured the experience: uncertainty, support, and identity.'
+  example_good: Table 3 presents the superordinate theme "negotiating a usable identity" with subthemes (proving competence, hiding fatigue, redefining ambition), each traced to named cases (Amira, Ben,
+    Chloe) with page references.
+- id: QLT-IPA-003
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: IPA 须采用同质目的性抽样，样本量小且说明同质性依据
+  source: Smith et al., IPA 2e, ch.3 (Planning an IPA research study)
+  signal: 样本跨度过大（职业/年龄/情境差异极大）却称 IPA
+  fix: 收窄样本，并说明共享的经验特征
+  example_bad: We interviewed 12 patients with various chronic illnesses.
+  example_good: A homogeneous sample of 6 women diagnosed with breast cancer within the past 18 months, all in remission and returned to work, was recruited to keep the experiential variation focused on
+    the return-to-work transition.
+- id: QLT-IPA-004
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: IPA 引文须保留原话与副语言标记，且注释说明其与本主题的关联
+  source: Smith et al., IPA 2e, ch.5 (Analysis)
+  signal: 引文被改写成书面语，失去口语特征
+  fix: 保留原始措辞与停顿标记，另用一段解释诠释
+  example_bad: Participants described feeling "invisible" at work.
+  example_good: '"invisible … [long pause] … like a ghost in my own office" (Chloe, lines 214–216); the pause and self-interruption mark the difficulty of articulating the loss, which we read as central
+    to the identity theme.'
+- id: QLT-IPA-005
+  genre:
+  - ssci
+  track: qualitative
+  section: discussion
+  rule: IPA 的质量评估须按敏感性/承诺与严谨/透明与连贯/影响与重要性四条原则自评，不用量化效度标准
+  source: Smith et al., IPA 2e, ch.9 (Assessing validity and quality)
+  signal: 用内部效度、外部效度、信度等量化术语评价 IPA 研究质量
+  fix: 改为按 sensitivity to context、commitment and rigour、transparency and coherence、impact and importance 四项逐条说明
+  example_bad: Inter-rater reliability of κ = 0.84 confirms the validity of our IPA themes.
+  example_good: Following Smith's four principles, we assess the study on sensitivity to context (sampling and interview conduct), commitment and rigour (independent audit of theme development), transparency
+    and coherence (audit trail), and impact (implications for occupational health).
+- id: QLT-RPG-001
+  genre:
+  - ssci
+  track: qualitative
+  section: submission
+  rule: 访谈与焦点小组研究投稿时须对照 COREQ（32 项）自查并附清单
+  source: EQUATOR Network, COREQ checklist
+  signal: 方法部分缺少研究者资质、访谈场所、是否重复访谈等条目
+  fix: 补 COREQ 清单作为附件，并在方法中补齐缺失条目
+  example_bad: Our interview study follows qualitative reporting standards.
+  example_good: We report against COREQ (32 items); Table S1 maps each item to its location, and the three items not applicable (e.g. repeat interviews) are marked with reasons.
+- id: QLT-RPG-002
+  genre:
+  - ssci
+  track: qualitative
+  section: submission
+  rule: 非访谈类的质性设计（案例/民族志/扎根理论）须对照 SRQR（21 项）自查
+  source: EQUATOR Network, SRQR checklist
+  signal: 方法部分无抽样策略、无反思性、无分析技术说明
+  fix: 附 SRQR 清单并补齐条目
+  example_bad: The study is reported in line with established qualitative guidelines.
+  example_good: As a non-interview ethnographic design, the study follows SRQR (21 items); the completed checklist is provided as Supplementary File 2, with item 7 (reflexivity) detailed in §3.4.
+- id: QLT-SAT-001
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须说明理论饱和的判据（何种情况下判定再无新主题），不得只声称达到饱和
+  source: Miles & Huberman, QDA 3e, ch.2; Saldaña, Coding Manual 1e, ch.1 p.19
+  signal: 一句 data collection continued until saturation，无判据
+  fix: 补判据，如最后 4 次访谈未产生新编码
+  example_bad: Data collection continued until theoretical saturation was reached.
+  example_good: 'Saturation was operationalised as: no new codes in two consecutive interviews and no revision of existing categories; it occurred at interview 16, and two further interviews confirmed stability
+    (saturation log, Appendix C).'
+- id: QLT-SAT-002
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须报实际分析的文本量（访谈数、时长/字数、观察小时、文件页数），不能只报人数
+  source: Miles & Huberman, QDA 3e, ch.2
+  signal: 只有受访者人数，无文本规模
+  fix: 补 24 interviews averaging 62 minutes, 610 pages of transcript
+  example_bad: We interviewed 20 teachers.
+  example_good: The corpus comprises 20 interviews (mean 62 min, range 41–95; 187,000 transcribed words), 60 hours of observation and 34 documents.
+- id: QLT-TRU-001
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须明确采用的可信度策略（三角验证/成员核查/同行审议/审计轨迹），并逐项说明如何实施
+  source: Miles & Huberman, QDA 3e, ch.11; Yin 6e, ch.4
+  signal: 只写 to ensure trustworthiness，无具体策略与实施细节
+  fix: 列 3–4 项策略，每项写明做法与覆盖范围
+  example_bad: Trustworthiness was ensured through triangulation and member checking.
+  example_good: 'We use four strategies and show where each is applied: data triangulation (interviews, observation, documents; §4.2), member checking (preliminary themes returned to 12 participants, §4.6),
+    peer debriefing (monthly with two outsiders), and an audit trail (Appendix D).'
+- id: QLT-TRU-002
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 三角验证须说明是哪几类数据源/方法/研究者的三角，不得只写 triangulation 一词
+  source: Yin 6e, ch.4 p.111 (Principles of Data Collection)
+  signal: 出现 triangulation 但未说明交叉了什么
+  fix: 写明 interviews、observations and internal documents 三类来源交叉
+  example_bad: Triangulation strengthened the credibility of the findings.
+  example_good: 'Triangulation operates at two levels: data-source triangulation (teachers, heads, inspection reports) and investigator triangulation (two analysts coded independently), which converge on
+    the surveillance theme while diverging on its severity.'
+- id: QLT-TRU-003
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须写研究者反身性（reflexivity）：立场、与受访者关系、对解释的可能影响
+  source: Miles & Huberman, QDA 3e, ch.3 (Ethical Issues in Analysis)
+  signal: 研究者仿佛透明，全文无任何立场说明
+  fix: 补一段 positionality，含进入渠道、既有关系与可能的解释偏向
+  example_bad: The researcher remained neutral throughout the study.
+  example_good: The first author is a former teacher at the site and initially read resistance as principled; fieldnotes record how this stance shifted as participants described pre-emptive compliance,
+    and a supervisor challenged the earlier coding in memo 17.
+- id: QLT-TRU-004
+  genre:
+  - ssci
+  track: qualitative
+  section: method
+  rule: 须提供厚描述（thick description）支撑可迁移性判断，而非直接声称可推广
+  source: Miles & Huberman, QDA 3e, ch.11; Yin 6e, ch.6
+  signal: 讨论部分声称 findings are generalizable，但情境描述极薄
+  fix: 补情境细节（组织类型、制度环境、时间背景），把结论表述为可迁移的条件而非普遍规律
+  example_bad: The findings can be generalized to urban schools nationally.
+  example_good: We offer thick description (timetable, inspection routines, staffroom talk) so readers can judge transferability to their own settings; we do not claim statistical generalization beyond
+    the case.
+- id: QLT-TRU-005
+  genre:
+  - ssci
+  track: qualitative
+  section: general
+  rule: 不得把量化信度/效度标准直接套用到质性研究，须用可信度/可迁移/可依赖/可确认四标准
+  source: Miles & Huberman, QDA 3e, ch.11
+  signal: 用 Cronbach alpha 或 construct validity 作为质性质量标准
+  fix: 改用 credibility、transferability、dependability、confirmability 并对应具体做法
+  example_bad: Cronbach's alpha of 0.88 and test–retest reliability support the credibility of the themes.
+  example_good: Because themes are interpretive constructs, we assess credibility, transferability, dependability and confirmability rather than internal consistency or test–retest reliability, which presuppose
+    fixed instruments.
+- id: QLT-WRT-001
+  genre:
+  - ssci
+  track: qualitative
+  section: discussion
+  rule: 结果与讨论须分离：结果只呈现证据与模式，理论对话放讨论
+  source: Miles & Huberman, QDA 3e, ch.12 (Writing About Qualitative Research)
+  signal: 结果段中途开始与文献辩论
+  fix: 把文献对话移入讨论，结果段只保留证据与模式陈述
+  example_bad: In the findings we argue that the reform reproduces Bourdieu's symbolic violence, and we then present participants' accounts.
+  example_good: §4 reports the patterns (anticipatory compliance, self-surveillance) with evidence only; §5 interprets them through symbolic violence and connects to Bourdieu's broader theory.
+- id: QLT-WRT-002
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 不得用引文代替论证：每段引文后须有解释句说明它支撑哪个论点
+  source: Graff & Birkenstein, They Say I Say 5e, ch.3; Miles & Huberman, QDA 3e, ch.12
+  signal: 连续三句以上引文堆叠，中间无作者解释
+  fix: 采用引文三明治——引入（谁说的）→ 引文 → 解释（意味着什么）
+  example_bad: '"You learn the sound of her heels." "We perform when the door opens." "It is like weather."'
+  example_good: '"You learn the sound of her heels" (P12) shows that surveillance is anticipated bodily, before any inspection occurs; the metaphor of weather in P4''s account extends this to something
+    endured rather than resisted.'
+- id: QLT-WRT-003
+  genre:
+  - ssci
+  track: qualitative
+  section: discussion
+  rule: 须给出理论贡献：说明研究发现修正/扩展了哪一既有概念，而非只描述现象
+  source: Miles & Huberman, QDA 3e, ch.12
+  signal: 讨论只有实践启示，无与理论的对话
+  fix: 补一段 we extend the concept of X by showing that…
+  example_bad: Teachers experienced the reform as pressure, which is an important finding.
+  example_good: The study extends the concept of "audit culture" by showing that its grip operates through anticipation rather than inspection events, revising the event-centred account in Power (1997)
+    and specifying a mechanism—pre-emptive self-alignment—for studies of school governance.
+- id: QLT-WRT-004
+  genre:
+  - ssci
+  track: qualitative
+  section: results
+  rule: 结果呈现须有叙事线（问题→张力→解决），不得是主题清单的平铺
+  source: Miles & Huberman, QDA 3e, ch.12
+  signal: 结果小标题为 主题一/主题二/主题三，彼此无逻辑递进
+  fix: 重组为有张力的序列，如 tension → coping → resolution
+  example_bad: 'Four themes are presented below: pressure, identity, collegiality, and time.'
+  example_good: The narrative moves from apparent compliance (§4.1) to the tension participants voiced between compliance and craft (§4.2), to the resolution through privatized teaching (§4.3), so each
+    section answers a question raised by the previous one.
+- id: QNT-CFT-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 观测组间差异不得直接等同因果效应；须说明处理分配机制与 naive 估计的偏误来源（自我选择等）
+  source: Morgan & Winship 2e, ch.2 §2.7 pp.54–62 (Average Causal Effects and Naive Estimation)
+  signal: 直接把 treated 与 untreated 的结果差解读为 effect，全文无选择偏误或分配机制讨论
+  fix: '补偏误来源分析，如 "The raw 3 pp gap conflates program effects with self-selection: firms opt in when prospects worsen, biasing naive estimates downward"'
+  example_bad: Treated firms grow 3 pp faster than untreated firms, so the program works.
+  example_good: 'The naive 3 pp gap is not causal: eligibility was self-selected and correlated with prior growth. We formalize selection in a potential-outcomes framework and address it with matching (§4).'
+- id: QNT-CFT-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 时变处理(over-time treatments)须说明处理状态的时变路径与滞后结构，不得把当期状态当固定属性测量
+  source: Morgan & Winship 2e, ch.2 §2.8 pp.62–70 (Over-Time Potential Outcomes and Causal Effects)
+  signal: 处理变量为随时间变化的状态（婚姻/就业/贫困/在职状态），但按单一时点测量且无滞后或路径说明
+  fix: 明确测量窗口与滞后，如 "Marital status varies over the panel; we measure exposure as the share of years married between ages 20–30 and test lags 1–3 (Table 5)"
+  example_bad: We regress earnings on current marital status.
+  example_good: Marital status changes over the panel; treatment is defined as years married during ages 20–30 (the exposure window), and we report effects for lag 0–3 specifications in Table 5.
+- id: QNT-CFT-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 使用固定效应估计时须说明其不能消除的时变混杂，并讨论残余选择偏误的来源
+  source: Morgan & Winship 2e, ch.11 §11.3 pp.363–392 (Panel Data); ch.8 §8.1 pp.268–269 (Nonignorability)
+  signal: 用个体/单位固定效应作为识别手段，但全文未讨论 FE 对时变混杂无能为力的局限
+  fix: 补局限讨论，如 "FE removes time-invariant confounding, but shocks to earnings that themselves shift labor supply (e.g. layoffs) remain; we probe this with placebo outcomes in §5.3"
+  example_bad: With individual fixed effects included, remaining bias is unlikely to be a concern.
+  example_good: Individual fixed effects absorb time-invariant heterogeneity, but time-varying confounders (regional demand shocks affecting both hiring and training) remain; we assess this threat with
+    placebo outcomes and discuss it in §5.3.
+- id: QNT-CFT-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 处理效应存在明显异质性来源（基线水平、人群分层、剂量）时，须报告效应分布或分组效应，不得只给单一平均数
+  source: Morgan & Winship 2e, ch.8 §8.3 pp.278–290 (Self-Selection, Heterogeneity, and Causal Graphs)
+  signal: 样本内部异质性明显（不同基线水平或亚群）而全文只报一个平均效应且无 heterogeneity 讨论
+  fix: '补异质性证据，如 "Effects are heterogeneous: +$2,900 for the bottom income tercile vs +$310 for the top (Table 7); quantile effects in Figure 6"'
+  example_bad: The program raises annual income by $1,200 on average.
+  example_good: 'The average effect is +$1,200, but it masks strong heterogeneity: +$2,900 in the bottom income tercile versus +$310 in the top (Table 7); we report quantile treatment effects in Figure
+    6.'
+- id: QNT-DAG-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 观测数据的因果结论须提供因果图（DAG），并说明其节点与边来自何种理论或制度知识
+  source: Huntington-Klein, The Effect 2e, ch.6–7 pp.87–114
+  signal: 全篇无图，或图仅为概念示意而无箭头方向
+  fix: 补 DAG 并配一句 "Edges encode the institutional knowledge that…"
+  example_bad: We control for firm size, age, leverage and industry because prior studies do.
+  example_good: 'Figure 1 states the assumed causal structure: subsidy → investment ← demand shock, with demand shock unobserved. Edges follow the institutional account in §2 (ministry allocation rules)
+    and prior evidence on investment demand.'
+- id: QNT-DAG-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: DAG 须显式标注未观测变量，并说明其对识别的影响
+  source: The Effect 2e, ch.7 p.101; Pearl, Primer, ch.2.3
+  signal: DAG 里所有节点都带观测数据，暗示不存在未观测混杂
+  fix: 用虚线节点标出不可观测变量，并在正文说明相应的敏感性分析
+  example_bad: Some confounders may be unobserved, which we acknowledge as a limitation.
+  example_good: Managerial ability (U) affects both subsidy receipt and investment; because it is unobserved, the back-door path S ← U → I stays open, so we identify the effect through the instrument in
+    §4 rather than by conditioning.
+- id: QNT-DAG-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 控制变量的取舍须按后门准则论证，不得"能控就控"
+  source: The Effect 2e, ch.8 p.115; Pearl, Primer, ch.3.3 p.61 (Backdoor Criterion)
+  signal: 控制集包含大量与结果相关但不在任何后门路径上的变量，且无取舍理由
+  fix: 逐一说明每个控制变量关闭了哪条路径，删除无用控制并给出理由
+  example_bad: We include all available firm characteristics as controls to reduce omitted variable bias.
+  example_good: 'Controls are chosen to block back-door paths: size and sector close S ← Size → I and S ← Sector → I. Variables on the front-door path (R&D expenditure) are deliberately excluded because
+    conditioning would absorb part of the effect.'
+- id: QNT-DAG-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须排查对撞变量(collider)与 M-bias，说明为何未控制某变量
+  source: The Effect 2e, ch.8 p.115; Pearl, Primer, ch.2.3 p.40
+  signal: 控制集里有明显是"结果的原因之一且受处理影响"的变量，却未讨论
+  fix: 补一段 "We deliberately do not control for Z, a collider on T→Z←Y"
+  example_bad: We control for whether the firm survived the crisis, a standard robustness variable.
+  example_good: Survival is a collider (Subsidy → Survival ← Demand shock); conditioning on it would induce association between subsidy and the unobserved shock. We therefore report specifications without
+    it and show results are unchanged (Table A3).
+- id: QNT-DAG-005
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 不得控制处理后变量(bad control)，若必须控制须说明其经济学含义并改用中介分析
+  source: The Effect 2e, ch.8 p.115; Imbens & Rubin 2015, ch.1 §1.8 p.15 (Covariates)
+  signal: 控制集包含明确在处理之后才发生的变量（如处理后的员工数、处理后的融资额）
+  fix: 移出主回归，或改用中介分析并明确报告"总效应"与"直接效应"两个量
+  example_bad: We also control for post-treatment employment growth to capture firm trajectory.
+  example_good: Employment growth is measured after treatment and lies on the causal path, so we exclude it from the main specification; instead we treat it as a mediator and report the decomposition in
+    §5.4.
+- id: QNT-DID-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: DiD 须提供平行趋势的证据（事件研究图或处理前趋势检验），不能只声称成立
+  source: Cunningham, The Mixtape, ch.9; Huntington-Klein, The Effect 2e, ch.10 p.143
+  signal: 出现 "parallel trends assumption is satisfied" 但无任何检验或图
+  fix: 补事件研究图，报处理前各期系数及联合检验 p 值
+  example_bad: The parallel trends assumption is standard in this literature and is therefore maintained.
+  example_good: Figure 2 reports event-study coefficients for t−5 to t−1; all pre-treatment leads are statistically indistinguishable from zero (joint F-test p=0.41), supporting parallel trends.
+- id: QNT-DID-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 交错处理(staggered adoption)情形须说明为何 TWFE 可能有偏，并采用现代估计量或给出稳健性对照
+  source: Cunningham, The Mixtape, ch.9 ( staggered DiD ); Goodman-Bacon 分解
+  signal: 处理时点不一致，但只用双向固定效应且未讨论负权重问题
+  fix: 补 Callaway–Sant'Anna 或 Sun–Abraham 估计作为对照，并说明结论是否改变
+  example_bad: We estimate a two-way fixed effects model on the staggered rollout.
+  example_good: Because adoption is staggered, TWFE places negative weights on some 2×2 comparisons (Goodman-Bacon decomposition, Table A2); we therefore report Callaway–Sant'Anna and Sun–Abraham estimates
+    alongside TWFE.
+- id: QNT-EST-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须显式写出因果估计量(estimand)的名称——ATE / ATT / LATE / MTE，不得只说"effect"
+  source: Imbens & Rubin 2015, ch.1 §1.10 p.18 (Causal Estimands)
+  signal: 方法或结果中出现 "the effect of X on Y"，但全文无法判定估计的是全样本平均效应还是受处理者平均效应
+  fix: 在方法首段写明 "We estimate the average treatment effect on the treated (ATT)…"，并在结果表头沿用同一名称
+  example_bad: We estimate the effect of the training program on wages.
+  example_good: 'We estimate the average treatment effect on the treated (ATT): the mean wage gain for participating firms relative to their untreated counterfactual.'
+- id: QNT-EST-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 处理变量须给出可操作定义：类型（二值/多值/连续）、取值时点、编码方式
+  source: Imbens & Rubin 2015, ch.1 §1.7 p.13 (The Assignment Mechanism)
+  signal: 全文用 "treated firms""policy shock" 指代处理，但未说明何时算处理、处理强度如何编码
+  fix: 补一句定义 + 一个示例，例如 "Treated = 1 if the firm received the subsidy in fiscal year t, 0 otherwise"
+  example_bad: We study the impact of digitalization on productivity.
+  example_good: 'Treatment is binary: D=1 if the firm adopted an ERP system in year t, defined by the contract signature date; firms adopting partially (module-only) are excluded (n=41).'
+- id: QNT-EST-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 结果变量须给测量口径与观测时点，且与估计量定义一致
+  source: Imbens & Rubin 2015, ch.1 §1.2 p.3 (Potential Outcomes)
+  signal: 结果变量只用变量名（如 performance、profitability）而无测量方式与时间窗
+  fix: 写明测量来源与窗口，例如 "ROA measured as net income / total assets, averaged over t+1 to t+3"
+  example_bad: The outcome is firm performance.
+  example_good: Performance is return on assets (net income / total assets), averaged over t+1 to t+3 to match the three-year horizon over which the program is expected to operate.
+- id: QNT-EST-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须显式陈述 SUTVA（无干扰、处理版本唯一），或说明为何不成立及如何放宽
+  source: Imbens & Rubin 2015, ch.1 §1.6 p.9 (The Stable Unit Treatment Value Assumption)
+  signal: 存在群体层面处理（政策、班级、门店）却完全未提个体间干扰
+  fix: 补一段 "SUTVA may be violated through…; we address this by defining treatment at the market level"
+  example_bad: We assume no interference between units.
+  example_good: 'SUTVA is questionable here: subsidies are allocated within local labor markets, so treated firms may draw workers from controls. We therefore define treatment at the market level (share
+    of subsidized firms) and cluster at that level.'
+- id: QNT-EST-005
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 系数须同时给统计显著性与经济意义（相对均值/标准差的幅度）
+  source: Angrist & Pischke, Mostly Harmless Econometrics, ch.2; Miller, Writing about Numbers, ch.5
+  signal: 结果段只有 "significant at the 1% level"，无任何幅度解读
+  fix: 补 "a 0.08 SD increase, equivalent to 12% of the sample mean"
+  example_bad: The coefficient on training is positive and significant at the 1% level.
+  example_good: Training raises monthly wages by 42 yuan (SE 11), equivalent to 0.09 SD or 2.1% of the sample mean, with a 95% CI of [20, 64].
+- id: QNT-IDF-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须有独立小节明确命名识别策略(identification strategy)，而非把方法埋在回归说明里
+  source: Huntington-Klein, The Effect 2e, ch.5 p.67 (Identification)
+  signal: 方法章只有"我们用 OLS/固定效应"，没有"我们靠什么变异识别因果"的段落
+  fix: 新增 "Identification" 小节，首句写 "Identification comes from…"
+  example_bad: We run an OLS regression of wages on training with firm fixed effects.
+  example_good: '§4 is titled "Identification" and states the design: identification comes from the staggered lottery that assigned training slots, which is orthogonal to firm-level shocks conditional on
+    cohort fixed effects.'
+- id: QNT-IDF-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 识别假设须逐条写出，并给出为何在此情境下可信的论证（引制度背景或前人文证据）
+  source: Huntington-Klein, The Effect 2e, ch.5 p.67; Imbens & Rubin 2015, ch.12 p.257
+  signal: 只写 "assuming conditional independence holds"，无任何支持性论证
+  fix: 每条假设后补 1–2 句依据，例如 "The rule was announced before the fiscal year, so firms could not manipulate assignment"
+  example_bad: The instrument is valid.
+  example_good: 'Two assumptions are required. (i) Relevance: lottery assignment raises training take-up by 31 pp (first stage F=84). (ii) Exclusion: slots were allocated by a formula using pre-period employment
+    only, so assignment cannot affect wages except through training—a claim supported by the ministry''s allocation manual (§2.3).'
+- id: QNT-IDF-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须说明识别所用变异的来源（source of variation），即"比较的是谁与谁"
+  source: Huntington-Klein, The Effect 2e, ch.5 p.67, ch.10 p.143
+  signal: 读者无法回答"这个系数是被哪部分样本的差异驱动的"
+  fix: 补一句 "The estimate is driven by within-firm changes around the subsidy cutoff"
+  example_bad: We exploit variation in policy exposure across regions.
+  example_good: The comparison is between firms just above and just below the 50-employee eligibility threshold, in the same year and region; firms far from the threshold are not used.
+- id: QNT-IDF-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 设计特定假设须按方法逐条陈述：DiD 的平行趋势、IV 的排除性限制、RDD 的连续性、匹配的条件独立
+  source: Huntington-Klein, The Effect 2e, ch.6–9 pp.87–142
+  signal: 用了 DiD 却没出现 parallel trends 相关表述
+  fix: 按所用方法补对应假设句，并与后文检验一一对应
+  example_bad: The design relies on standard identifying assumptions.
+  example_good: DiD requires parallel trends absent treatment (tested via event study, Figure 2); the instrument requires relevance and exclusion (§4.2); we state each assumption and the evidence bearing
+    on it rather than invoking a generic "standard assumptions" clause.
+- id: QNT-IDF-005
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 不得以"控制了更多变量"替代识别论证（控制变量不解决未观测混杂）
+  source: The Effect 2e, ch.8 p.115 (Causal Paths and Closing Back Doors); Pearl, Primer, ch.2
+  signal: 仅以 "we control for a rich set of covariates" 作为因果性理由
+  fix: 改为按 DAG 说明该控制集关闭了哪些后门路径，并承认未观测混杂的存在
+  example_bad: Because we control for 24 covariates, the estimate can be interpreted causally.
+  example_good: Covariates cannot address unobserved demand shocks; identification rests on the lottery, and the covariate set only improves precision. We show estimates are stable with and without controls
+    (Table 3, columns 1 and 3).
+- id: QNT-IV-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 须报告第一阶段结果：工具对处理变量的系数、F 统计量或偏 R²
+  source: Imbens & Rubin 2015, ch.23–25 pp.533–580; Cunningham, The Mixtape, ch.5
+  signal: 只有 2SLS 的第二阶段表，第一阶段完全缺失
+  fix: 补第一阶段表，报系数、F 值，并按经验阈值说明是否弱工具
+  example_bad: We use distance as an instrument for enrollment.
+  example_good: 'The first stage is strong: each additional kilometer reduces enrollment by 7.4 pp (SE 1.9, F=61, partial R²=0.18); Table 2 reports the full first-stage estimates.'
+- id: QNT-IV-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须陈述排除性限制(exclusion restriction)并给出不可检验假设的支持性论证
+  source: Imbens & Rubin 2015, ch.23 p.533; The Mixtape, ch.5
+  signal: 只写 "Z is a valid instrument"，无任何关于 Z 只通过 T 影响 Y 的论证
+  fix: 补制度性论证 + 一个可证伪的推论（如 Z 对安慰剂结局无效应）
+  example_bad: Distance is exogenous, so the exclusion restriction holds.
+  example_good: Exclusion requires that distance affects wages only through enrollment. We test this by checking that distance is uncorrelated with pre-enrollment earnings and with local labor demand (Table
+    A4), and we discuss the remaining threat of residential sorting in §6.1.
+- id: QNT-IV-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: discussion
+  rule: 须说明 IV 估计的是依从者(compliers)的局部效应，不得直接外推为总体平均效应
+  source: Imbens & Rubin 2015, ch.23 p.533 (LATE); The Mixtape, ch.5
+  signal: IV 结果被表述为 "the effect of X on Y for the population"，无 compliers 讨论
+  fix: 补 "This is a LATE for compliers, i.e. firms whose treatment status responds to Z; it does not identify the ATE"
+  example_bad: The IV estimate shows that schooling raises wages by 9%.
+  example_good: The estimate is a LATE for compliers—students induced to enroll by proximity—who are 38% of the sample and disproportionately low-income; it does not directly extend to always-takers.
+- id: QNT-IV-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 弱工具情形须改用弱识别稳健推断（Anderson-Rubin / CLR），不得只报常规 t 检验
+  source: Imbens & Rubin 2015, ch.23–25; The Mixtape, ch.5
+  signal: 第一阶段 F 值偏低但结果仍用常规标准误与 p 值
+  fix: 补 AR 置信区间，并注明 "conventional asymptotics may be unreliable given the weak first stage"
+  example_bad: The first-stage F is 8.2; we report the 2SLS t-statistic of 2.9.
+  example_good: With F=8.2 the instrument is weak, so conventional t-tests over-reject; we report Anderson–Rubin confidence sets ([0.02, 0.19]) and the CLR p-value (0.03) instead.
+- id: QNT-MM-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 随机化实验须报告随机化单位、执行机制与样本流失(attrition)，并给出处理组与对照组的基线平衡检验
+  source: Angrist & Pischke, Mastering 'Metrics, ch.1 §1.1 pp.1–8 (Randomized Trials)
+  signal: 出现 randomly assigned / randomized experiment，但全文无基线平衡表或流失率说明
+  fix: 补一段执行与平衡信息，如 "Households were randomized into treatment (n=1,204) and control (n=1,198) via public lottery; baseline covariates balance at p>0.12 on all 24 covariates (Table 1); differential attrition
+    was 1.8 pp"
+  example_bad: Individuals were randomly assigned to the job-training program.
+  example_good: Randomization was carried out at the household level by an independent agency; Table 1 shows baseline balance (all SMD < 0.08), and attrition was 6% with no differential between arms.
+- id: QNT-MM-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 回归中的控制变量须为预处理变量并有先验理由，不得以"试出来显著"的标准挑选控制集
+  source: Angrist & Pischke, Mastering 'Metrics, ch.2 §2.3 pp.68–79 (Ceteris Paribus?)
+  signal: 结果表并列多个设定，核心系数随控制集增减在显著与不显著之间摆动，但全文无控制变量选择依据
+  fix: 声明控制变量在处理之前测量并给出入选理由，如 "All controls are pre-treatment (measured in the baseline year); Table 2 reports specifications with and without them, chosen ex ante"
+  example_bad: We include additional controls until the coefficient becomes statistically significant.
+  example_good: 'Our control set is fixed ex ante: pre-treatment demographics and baseline outcome. Column 2–4 show results are insensitive to this choice, and we do not select controls by significance.'
+- id: QNT-MM-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 不得从平均效应推断个体效应；对单个单位的"会怎样"式表述须标注为平均意义上的表述或补个体异质性证据
+  source: Angrist & Pischke, Mastering 'Metrics, ch.2 §2.1–2.2 pp.47–55 (Regression as comparison of CEF)
+  signal: 出现 "an individual/firm given X would gain β" 类从平均系数推个体的句子
+  fix: 改为平均语言并补异质性，如 "On average, charter attendance raises math scores by 0.2 SD; individual gains vary widely (IQR 0.05–0.35)"
+  example_bad: A student attending the charter school would gain 0.2 SD in math.
+  example_good: On average, charter attendance is associated with a 0.2 SD gain in math scores; the distribution of individual effects is wide, and we report quantile treatment effects in Figure 6.
+- id: QNT-MM-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: IV 场景须陈述单调性(monotonicity)假设与依从类型（compliers / always-takers / never-takers），界定 LATE 的适用人群
+  source: Angrist & Pischke, Mastering 'Metrics, ch.3 §3.1–3.2 pp.99–123 (Instrumental Variables)
+  signal: 使用 IV 或随机分派作为工具，但全文既无单调性假设也无依从类型定义
+  fix: 补假设与人群界定，如 "Distance is a valid instrument under monotonicity (no one enrolls because they live farther); we estimate LATE for compliers, who are 38% of the sample (Table 4)"
+  example_bad: We instrument for enrollment with distance to the nearest school.
+  example_good: Distance satisfies monotonicity—no student enrolls solely because they live farther away; estimates are LATEs for compliers (students induced by distance), who comprise 38% of the sample.
+- id: QNT-MM-005
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: RDD 须给出结果变量对 running variable 的图（散点加局部均值或拟合线），使断点在图上直接可见
+  source: Angrist & Pischke, Mastering 'Metrics, ch.4 §4.1 pp.148–163 (Regression Discontinuity Designs)
+  signal: 使用 RD 术语与估计，但全文没有 running variable 上的结果图
+  fix: 补可视化，如 "Figure 3 plots mortality against age with 0.5-year bins; the jump at age 65 is visible in both local means and fitted lines"
+  example_bad: We estimate a sharp RD at the Medicare eligibility threshold; the coefficient is 0.02 (p<0.01).
+  example_good: Figure 3 plots mortality by age in 0.5-year bins with local linear fits on each side; the jump at age 65 is clearly visible and corresponds to the Table 3 estimate.
+- id: QNT-MM-006
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: DiD 的处理效应须辅以处理组与对照组结果的时间轨迹（均值序列图或表），不能只报交互项系数
+  source: Angrist & Pischke, Mastering 'Metrics, ch.5 §5.1–5.2 pp.178–204 (Differences-in-Differences)
+  signal: 出现 treated×post 类交互项估计，但没有任何两组均值随时间变化的图表
+  fix: 补时间轨迹图，图中给出两组逐年均值——处理前两条序列平行（每年 0.4 vs 0.5 pp），处理后缺口打开
+  example_bad: The interaction term Post×Treat is positive and significant (β=0.031).
+  example_good: 'Figure 4 shows mean outcomes by group and year: the two series move in parallel before 2014 and diverge afterward, consistent with the Table 4 interaction estimate of 0.031.'
+- id: QNT-PSM-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 使用倾向得分须报模型设定（函数形式、纳入的协变量清单）与估计方法
+  source: Imbens & Rubin 2015, ch.13 p.281 (Estimating the Propensity Score)
+  signal: 只写 "we use propensity score matching"，无协变量清单与模型形式
+  fix: 补协变量表 + 一句 "logit of treatment on 12 pre-treatment covariates listed in Table A1"
+  example_bad: We match treated and control firms on propensity scores.
+  example_good: The propensity score is estimated by logit on 12 pre-treatment covariates (size, age, leverage, sector dummies, prior performance), with the specification and coefficients reported in Table
+    A1; matching is 1:1 nearest neighbour with caliper 0.05.
+- id: QNT-PSM-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 须报告共同支撑(overlap)检验，并给出倾向得分的分布图或 trimming 规则
+  source: Imbens & Rubin 2015, ch.14 p.309 (Assessing Overlap)
+  signal: 匹配样本已生成，但没有任何关于得分分布重叠的展示
+  fix: 补匹配前后的倾向得分密度图，并报落在共同支撑外的样本比例
+  example_bad: After matching, the sample is balanced and estimation proceeds.
+  example_good: 'Figure 3 plots the propensity-score distributions: overlap is thin above 0.8, so we trim observations with scores outside [0.05, 0.80], retaining 1,842 of 2,104 treated firms.'
+- id: QNT-PSM-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 须报告协变量平衡性（标准化均值差 SMD，经验阈值 0.1），而非只报匹配后结果
+  source: Imbens & Rubin 2015, ch.15 p.337 (Matching to Improve Balance)
+  signal: 只有匹配后的处理效应表，没有平衡性检验表
+  fix: 补 balance table，列匹配前/后 SMD，并注明 "all SMD below 0.1"
+  example_bad: The matching procedure produces reliable estimates.
+  example_good: All covariates achieve |SMD| < 0.06 after matching (Table 4; the largest is prior performance at 0.05), down from up to 0.42 before matching, and variance ratios lie in [0.8, 1.2].
+- id: QNT-PSM-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 须报匹配过程中的样本损失（初始 N、匹配成功 N、被丢弃 N 及原因）
+  source: Imbens & Rubin 2015, ch.16 p.359 (Trimming); ch.18 p.401 (Matching Estimators)
+  signal: 结果表样本量比数据描述部分的样本量小，但全文未解释差异
+  fix: 补一句 "Of 8,412 firms, 7,905 fell in the common support; 507 were trimmed"
+  example_bad: We match the sample and estimate the effect.
+  example_good: Of 2,104 treated firms, 1,842 match successfully; 231 are dropped for caliper violations and 31 for lacking common support. Appendix B compares dropped and retained firms.
+- id: QNT-PSM-005
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 倾向得分的用途须区分：用于平衡性设计 vs 用于估计权重，二者报告要求不同
+  source: Imbens & Rubin 2015, ch.13 p.281; ch.17 p.377 (Subclassification)
+  signal: 混用 "PSM 估计" 与 "IPW 估计" 的说法，未说明最终采用哪一种
+  fix: 明确写 "We use the propensity score for balance assessment, and estimate effects by…"
+  example_bad: We use propensity scores to control for selection.
+  example_good: The score is used for design (matching to achieve balance), not as a regression covariate; accordingly we report balance diagnostics and the matched-sample estimator, not coefficients on
+    the score itself.
+- id: QNT-RDD-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: RDD 须报带宽选择规则，并给多个带宽下的稳健性结果
+  source: Cunningham, The Mixtape, ch.6; The Effect 2e, ch.10 p.143
+  signal: 只报一个带宽下的结果，未说明带宽如何确定
+  fix: 补带宽选择方法（如 IK/CCT 最优带宽）与 ±50% 带宽的敏感性表
+  example_bad: We use a bandwidth of 5 percentage points around the cutoff.
+  example_good: The bandwidth follows Calonico–Cattaneo–Titiunik MSE-optimal selection (h=4.7 pp); results for h = 2.5, 4.7 and 8 pp are reported in Table 5 and are stable in sign and significance.
+- id: QNT-RDD-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: RDD 须做操纵检验（断点附近密度连续性）与协变量连续性检验
+  source: Cunningham, The Mixtape, ch.6 (McCrary density test)
+  signal: 有 RDD 设计但无密度检验、无断点附近协变量平衡展示
+  fix: 补 McCrary 密度图与断点两侧协变量均值表
+  example_bad: Firms cannot precisely manipulate their eligibility score.
+  example_good: Figure 2 shows the McCrary density test (log difference 0.04, p=0.71) with no bunching at the cutoff, and all pre-determined covariates are continuous at the threshold (Table 3).
+- id: QNT-REG-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 观测数据的回归系数须解释为条件比较（covariate 相同的两组之差），不得直接等同于"效应"
+  source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.6 §6.3 p.84 (Interpret coefficients as comparisons, not effects); ch.10 §10.2 p.133
+  signal: 出现 "the coefficient of X is the effect of X" 类表述，或回归系数被直接冠以效应含义而数据为观测性质
+  fix: 改为比较语言，如 "Comparing two schools identical on all covariates but differing by one student, predicted scores differ by −2.1; this is a conditional association, not necessarily an effect"
+  example_bad: The coefficient on class size (−2.1) is the effect of adding one student.
+  example_good: The coefficient of −2.1 is the predicted score difference between observationally comparable schools differing by one student; as an observational estimate, it need not equal a causal effect.
+- id: QNT-REG-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 统计显著性不得用作重要性判断；称结果 large / substantial / important 须同时给出量级与不确定性
+  source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.4 §4.5 pp.60–66 (Problems with the concept of statistical significance)
+  signal: 出现 significant 一词与大小/重要性词混用，或以显著性直接推出影响重大
+  fix: 量级与不确定性并报，如 "The estimate is 0.3 pp (95% CI [−0.1, 0.7])—statistically distinguishable from zero but economically negligible"
+  example_bad: The effect is highly significant, hence substantial.
+  example_good: 'The effect is statistically significant but small: 0.3 pp (95% CI [0.1, 0.5]), roughly 2% of the baseline mean, so we do not claim practical importance.'
+- id: QNT-REG-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 拟合的回归模型须报告残差诊断或数据-模型复现检查（残差图、后验预测检验），不得以 R² 作为拟合质量的主证据
+  source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.11 §11.3–11.4 pp.161–166 (Residual plots; Comparing data to replications); §11.6 p.168
+  signal: 出现 R²/回归拟合，但全文无 residual、诊断图或模型复现检查
+  fix: 补诊断，如 "Residual plots show no systematic pattern (Figure 5); posterior predictive checks reproduce the outcome distribution within sampling noise"
+  example_bad: The model fits well, with R² = 0.82.
+  example_good: Beyond R² = 0.82, Figure 5 shows residual plots with no systematic pattern, and posterior predictive checks indicate the fitted model reproduces the outcome distribution within sampling
+    variation.
+- id: QNT-REG-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 交互项系数不得单独解读；须给出简单斜率、边际效应或交互图，说明交互的方向与范围
+  source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.10 §10.3 pp.134–136 (Interactions)
+  signal: 结果表出现 X×Z 交互项并报告其显著性，但全文无交互图、简单斜率或分层效应
+  fix: '补解读，如 "Figure 7 plots predicted outcomes by treatment status across moderator values; simple slopes: +0.9 (low Z), −0.2 (high Z)"'
+  example_bad: The interaction term is significant (β = −0.4, p < .05), indicating moderation.
+  example_good: 'The interaction (β = −0.4, p < .05) is displayed in Figure 7: the treatment effect is +0.9 at low moderator values and −0.2 at high values, reversing sign beyond z = 1.4.'
+- id: QNT-REG-005
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 跨组或跨期比较率值（死亡率/失业率/发病率等）须做人口结构标准化或回归调整，不得直接比较粗率
+  source: 'Gelman, Hill & Vehtari, Regression and Other Stories, ch.2 §2.4 pp.31–33 (Data and adjustment: trends in mortality rates); §2.3 p.25'
+  signal: 比较两组/两时期的率值差异并归因于处理或趋势，全文无标准化或调整字样
+  fix: 先调整再比较，如 "After age-standardization, mortality declined 18% (1900–1990); the crude doubling reflects an aging population"
+  example_bad: Cancer mortality doubled from 1900 to 1990, so treatment deteriorated.
+  example_good: Age-standardized cancer mortality declined by 18% between 1900 and 1990; the crude rate doubled only because the population aged, so we compare standardized rates throughout (Table 2).
+- id: QNT-RPT-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 回归表须报标准误（并说明类型）、样本量、固定效应与聚类层级；星号须在表注定义
+  source: Miller, Writing about Numbers, ch.7; Angrist & Pischke, MHE, ch.8
+  signal: 表格只有系数与星号，无括号内标准误或 N
+  fix: 补括号标准误、N、FE 行与表注 "Standard errors clustered at the firm level in parentheses"
+  example_bad: Table 2 reports the main results; *** p<0.01.
+  example_good: Table 2 reports coefficients with standard errors clustered at the county level in parentheses, N and fixed effects indicated per column, and notes define stars (* p<0.10, ** p<0.05, ***
+    p<0.01) and the dependent-variable scale.
+- id: QNT-RPT-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 须说明聚类层级的选择理由（处理分配层级或误差相关结构）
+  source: Angrist & Pischke, MHE, ch.8; Imbens & Rubin 2015, ch.19
+  signal: 报告 "clustered standard errors" 但未说明为何在该层级聚类
+  fix: 补一句 "Treatment is assigned at the province level, so we cluster at that level"
+  example_bad: Standard errors are clustered at the firm level.
+  example_good: Treatment is assigned at the county level and shocks are correlated within counties, so standard errors are clustered at that level (42 clusters); firm-level clustering is reported as a
+    comparison in Table A5.
+- id: QNT-RPT-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 置信区间须与假设检验一并给出，不得只报 p 值
+  source: Miller, Writing about Numbers, ch.6; Imbens & Rubin 2015, ch.19
+  signal: 结果叙述通篇 "p < 0.05"，无任何区间估计
+  fix: 每个主效应后补 95% CI
+  example_bad: The effect is significant (p=0.03).
+  example_good: The effect is 0.42 pp (95% CI [0.04, 0.80], p=0.03), so while the null is rejected at conventional levels, the interval includes economically small values.
+- id: QNT-RPT-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 数据来源、样本筛选与清洗步骤须写到可被第三方复现
+  source: NASEM, Reproducibility and Replicability, ch.3; McGilvray, Executing Data Quality Projects 2e
+  signal: 只说 "data from CSMAR"，未说明时间范围、筛选规则、缺失处理
+  fix: 补数据附录：来源、时间窗、纳入排除规则、清洗脚本可得性
+  example_bad: We cleaned the data and dropped outliers.
+  example_good: Starting from 12,431 firm-year records, we drop 812 with missing assets, 96 with negative equity, and winsorize the top/bottom 1% of ROA; the final sample is 11,523 firm-years (replication
+    file, step 1).
+- id: QNT-SCM-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 合成控制须报 donor pool 构成、预测变量与拟合期，并给 placebo 检验
+  source: Cunningham, The Mixtape, ch.10
+  signal: 只给合成控制路径图，未说明权重如何得到、对照单元如何选
+  fix: 补 donor pool 清单、权重表与 in-space/in-time placebo 分布
+  example_bad: We construct a synthetic control for the treated region.
+  example_good: The donor pool comprises 27 untreated regions (excluding those with similar reforms); the fit uses 8 pre-period predictors over 2005–2014, and placebo tests in 27 regions show the treated
+    unit's post-period gap ranks first (p=1/28).
+- id: QNT-SEN-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 基于条件独立的识别须做敏感性分析，量化"未观测混杂需多强才能推翻结论"
+  source: Imbens & Rubin 2015, ch.22 p.496 (Sensitivity Analysis and Bounds)
+  signal: 通篇假定无未观测混杂，却无任何敏感性分析
+  fix: 补 Rosenbaum bounds 或 Oster δ 检验，并写成 "an unobserved confounder would need to be X times stronger than…"
+  example_bad: Conditional on covariates, treatment is as good as random.
+  example_good: 'Because unconfoundedness is not testable, we report Rosenbaum bounds: an unobserved confounder would need to raise the odds of treatment by a factor of 1.9 to overturn the result, which
+    we compare against the strongest observed covariate (1.4).'
+- id: QNT-SEN-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 稳健性检验须与具体威胁一一对应，不得堆砌与结论无关的替代设定
+  source: Imbens & Rubin 2015, ch.21 p.479 (Assessing Unconfoundedness)
+  signal: 稳健性小节列出 8 个替代回归，但未说明每个检验针对什么质疑
+  fix: 改为表格：威胁 → 检验 → 结论，每行一一对应
+  example_bad: Results are robust to alternative specifications, samples, and measures.
+  example_good: 'Each robustness check targets a specific threat: (i) alternative outcome windows address anticipation; (ii) dropping border counties addresses spillovers; (iii) the placebo reform date
+    addresses pre-trends. Table 6 maps each threat to its test.'
+- id: QNT-SEN-003
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: method
+  rule: 须区分预设(prespecified)分析与探索性(exploratory)分析，并明确标注
+  source: Imbens & Rubin 2015, ch.21 p.479; NASEM, Reproducibility and Replicability, ch.4
+  signal: 主结果与事后追加的异质性分析混在同一节，无标注
+  fix: 在表注或小节标题标 "prespecified" / "exploratory"
+  example_bad: We also find effects on employment, which we report as additional evidence.
+  example_good: The employment result was not prespecified (the pre-analysis plan covers wages only) and is therefore labelled exploratory; it is reported in Appendix D and not used to support the main
+    claim.
+- id: QNT-SEN-004
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: results
+  rule: 多重比较须做校正（Bonferroni / FDR）或说明为何不校正
+  source: Imbens & Rubin 2015, ch.20 p.461; NASEM, Reproducibility, ch.4
+  signal: 同时检验 10 个以上结局或子群，仅按 p<0.05 挑显著
+  fix: 补 FDR 校正后的 q 值，或声明 "these subgroup tests are exploratory and not adjusted"
+  example_bad: We test effects on six outcomes and find two significant at the 5% level.
+  example_good: With six outcomes, we control the false discovery rate at 5% (Benjamini–Hochberg); the two significant effects survive (adjusted q = 0.02 and 0.04).
+- id: QNT-WHY-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: discussion
+  rule: 反事实陈述（"若 X 不同，Y 本会怎样"）须显式声明所依赖的因果模型与估计口径，不得仅凭关联数据给出
+  source: Pearl & Mackenzie, The Book of Why, ch.1 pp.24–35 (The Ladder of Causation); ch.8 (Counterfactuals)
+  signal: 正文出现 would have been / had X been different 类反事实宣称，但全文未提供支撑它的模型、假设或估计方法
+  fix: 声明模型与口径，如 "Under the DAG in Figure 1 and assuming no unmeasured confounding (assessed in §6.2), the counterfactual mean profit under adoption is 12% (95% CI [4, 19]); see sensitivity bounds in Table
+    9"
+  example_bad: Had the firm adopted ERP, profits would have been 12% higher.
+  example_good: Counterfactually, firms adopting ERP would have earned 12% more (95% CI [4, 19]); this estimate rests on the DAG in Figure 1 and conditional ignorability, with sensitivity bounds in Table
+    9.
+- id: QNT-WHY-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: discussion
+  rule: 声称机制或中介（"X 通过 M 起作用"）须做中介分析（直接/间接效应分解）或引用对 M 的独立测量证据，不得仅凭相关链推断
+  source: 'Pearl & Mackenzie, The Book of Why, ch.9 pp.300–330 (Mediation: The Search for a Mechanism); cf. Morgan & Winship 2e, ch.10 §10.1 pp.326–330'
+  signal: 出现 works through / operates via / the mechanism is / 机制在于，但全文无中介分析或对中介变量的独立检验
+  fix: 补中介证据，如 "Training's effect decomposes into a direct effect (+$420) and an indirect effect via certification (+$310, 42% of total; Table 8); certification was measured independently at month 12"
+  example_bad: Job training raises wages mainly through improved skills.
+  example_good: The training effect decomposes into a direct wage effect (+$420) and an indirect effect through certification (+$310, 42% of the total; Table 8); certification is measured independently
+    at month 12, before wage outcomes.
+- id: QNT-WRT-001
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: discussion
+  rule: 不得用因果语言描述未经识别的相关结果（"导致/带来/促进"）
+  source: Pearl, Primer, ch.1; Angrist & Pischke, MHE, ch.3 p.44
+  signal: 识别策略仅为横截面回归加控制变量，却写 "X increases Y by…"
+  fix: 改为 "X is associated with Y"，或补足识别策略后再用因果表述
+  example_bad: Digitalization leads to higher productivity, as shown by our cross-sectional regression.
+  example_good: Digitized firms have 12% higher productivity conditional on covariates; because adoption is self-selected, we describe this as an association rather than a causal effect.
+- id: QNT-WRT-002
+  genre:
+  - ssci
+  - sci-journal
+  track: quant
+  section: introduction
+  rule: 贡献须相对"最接近的 3 篇文献"说明增量，不得只声称填补空白
+  source: Booth et al., The Craft of Research 5e, ch.4; Imbens & Rubin 2015, ch.1 §1.1
+  signal: 贡献段只有 "this paper fills a gap in the literature"，未点名对比文献
+  fix: 改为 "Relative to A (2020) and B (2022), we…" 并逐条列差异
+  example_bad: This study fills a gap in the literature on digitalization and productivity.
+  example_good: Relative to the three closest studies—Autor et al. (2020) on adoption and productivity, Bloom et al. (2012) on ICT complementarities, and Tambe (2014) on IT spillovers—we contribute a within-firm
+    design that separates adoption from firm-level shocks.
+- id: RPR-FIG-001
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 图须自明：坐标轴带变量名与单位，图例说明分组，注明样本量与误差含义
+  source: Miller, ch.7 (Creating Effective Charts)
+  signal: 图有坐标轴无数值标签、图例缺失或使用缩写
+  fix: 补轴标签（含单位）、图例、误差棒含义与 N
+  example_bad: 'Figure 3: Results. (No axis labels, no units, no note.)'
+  example_good: 'Figure 3. Mean test scores by school type (points) with 95% confidence intervals. Vertical axis: score in SD units of the national distribution; horizontal axis: year. n = 214 schools;
+    intervals are cluster-robust at the district level.'
+- id: RPR-FIG-002
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 同一信息不得既用表又用图重复呈现
+  source: Miller, ch.7
+  signal: 表 3 与图 2 展示完全相同的数值
+  fix: 保留一种：精确数值用表，趋势/形态用图
+  example_bad: Table 4 reports the group means, and Figure 5 plots the same group means.
+  example_good: Group means with confidence intervals appear only in Figure 5; Table 4 is reserved for the regression estimates, so the same numbers are not presented twice.
+- id: RPR-FIG-003
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 含估计值的图须显示不确定性（置信区间/误差棒），并说明是 SE 还是 95% CI
+  source: Miller, ch.7; ch.9 (Writing about Distributions and Associations)
+  signal: 折线图/柱状图无误差棒，或误差棒未说明含义
+  fix: 补误差棒并在图注写明 "bars show 95% confidence intervals"
+  example_bad: Figure 2 shows the treatment effects for each subgroup.
+  example_good: Figure 2 plots subgroup estimates with 95% confidence intervals; error bars are 95% CIs based on cluster-robust standard errors (not standard deviations), as stated in the note.
+- id: RPR-NUM-001
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 抽象数字须给参照系（相对均值、与他人对比、换算为可感知单位）
+  source: Miller, Writing about Numbers 2e, ch.2 (Seven Basic Principles)
+  signal: 出现 "the coefficient is 0.034" 或 "the rate is 12.7 per 100,000" 而读者无从判断大小
+  fix: 补参照："about one-third of the sample mean" 或 "roughly 1 in 8,000 people"
+  example_bad: The program increased enrollment by 3,412 students.
+  example_good: The program increased enrollment by 3,412 students—about 4% of the district total, or one additional student per classroom.
+- id: RPR-NUM-002
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 百分比变化须给基数，避免"增长了 300%"式表述歧义
+  source: Miller, ch.2
+  signal: 只写 "increased by 300%"，未说明从多少到多少
+  fix: 改为 "rose from 2% to 8%" 或 "a fourfold increase (from 2% to 8%)"
+  example_bad: Spending grew 300% after the reform.
+  example_good: Spending grew from 12 to 48 million yuan, a 300% increase (i.e. four times the pre-reform level).
+- id: RPR-NUM-003
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 有效数字须与测量精度匹配，禁止虚假精确
+  source: Miller, ch.2
+  signal: 样本量 43 的调查报告给出 "37.21%" 之类精度
+  fix: 降为 "37%"；小数位与样本量/测量误差相称
+  example_bad: The estimated effect is 0.4231789 SD.
+  example_good: The estimated effect is 0.42 SD (95% CI [0.31, 0.53]), reported to two decimals to match the precision of the test-score scale.
+- id: RPR-NUM-004
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 所有数量须带单位与口径（时点、人群、币种、是否可比价）
+  source: Miller, ch.5 (Basic Types of Quantitative Comparisons)
+  signal: 只写 the cost was 2.4 million，无币种、无年份、无价格基准
+  fix: 补 "USD 2.4 million in 2020 prices"
+  example_bad: Wages rose by 2,400 last year.
+  example_good: Average monthly wages rose by 2,400 yuan (2023 constant prices, full-time urban employees, December-to-December) last year.
+- id: RPR-NUM-005
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 比较须同基准：先统一口径（人均/实际值/同一年）再比较
+  source: Miller, ch.5
+  signal: 直接比较不同规模单位的总量（大省与直辖市的 GDP 总量对比）
+  fix: 改为人均或增长率等可比口径，并在文中说明换算
+  example_bad: The province spends more on education than the national average, so its schools perform better.
+  example_good: Per-pupil spending is 18% above the national average; after converting to 2023 constant prices and adjusting for cost-of-living differences, the gap narrows to 6%, and the performance comparison
+    uses that adjusted measure.
+- id: RPR-STA-001
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 统计结论须以效应量 + 区间为主，p 值为辅
+  source: Miller, ch.3 (Causality, Statistical Significance, and Substantive Significance)
+  signal: 结论句只有 "the difference was statistically significant"
+  fix: 改为 "the difference was 4.2 percentage points (95% CI 1.1 to 7.3)"
+  example_bad: The difference is significant at p < .001, demonstrating a strong effect.
+  example_good: 'The difference is 0.18 SD (95% CI [0.09, 0.27], p < .001): precisely estimated, but modest relative to the 1.0 SD achievement gap between income groups.'
+- id: RPR-STA-002
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 不得把 p 值写成"证明"或"显著性=重要性"
+  source: Miller, ch.3
+  signal: 出现 "p < 0.05, proving that…" 或 "highly significant" 作为重要性依据
+  fix: 改为 "provides evidence against the null"；重要性另用效应量论证
+  example_bad: The regression proves that class size causes achievement gains (p = 0.004).
+  example_good: The estimate is consistent with a small class-size effect (β = 0.04, p = 0.004); a p-value quantifies incompatibility with the null, not the probability that the hypothesis is true, and
+    the design remains observational.
+- id: RPR-TAB-001
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 表格须用三线表（无竖线、无内部网格），表头与表体对齐清楚
+  source: Miller, ch.6 (Creating Effective Tables)
+  signal: 表格含大量竖线/网格线，或表头跨列未合并说明
+  fix: 改为三线表；复杂表头用合并单元格并配表注
+  example_bad: A full-grid table with vertical borders and shaded cells for every coefficient.
+  example_good: 'A three-line table: top rule, rule under the header, bottom rule; no vertical lines and no internal grid, with coefficients aligned on the decimal point.'
+- id: RPR-TAB-002
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 表标题须自明：单看标题与表注即可理解表在讲什么、样本是谁
+  source: Miller, ch.6
+  signal: 表题为 "Results" 或 "Regression results"
+  fix: 改为 "Table 2. Effect of subsidy on ROA, 2010–2018 (N = 8,412)"
+  example_bad: Table 2. Regression results.
+  example_good: 'Table 2. Effect of the training program on monthly wages, by specification (dependent variable: log monthly wage; sample: full-time employees in 214 firms, 2015–2019).'
+- id: RPR-TAB-003
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 表注须定义所有缩写、符号、星号与数据来源
+  source: Miller, ch.6
+  signal: 表中出现 FE、SMD、CI 等缩写但表注未展开
+  fix: 补表注，逐项定义并注明数据来源与显著性标记规则
+  example_bad: Table 3. Main estimates. *** p<0.01.
+  example_good: Table 3 notes define all abbreviations (ROA, SMD, FE), state that standard errors are cluster-robust at the county level, define stars (* p<0.10, ** p<0.05, *** p<0.01), and cite the data
+    source (Annual Industrial Survey, 2015–2019).
+- id: RPR-TAB-004
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 同一列/行的有效数字位数须统一，小数点对齐
+  source: Miller, ch.6
+  signal: 一列中混有 "0.5""0.432""1.2345"
+  fix: 统一为三位小数
+  example_bad: Column 1 reports 3.4, column 2 reports 12.07, column 3 reports 0.981.
+  example_good: All columns report two decimals (3.40, 12.07, 0.98), aligned on the decimal point, with standard errors in parentheses below each estimate.
+- id: RPR-WRT-001
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 结果段须先给答案再给数字（结论先行），不得让读者自己从表格里找结论
+  source: Miller, ch.10 (Writing about Data and Methods); ch.11
+  signal: 段落以 "Table 3 shows…" 开头，通篇描述表格而无结论句
+  fix: 段首写 "Subsidies raised ROA by 1.8 points."，随后才引表
+  example_bad: Table 5 presents the coefficients for the five specifications, and the reader can see that columns 2 and 4 differ from the others.
+  example_good: 'The effect is robust: it remains between 0.38 and 0.44 across all five specifications (Table 5), including the specification that drops border counties (column 4).'
+- id: RPR-WRT-002
+  genre:
+  - ssci
+  - sci-journal
+  track: reporting
+  section: results
+  rule: 文中叙述的数字须与表格完全一致（含符号、量级、样本量）
+  source: Miller, ch.10
+  signal: 正文写 "2.4%" 而表中为 "0.024" 未加百分号换算说明，或数字对不上
+  fix: 逐处核对；统一百分数/比例口径并在表注说明
+  example_bad: The effect is about 12%, somewhat larger than the 9.8% shown in Table 3.
+  example_good: The effect is 9.8% (Table 3, column 2), and the text reports exactly this figure; any alternative estimate is labelled by its column.
+- id: SCI-AUT-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: general
+  rule: 作者资格须符合实质贡献标准，并给出各作者贡献说明
+  source: Day & Gastel 9e, ch.8 p.51 (Definition of Authorship)
+  signal: 有未参与研究的作者，或无贡献声明
+  fix: 补 CRediT 贡献声明，剔除不满足条件的作者
+- id: SCI-CIT-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: references
+  rule: 引用须核对原文，不得转引二手，不得引未读文献
+  source: Day & Gastel 9e, ch.15 p.90 (Checking Against the Original)
+  signal: 参考文献列表与正文表述不符，或引用了明显不相关的文献凑数
+  fix: 逐条核对原文；无法获取原文的文献应删除
+- id: SCI-FIG-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: results
+  rule: 图须自明：坐标轴含物理量与单位，图例说明条件，标尺与放大倍数不可缺
+  source: Day & Gastel 9e, ch.17 p.109-115
+  signal: 坐标轴只写 "Intensity" 或显微图无标尺
+  fix: 补 "Intensity (a.u.)" 与 "2θ (degree)"，显微图加比例尺
+- id: SCI-TAB-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: results
+  rule: 表格用于呈现精确数值与多维比较，不得用表重复图中已有的趋势信息
+  source: Day & Gastel 9e, ch.16 p.101 (When to Use Tables)
+  signal: 同一组数据既有表又有相同内容的图
+  fix: 择一保留，趋势用图、精确值用表
+- id: SCI-TAB-002
+  genre:
+  - sci-journal
+  track: basic-science
+  section: results
+  rule: 表题须自明，表注须定义全部缩写、符号与统计标记
+  source: Day & Gastel 9e, ch.16 p.108
+  signal: 表中出现 SD、ND、* 等但表注未定义
+  fix: 补表注逐项定义，并注明样本量
+- id: SCI-UNIT-001
+  genre:
+  - sci-journal
+  track: basic-science
+  section: general
+  rule: 单位须使用 SI 制，全文统一；非 SI 单位首次出现须给换算
+  source: Day & Gastel 9e, ch.32 p.230 (SI Units)
+  signal: 混用 Å 与 nm、bar 与 Pa 而不统一
+  fix: 统一为 SI，必要时括号给换算值
+- id: CIT-STY-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 全文只使用一套引用体系，不得混用编号制与作者-年份制
+  source: Day & Gastel 9e, ch.15 p.92 (Reference Styles); IEEE Reference Guide; APA 7th
+  signal: 正文出现 [1] 式编号，文末却按字母序排列；或正文用 (Smith, 2023) 而文末编号
+  fix: 统一为一套——工程用 IEEE 编号制，社科用 APA 作者-年份制，中文刊用 GB/T 7714 顺序编码制
+- id: CIT-STY-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 引用体系须由目标期刊的作者指南决定，不得凭个人偏好选择
+  source: Day & Gastel 9e, ch.6 p.39 (Using Instructions to Authors)
+  signal: 参考文献格式与期刊模板样例不一致，或投稿信未提及格式确认
+  fix: 下载期刊 author guidelines 的参考文献样例，逐条比对类型（期刊/专著/会议）差异
+- id: CIT-IEEE-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: references
+  rule: IEEE 编号须严格按正文首次出现顺序，增删文献后全文重编号
+  source: IEEE Reference Guide (numbered in order of appearance)
+  signal: 文末编号与正文出现顺序不一致，或插入新文献后后续编号未顺延
+  fix: 按首次出现位置重排全部编号，并核对正文每处引用
+- id: CIT-IEEE-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: references
+  rule: IEEE 作者名须缩写在前、姓在后，超过 6 位用 et al.
+  source: IEEE Reference Guide
+  signal: 写成 "Sen, M. K." 式倒序，或 8 位作者全部列出
+  fix: 改为 "M. K. Sen"，第 7 位起用 et al.
+- id: CIT-IEEE-003
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: references
+  rule: IEEE 期刊名须用官方缩写并斜体，不得自造缩写或写全称
+  source: IEEE Reference Guide (Abbreviations and Acronyms)
+  signal: 出现 "IEEE Transactions on Antennas and Propagation" 全称，或自造缩写
+  fix: 改为 "IEEE Trans. Antennas Propag."；查不到官方缩写时写全称
+- id: CIT-IEEE-004
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  section: references
+  rule: IEEE 的 DOI 写作 doi 加空格加 10.xxxx 形式，不加 https://doi.org/ 前缀
+  source: IEEE Reference Guide
+  signal: DOI 处混写两种形式——既有 doi 冒号形式又有 https 链接形式
+  fix: 统一为 doi 冒号加 10.1109/XXX 的形式，去掉 https 前缀
+- id: CIT-APA-001
+  genre:
+  - ssci
+  - sci-journal
+  section: references
+  rule: APA 文内括号用 &，叙述句用 and；三位以上作者首次即用 et al.
+  source: APA Publication Manual 7th ed.
+  signal: 括号内写成 "Smith and Jones, 2023"，或三位作者首次引用时全部列出
+  fix: 括号内改 &，叙述改 and；三位以上首次即 (Smith et al., 2023)
+- id: CIT-APA-002
+  genre:
+  - ssci
+  - sci-journal
+  section: references
+  rule: APA 文章题名用 sentence case，期刊名与卷号斜体、期号不斜体，卷期紧邻无空格
+  source: APA Publication Manual 7th ed.
+  signal: 文章题名每词首字母大写，或期号被斜体，或写成 "12 (3)"
+  fix: 题名仅首词与专有名词大写；期刊名与卷号斜体；改为 12(3)
+- id: CIT-APA-003
+  genre:
+  - ssci
+  - sci-journal
+  section: references
+  rule: APA 第 7 版不再著录出版地，只写出版者
+  source: APA Publication Manual 7th ed. (place of publication removed)
+  signal: 参考文献出现城市加冒号再加出版者的旧版写法（如 New York, NY 加 Cambridge University Press）
+  fix: 删除出版地，改为 "Cambridge University Press."
+- id: CIT-APA-004
+  genre:
+  - ssci
+  - sci-journal
+  section: references
+  rule: APA 的 DOI 须写成完整可点击链接 https://doi.org/xxx
+  source: APA Publication Manual 7th ed.
+  signal: 只给 "doi:10.1037/xxx" 无链接，或写 "Retrieved from http://dx.doi.org"
+  fix: 统一为 https://doi.org/10.1037/xxx
+- id: CIT-GBT-001
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 中文稿件每条参考文献须带文献类型标识（[M]/[J]/[C]/[D]/[N]/[S]/[P]/[EB/OL]）
+  source: GB/T 7714—2015 文献类型标识
+  signal: 参考文献表出现无类型标识的条目，如作者. 题名. 北京 冒号 某出版社, 2020
+  fix: 按类型补标识，期刊补 [J]、专著补 [M]、学位论文补 [D]、网页补 [EB/OL]
+- id: CIT-GBT-002
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 中文稿件采用顺序编码制，正文右上角方括号序号与文末条目一一对应
+  source: GB/T 7714—2015 顺序编码制
+  signal: 文内序号与文末条目数量不符，或用了著者-出版年制却未统一
+  fix: 按正文首次出现顺序重排，确保文内序号与条目数量一致
+- id: CIT-GBT-003
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 作者 3 人以内全部列出，超过 3 人列前 3 人后加"等"或"et al"
+  source: GB/T 7714—2015 主要责任者著录
+  signal: 列出 6 位作者，或仅列 1 位后直接加"等"而未列前 3 人
+  fix: 中文条目列前 3 人加", 等"；英文条目列前 3 人加", et al"
+- id: CIT-GBT-004
+  genre:
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 电子文献须给引用日期，格式为 [YYYY-MM-DD]；且须标载体类型 /OL
+  source: GB/T 7714—2015 电子资源著录
+  signal: 只有 [EB] 无 [EB/OL]，或缺少 [2023-05-01] 式引用日期
+  fix: 改为 "题名[EB/OL]. (发布日期)[引用日期]. 网址."
+- id: CIT-CHK-001
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 正文引用与参考文献表须双向一一对应，双向数量一致
+  source: Day & Gastel 9e, ch.15 p.89 (Rules to Follow)
+  signal: 文末有条目未被正文引用，或正文引用了文末不存在的编号
+  fix: 逐条核对：删除未被引用的条目，补齐缺失条目
+- id: CIT-CHK-002
+  genre:
+  - ei-conf
+  - ai-conf
+  - sci-journal
+  - ssci
+  - dissertation
+  section: references
+  rule: 不得引用未读文献或转引二手文献，关键引用须核对原文
+  source: Day & Gastel 9e, ch.15 p.90 (Checking Against the Original)
+  signal: 出现 "as cited in"、"转引自"，或引用内容与原文主张不符
+  fix: 获取原文核对；无法获取时删除引用或明确标注为转引

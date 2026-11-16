@@ -1,0 +1,1029 @@
+[
+  {
+    "file": "tests\\real\\plos_did_ordp.md",
+    "thin_text": false,
+    "track": "quant",
+    "words": 2435,
+    "cjk_chars": 0,
+    "applicable_rules": 56,
+    "auto_checked": 30,
+    "manual_only": 26,
+    "defect_count": 4,
+    "must_count": 1,
+    "should_count": 1,
+    "nice_count": 2,
+    "defects": [
+      {
+        "id": "QNT-SEN-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-CFT-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-DID-001",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "QNT-SEN-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002",
+      "QNT-MM-003",
+      "QNT-REG-001",
+      "QNT-REG-002"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-001",
+      "QNT-WRT-001",
+      "QNT-RPT-002",
+      "CIT-GBT-001",
+      "CIT-GBT-004",
+      "QNT-MM-001",
+      "QNT-MM-005",
+      "QNT-REG-003",
+      "QNT-REG-004",
+      "QNT-WHY-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": false,
+      "discussion": false,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\q_0268994.md",
+    "thin_text": false,
+    "track": "quant",
+    "words": 13891,
+    "cjk_chars": 0,
+    "applicable_rules": 56,
+    "auto_checked": 30,
+    "manual_only": 26,
+    "defect_count": 3,
+    "must_count": 0,
+    "should_count": 1,
+    "nice_count": 2,
+    "defects": [
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-REG-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-DID-001",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-SEN-002",
+      "QNT-RPT-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002",
+      "QNT-MM-003",
+      "QNT-REG-001",
+      "QNT-REG-002"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004",
+      "QNT-MM-001",
+      "QNT-MM-005",
+      "QNT-CFT-003",
+      "QNT-REG-004",
+      "QNT-WHY-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\q_0276906.md",
+    "thin_text": false,
+    "track": "quant",
+    "words": 5862,
+    "cjk_chars": 0,
+    "applicable_rules": 56,
+    "auto_checked": 30,
+    "manual_only": 26,
+    "defect_count": 6,
+    "must_count": 3,
+    "should_count": 1,
+    "nice_count": 2,
+    "defects": [
+      {
+        "id": "QNT-IDF-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QNT-PSM-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "must"
+      },
+      {
+        "id": "QNT-PSM-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "must"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-CFT-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-002",
+      "QNT-DID-001",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "CIT-IEEE-004",
+      "CIT-CHK-002",
+      "QNT-MM-003",
+      "QNT-REG-001",
+      "QNT-REG-002",
+      "QNT-REG-003"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002",
+      "CIT-GBT-001",
+      "CIT-GBT-004",
+      "QNT-MM-001",
+      "QNT-MM-005",
+      "QNT-REG-004",
+      "QNT-WHY-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\q_0278875.md",
+    "thin_text": false,
+    "track": "quant",
+    "words": 10729,
+    "cjk_chars": 0,
+    "applicable_rules": 56,
+    "auto_checked": 30,
+    "manual_only": 26,
+    "defect_count": 5,
+    "must_count": 0,
+    "should_count": 3,
+    "nice_count": 2,
+    "defects": [
+      {
+        "id": "QNT-DID-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      },
+      {
+        "id": "QNT-IV-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-REG-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-IV-001",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "CIT-IEEE-004",
+      "CIT-CHK-002",
+      "QNT-MM-003",
+      "QNT-REG-001",
+      "QNT-REG-002"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002",
+      "CIT-GBT-001",
+      "CIT-GBT-004",
+      "QNT-MM-001",
+      "QNT-MM-005",
+      "QNT-CFT-003",
+      "QNT-REG-004",
+      "QNT-WHY-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": false,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\q_0281054.md",
+    "thin_text": false,
+    "track": "quant",
+    "words": 9566,
+    "cjk_chars": 0,
+    "applicable_rules": 56,
+    "auto_checked": 30,
+    "manual_only": 26,
+    "defect_count": 5,
+    "must_count": 1,
+    "should_count": 1,
+    "nice_count": 3,
+    "defects": [
+      {
+        "id": "QNT-PSM-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "must"
+      },
+      {
+        "id": "QNT-SEN-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-RPT-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-CFT-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-DID-001",
+      "QNT-PSM-003",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "QNT-SEN-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002",
+      "QNT-MM-003",
+      "QNT-REG-001",
+      "QNT-REG-002"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-001",
+      "QNT-WRT-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004",
+      "QNT-MM-001",
+      "QNT-MM-005",
+      "QNT-REG-003",
+      "QNT-REG-004",
+      "QNT-WHY-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\q_0337827.md",
+    "thin_text": false,
+    "track": "quant",
+    "words": 11310,
+    "cjk_chars": 0,
+    "applicable_rules": 56,
+    "auto_checked": 30,
+    "manual_only": 26,
+    "defect_count": 4,
+    "must_count": 1,
+    "should_count": 1,
+    "nice_count": 2,
+    "defects": [
+      {
+        "id": "QNT-PSM-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "must"
+      },
+      {
+        "id": "QNT-SEN-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QNT-CFT-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "should"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-PSM-003",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "QNT-SEN-002",
+      "QNT-RPT-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002",
+      "QNT-MM-003",
+      "QNT-REG-001",
+      "QNT-REG-002"
+    ],
+    "na": [
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-001",
+      "QNT-WRT-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004",
+      "QNT-MM-001",
+      "QNT-MM-005",
+      "QNT-REG-003",
+      "QNT-REG-004",
+      "QNT-WHY-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\eric_qual_edi.md",
+    "thin_text": false,
+    "track": "qualitative",
+    "words": 9952,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 22,
+    "manual_only": 19,
+    "defect_count": 2,
+    "must_count": 1,
+    "should_count": 0,
+    "nice_count": 1,
+    "defects": [
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-DSP-002",
+      "QLT-DSP-003",
+      "QLT-TRU-001",
+      "QLT-TRU-003",
+      "QLT-SAT-002",
+      "QLT-WRT-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": false,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\qual_EJ1423390.md",
+    "thin_text": false,
+    "track": "qualitative",
+    "words": 9482,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 22,
+    "manual_only": 19,
+    "defect_count": 6,
+    "must_count": 3,
+    "should_count": 0,
+    "nice_count": 3,
+    "defects": [
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-DSP-002",
+      "QLT-TRU-003",
+      "QLT-WRT-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\qual_EJ1427115.md",
+    "thin_text": false,
+    "track": "qualitative",
+    "words": 5222,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 22,
+    "manual_only": 19,
+    "defect_count": 6,
+    "must_count": 1,
+    "should_count": 0,
+    "nice_count": 5,
+    "defects": [
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-TRU-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-DSP-002",
+      "QLT-TRU-001",
+      "QLT-WRT-002",
+      "QLT-ETH-001",
+      "CIT-IEEE-004",
+      "CIT-CHK-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004"
+    ],
+    "sections": {
+      "abstract": false,
+      "introduction": true,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": true,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\qual_EJ1435035.md",
+    "thin_text": false,
+    "track": "qualitative",
+    "words": 3857,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 22,
+    "manual_only": 19,
+    "defect_count": 8,
+    "must_count": 4,
+    "should_count": 0,
+    "nice_count": 4,
+    "defects": [
+      {
+        "id": "QLT-DSN-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-COD-001",
+      "QLT-DSP-002",
+      "QLT-WRT-002",
+      "CIT-IEEE-004",
+      "CIT-CHK-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\qual_EJ1479040.md",
+    "thin_text": false,
+    "track": "qualitative",
+    "words": 6059,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 22,
+    "manual_only": 19,
+    "defect_count": 6,
+    "must_count": 2,
+    "should_count": 0,
+    "nice_count": 4,
+    "defects": [
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-DSP-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "must"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "CIT-CHK-002",
+        "status": "defect",
+        "reason": "命中禁用表述",
+        "severity": "must"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-DSP-004",
+      "QLT-TRU-001",
+      "QLT-TRU-002",
+      "QLT-WRT-002",
+      "QLT-ETH-001",
+      "CIT-IEEE-004"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": true,
+      "references": true
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  },
+  {
+    "file": "tests\\real\\qual_ed681035.md",
+    "thin_text": false,
+    "track": "qualitative",
+    "words": 26725,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 22,
+    "manual_only": 19,
+    "defect_count": 4,
+    "must_count": 1,
+    "should_count": 0,
+    "nice_count": 3,
+    "defects": [
+      {
+        "id": "QLT-DSP-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-CAS-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "nice"
+      },
+      {
+        "id": "QLT-CAS-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素",
+        "severity": "must"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-DSP-002",
+      "QLT-DSP-003",
+      "QLT-DSP-004",
+      "QLT-TRU-001",
+      "QLT-TRU-002",
+      "QLT-TRU-003",
+      "QLT-WRT-002",
+      "QLT-ETH-001",
+      "CIT-IEEE-004",
+      "CIT-CHK-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-SAT-001",
+      "CIT-GBT-001",
+      "CIT-GBT-004"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": false,
+      "related-work": true,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": true,
+      "references": true
+    },
+    "grade": "real",
+    "expect": [
+      0,
+      8
+    ]
+  }
+]

@@ -1,0 +1,43 @@
+# 构建上下文排除项。目标是让镜像小、且永远不含密钥与用户数据。
+# 注意：不要把 skill/ 或 static/ 加进来——它们是运行时必需资源。
+
+# 用户数据与运行时产物
+data/
+uploads/
+_oneshot/
+_exports/
+_sessions/
+cache/
+.cache/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+
+# 密钥
+.env
+.env.local
+*.pem
+
+# 构建与分发产物
+dist/
+dist_installer/
+build/
+*.exe
+*.zip
+installer/
+
+# 开发辅助
+_dev/
+tests/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+.venv/
+venv/
+
+# 文档与图片（运行时用不到，但 README 留在镜像里方便排查）
+# 若希望镜像更小，可取消下面两行注释
+# *.md
+# _inspect/

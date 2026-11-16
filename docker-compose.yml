@@ -1,0 +1,64 @@
+# PaperMate 云端部署（1.2.9）—— 最简启动方式
+#
+#   cp .env.cloud.example .env
+#   # 编辑 .env：至少设 PAPERMATE_ACCESS_TOKEN，可选设 DEEPSEEK_API_KEY
+#   docker compose up -d --build
+#   浏览器打开 http://<服务器IP>:8000
+#
+# 数据（稿件、上传件、成稿任务、会话、检索缓存）全部落在 ./data 卷，
+# 删容器不丢；备份只要拷这个目录。
+
+services:
+  papermate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # 需要处理 .doc/.xls 老格式时取消注释（镜像会涨到约 1.2GB）
+      # target: with-office
+    image: papermate:1.2.9
+    container_name: papermate
+    restart: unless-stopped
+
+    env_file:
+      - .env
+    environment:
+      # 容器内必须监听 0.0.0.0，否则宿主机/反代都连不进来
+      PAPERMATE_HOST: 0.0.0.0
+      PAPERMATE_PORT: "8000"
+      # 数据卷路径。改这里的话，下面 volumes 的容器侧路径要一起改
+      PAPERMATE_DATA_DIR: /data
+      # 走 HTTPS 反代时设 1，让登录 Cookie 带上 Secure 标记
+      # PAPERMATE_HTTPS: "1"
+      # 只信任本机和内网反代的 X-Forwarded-For。
+      # 直接写 "*" 会让任何人伪造来源 IP，日志里全是假的
+      PAPERMATE_TRUSTED_PROXIES: "127.0.0.1,172.16.0.0/12,192.168.0.0/16"
+
+    ports:
+      # 只绑宿主机 127.0.0.1 时，对外必须经 Nginx 反代（推荐，见 deploy/nginx.conf）
+      #   写成 "127.0.0.1:8000:8000"
+      # 直接对外暴露时（无域名、小范围试用）就用下面这种
+      - "8000:8000"
+
+    volumes:
+      - ./data:/data
+
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+
+    # 上传大文件（论文 PDF 几十 MB）时，容器日志不要被 undici 之类的错误刷满
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+    # LLM 调用可能一次跑十几分钟（一键成稿）。给足资源通知，别让 OOM 静默杀掉。
+    # 393 条规则 + PyMuPDF 常驻约 200-300MB，2 人同时用给 1G 比较稳。
+    deploy:
+      resources:
+        limits:
+          memory: 1G

@@ -1,0 +1,23 @@
+# PaperMate 依赖清单（Python 3.10+）
+# 安装：python -m pip install -r requirements.txt
+# 国内网络慢：加 -i https://pypi.tuna.tsinghua.edu.cn/simple
+# 装完想确认环境是否合格：python env_check.py
+
+# ---- 必需：没有就跑不起来 ----
+fastapi>=0.110
+uvicorn>=0.27
+PyYAML>=6.0
+requests>=2.31
+python-multipart>=0.0.9
+python-docx>=1.1
+lxml>=5.0
+
+# ---- 必需：xlsx 数据画像 ----
+# 缺了它只能传 csv/tsv，xlsx 会提示「缺少 openpyxl」
+openpyxl>=3.1
+
+# ---- PDF 上传解析 ----
+# 锁在 1.x：PyMuPDF 2.x 会连带装 onnxruntime(48MB)+pymupdf_layout+numpy，
+# 依赖体积从约 110MB 涨到约 280MB，国内网络更容易装失败。
+# 1.25+ 同时提供 pymupdf 与 fitz 两个模块名，ingest.py 两条路都会试。
+PyMuPDF>=1.25,<2

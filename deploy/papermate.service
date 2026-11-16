@@ -1,0 +1,55 @@
+[Unit]
+Description=PaperMate 开源论文搭子（学术写作审查服务）
+Documentation=file:///opt/papermate/deploy/DEPLOY.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=papermate
+Group=papermate
+
+# 代码目录与数据目录分离：升级时只替换 WorkingDirectory，数据目录原地不动
+WorkingDirectory=/opt/papermate
+Environment=PAPERMATE_DATA_DIR=/var/lib/papermate
+Environment=PAPERMATE_HOST=127.0.0.1
+Environment=PAPERMATE_PORT=8000
+Environment=PAPERMATE_NO_BROWSER=1
+Environment=PAPERMATE_TRUSTED_PROXIES=127.0.0.1
+# 敏感项（ACCESS_TOKEN / DEEPSEEK_API_KEY）放在这个文件里，权限 600
+EnvironmentFile=-/etc/papermate/papermate.env
+
+ExecStart=/opt/papermate/.venv/bin/python /opt/papermate/server.py
+
+Restart=always
+RestartSec=3
+# 反复崩时不要无限重启把日志刷爆：5 分钟内超过 10 次就放弃，
+# 让 systemctl status 明确显示 failed，而不是 permanently activating
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+# 优雅退出：一键成稿任务正在跑 LLM 调用，硬杀会丢当前步骤进度
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+# 日志走 journald，用 journalctl -u papermate -f 看
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=papermate
+
+# ---------------------------------------------------------------- 加固
+# 不要用 ProtectSystem=strict 直接封整个文件系统——程序要往
+# PAPERMATE_DATA_DIR 写稿件。这里只按需放开。
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/papermate
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,322 @@
+# v1.2.0：为存量规则补 example_bad / example_good（质性研究 QLT，41 条）
+
+examples:
+  - id: QLT-CAS-001
+    example_bad: >-
+      Three themes emerged from the interviews, and the school appears to have a strong
+      improvement culture.
+    example_good: >-
+      The argument runs as a traceable chain: RQ1 (how teachers made sense of the reform) →
+      interviews with 18 teachers (Appendix A) → first-cycle codes T1–T9 → theme "borrowed
+      urgency" → case-level claim, each step cross-referenced in Table 3.
+
+  - id: QLT-CAS-002
+    example_bad: >-
+      Data were collected through interviews and observations over one semester.
+    example_good: >-
+      All materials are held in a case-study database (interview transcripts, field notes,
+      documents, photographs) indexed by date and source, with a read-only copy deposited
+      under the access conditions in Appendix B.
+
+  - id: QLT-CAS-003
+    example_bad: >-
+      An alternative explanation is that teachers were simply tired.
+    example_good: >-
+      Two rival explanations are considered: (a) reform fatigue and (b) leadership turnover.
+      Both predict declining engagement across all departments, yet engagement rose in the two
+      departments with stable leadership, which weakens (a) and (b) (see §5.2).
+
+  - id: QLT-CAS-004
+    example_bad: >-
+      Across the four schools, teachers resisted the reform because it threatened their autonomy.
+    example_good: >-
+      We present each school in turn (Cases A–D, §4.1–4.4), then compare them in §4.5, where
+      "autonomy threat" appears in A and C but not B and D, a divergence we explain by
+      governance structure.
+
+  - id: QLT-CAS-005
+    example_bad: >-
+      We used multiple sources of evidence to ensure rigor.
+    example_good: >-
+      We draw on four of Yin's six sources: 22 semi-structured interviews, 60 hours of
+      non-participant observation, internal memoranda (n=34), and physical artefacts; each
+      source's collection protocol is specified in Appendix A.
+
+  - id: QLT-COD-001
+    example_bad: >-
+      The transcripts were coded thematically.
+    example_good: >-
+      Coding followed Miles, Huberman and Saldaña's two-cycle approach: first-cycle descriptive
+      coding (n=63 codes) and second-cycle pattern coding into 8 categories and 3 themes.
+
+  - id: QLT-COD-002
+    example_bad: >-
+      A codebook was developed and applied consistently.
+    example_good: >-
+      The codebook (Table 2) lists each code with a definition, inclusion/exclusion criteria,
+      and an anchor quotation, e.g. code "borrowed urgency": "references to external threat
+      used to justify internal change".
+
+  - id: QLT-COD-003
+    example_bad: >-
+      Codes were grouped into themes based on similarity.
+    example_good: >-
+      Codes were merged by a stated rule: codes sharing a consequence (not merely a topic) were
+      clustered; e.g. T3 "deadline panic", T7 "audit dread" and T9 "public ranking shame" merged
+      into "evaluative pressure" because all describe sanctions, not workload.
+
+  - id: QLT-COD-004
+    example_bad: >-
+      The theme "leadership" covers codes about principals, trust, and meeting frequency.
+    example_good: >-
+      Code "principal visits" (segment label) → category "administrative presence" (grouping of
+      similar codes) → theme "leadership as surveillance" (interpretive claim linking presence
+      to teacher compliance).
+
+  - id: QLT-COD-005
+    example_bad: >-
+      Analytic memos were written throughout the analysis.
+    example_good: >-
+      Memo 12 (2023-03-04) records the analytic turn: noticing that teachers described
+      inspections as "weather", we re-read all segments on anticipation and revised the theme
+      from "resistance" to "pre-emptive compliance".
+
+  - id: QLT-COD-006
+    example_bad: >-
+      Two coders coded the data and agreement was good.
+    example_good: >-
+      Two coders independently coded 20% of transcripts; Cohen's κ = 0.81 (95% CI [0.72, 0.89])
+      for first-cycle codes, with disagreements resolved by discussion and codebook revision.
+
+  - id: QLT-COD-007
+    example_bad: >-
+      Data were analysed using standard qualitative software.
+    example_good: >-
+      Coding was carried out in NVivo 14 (Windows), with the codebook and query exports archived;
+      the audit trail records each merge of codes and its date.
+
+  - id: QLT-DSN-001
+    example_bad: >-
+      A qualitative approach was adopted because the topic is complex.
+    example_good: >-
+      The research question concerns how teachers interpret a reform over time, which requires
+      access to meaning-making in situ; a qualitative case design is therefore necessary rather
+      than default, since survey items cannot capture reinterpretation.
+
+  - id: QLT-DSN-002
+    example_bad: >-
+      We conducted a qualitative study using interviews.
+    example_good: >-
+      We adopt instrumental case study (Stake) because the case illuminates a broader policy
+      process; this commits us to bounding the case and to using multiple data sources rather
+      than interview-only evidence.
+
+  - id: QLT-DSN-003
+    example_bad: >-
+      We interviewed 15 teachers who were available.
+    example_good: >-
+      Purposive maximum-variation sampling: inclusion required ≥3 years' tenure and direct
+      exposure to the reform; exclusion covered administrators. Recruitment stopped at n=18,
+      when two consecutive interviews yielded no new codes (saturation log, Appendix C).
+
+  - id: QLT-DSN-004
+    example_bad: >-
+      We studied a school that implemented the new curriculum.
+    example_good: >-
+      The case is bounded as: Riverton High School, one academic year (2022–23), the grade-9
+      mathematics department (7 teachers, 4 classrooms), excluding district-level actors.
+
+  - id: QLT-DSN-005
+    example_bad: >-
+      We compare four schools to increase generalizability.
+    example_good: >-
+      Cases are selected by theoretical replication: two schools with high reform uptake and two
+      with low uptake, all matched on size and intake; cross-case comparison tests whether uptake
+      tracks governance (literal replication) or resources (theoretical replication).
+
+  - id: QLT-DSP-001
+    example_bad: >-
+      In the following pages we describe, one after another, what each teacher said about the reform.
+    example_good: >-
+      Figure 2 presents a theme-by-case matrix (rows: 3 themes; columns: 4 cases; cells: evidence
+      strength), and Figure 3 maps code co-occurrence; the text walks the reader through the matrix.
+
+  - id: QLT-DSP-002
+    example_bad: >-
+      Teachers felt surveilled: "It feels like someone is always watching" (P4).
+    example_good: >-
+      The surveillance theme rests on convergent evidence from independent participants:
+      "someone is always watching" (P4), "we perform when the door opens" (P9), and "you learn
+      the sound of her heels" (P12), plus two observed instances of pre-inspection tidying.
+
+  - id: QLT-DSP-003
+    example_bad: >-
+      One teacher said the reform was "exhausting".
+    example_good: >-
+      "It is exhausting" (P07, interview 2, 2023-03-11); the same participant's observation
+      notes (OB-14) record her leaving the staffroom during the audit visit.
+
+  - id: QLT-DSP-004
+    example_bad: >-
+      All participants experienced the reform as a loss of autonomy.
+    example_good: >-
+      Two negative cases complicate the pattern: P11 and P15 described the reform as "freeing",
+      because it displaced routines they disliked; we discuss what this implies for the
+      autonomy thesis in §5.3.
+
+  - id: QLT-DSP-005
+    example_bad: >-
+      After condensing the data we arrived at three themes.
+    example_good: >-
+      Table 4 preserves the reduction chain: 214 raw segments → 63 codes (with counts) → 8
+      categories → 3 themes, each cell linked to transcript IDs so any claim can be traced back.
+
+  - id: QLT-ETH-001
+    example_bad: >-
+      Participants consented to take part in the study.
+    example_good: >-
+      The study was approved by the university ethics committee (Ref. 2022-118); all participants
+      gave written informed consent, names were replaced by P-codes, and recordings are stored on
+      an encrypted drive accessible only to the research team for five years.
+
+  - id: QLT-IPA-001
+    example_bad: >-
+      We interpret participants' accounts of returning to work after cancer.
+    example_good: >-
+      Analysis works at two levels: participants make sense of returning to work ("I had to prove
+      I was still me"), and we interpret that sense-making as a strategy of restoring a spoiled
+      identity—an interpretation participants themselves did not offer.
+
+  - id: QLT-IPA-002
+    example_bad: >-
+      Three themes captured the experience: uncertainty, support, and identity.
+    example_good: >-
+      Table 3 presents the superordinate theme "negotiating a usable identity" with subthemes
+      (proving competence, hiding fatigue, redefining ambition), each traced to named cases
+      (Amira, Ben, Chloe) with page references.
+
+  - id: QLT-IPA-003
+    example_bad: >-
+      We interviewed 12 patients with various chronic illnesses.
+    example_good: >-
+      A homogeneous sample of 6 women diagnosed with breast cancer within the past 18 months,
+      all in remission and returned to work, was recruited to keep the experiential variation
+      focused on the return-to-work transition.
+
+  - id: QLT-IPA-004
+    example_bad: >-
+      Participants described feeling "invisible" at work.
+    example_good: >-
+      "invisible … [long pause] … like a ghost in my own office" (Chloe, lines 214–216); the
+      pause and self-interruption mark the difficulty of articulating the loss, which we read
+      as central to the identity theme.
+
+  - id: QLT-IPA-005
+    example_bad: >-
+      Inter-rater reliability of κ = 0.84 confirms the validity of our IPA themes.
+    example_good: >-
+      Following Smith's four principles, we assess the study on sensitivity to context (sampling
+      and interview conduct), commitment and rigour (independent audit of theme development),
+      transparency and coherence (audit trail), and impact (implications for occupational health).
+
+  - id: QLT-RPG-001
+    example_bad: >-
+      Our interview study follows qualitative reporting standards.
+    example_good: >-
+      We report against COREQ (32 items); Table S1 maps each item to its location, and the
+      three items not applicable (e.g. repeat interviews) are marked with reasons.
+
+  - id: QLT-RPG-002
+    example_bad: >-
+      The study is reported in line with established qualitative guidelines.
+    example_good: >-
+      As a non-interview ethnographic design, the study follows SRQR (21 items); the completed
+      checklist is provided as Supplementary File 2, with item 7 (reflexivity) detailed in §3.4.
+
+  - id: QLT-SAT-001
+    example_bad: >-
+      Data collection continued until theoretical saturation was reached.
+    example_good: >-
+      Saturation was operationalised as: no new codes in two consecutive interviews and no
+      revision of existing categories; it occurred at interview 16, and two further interviews
+      confirmed stability (saturation log, Appendix C).
+
+  - id: QLT-SAT-002
+    example_bad: >-
+      We interviewed 20 teachers.
+    example_good: >-
+      The corpus comprises 20 interviews (mean 62 min, range 41–95; 187,000 transcribed words),
+      60 hours of observation and 34 documents.
+
+  - id: QLT-TRU-001
+    example_bad: >-
+      Trustworthiness was ensured through triangulation and member checking.
+    example_good: >-
+      We use four strategies and show where each is applied: data triangulation (interviews,
+      observation, documents; §4.2), member checking (preliminary themes returned to 12
+      participants, §4.6), peer debriefing (monthly with two outsiders), and an audit trail
+      (Appendix D).
+
+  - id: QLT-TRU-002
+    example_bad: >-
+      Triangulation strengthened the credibility of the findings.
+    example_good: >-
+      Triangulation operates at two levels: data-source triangulation (teachers, heads, inspection
+      reports) and investigator triangulation (two analysts coded independently), which converge
+      on the surveillance theme while diverging on its severity.
+
+  - id: QLT-TRU-003
+    example_bad: >-
+      The researcher remained neutral throughout the study.
+    example_good: >-
+      The first author is a former teacher at the site and initially read resistance as
+      principled; fieldnotes record how this stance shifted as participants described
+      pre-emptive compliance, and a supervisor challenged the earlier coding in memo 17.
+
+  - id: QLT-TRU-004
+    example_bad: >-
+      The findings can be generalized to urban schools nationally.
+    example_good: >-
+      We offer thick description (timetable, inspection routines, staffroom talk) so readers can
+      judge transferability to their own settings; we do not claim statistical generalization
+      beyond the case.
+
+  - id: QLT-TRU-005
+    example_bad: >-
+      Cronbach's alpha of 0.88 and test–retest reliability support the credibility of the themes.
+    example_good: >-
+      Because themes are interpretive constructs, we assess credibility, transferability,
+      dependability and confirmability rather than internal consistency or test–retest
+      reliability, which presuppose fixed instruments.
+
+  - id: QLT-WRT-001
+    example_bad: >-
+      In the findings we argue that the reform reproduces Bourdieu's symbolic violence, and we
+      then present participants' accounts.
+    example_good: >-
+      §4 reports the patterns (anticipatory compliance, self-surveillance) with evidence only;
+      §5 interprets them through symbolic violence and connects to Bourdieu's broader theory.
+
+  - id: QLT-WRT-002
+    example_bad: >-
+      "You learn the sound of her heels." "We perform when the door opens." "It is like weather."
+    example_good: >-
+      "You learn the sound of her heels" (P12) shows that surveillance is anticipated bodily,
+      before any inspection occurs; the metaphor of weather in P4's account extends this to
+      something endured rather than resisted.
+
+  - id: QLT-WRT-003
+    example_bad: >-
+      Teachers experienced the reform as pressure, which is an important finding.
+    example_good: >-
+      The study extends the concept of "audit culture" by showing that its grip operates through
+      anticipation rather than inspection events, revising the event-centred account in Power
+      (1997) and specifying a mechanism—pre-emptive self-alignment—for studies of school governance.
+
+  - id: QLT-WRT-004
+    example_bad: >-
+      Four themes are presented below: pressure, identity, collegiality, and time.
+    example_good: >-
+      The narrative moves from apparent compliance (§4.1) to the tension participants voiced
+      between compliance and craft (§4.2), to the resolution through privatized teaching (§4.3),
+      so each section answers a question raised by the previous one.

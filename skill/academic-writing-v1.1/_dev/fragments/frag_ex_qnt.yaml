@@ -1,0 +1,299 @@
+# v1.2.0：为存量规则补 example_bad / example_good（定量实证 QNT，39 条）
+# 注：v1.2.0 新增的 QNT-MM / CFT / REG / WHY 共 17 条已随规则自带示例。
+
+examples:
+  - id: QNT-DAG-001
+    example_bad: >-
+      We control for firm size, age, leverage and industry because prior studies do.
+    example_good: >-
+      Figure 1 states the assumed causal structure: subsidy → investment ← demand shock, with
+      demand shock unobserved. Edges follow the institutional account in §2 (ministry allocation
+      rules) and prior evidence on investment demand.
+
+  - id: QNT-DAG-002
+    example_bad: >-
+      Some confounders may be unobserved, which we acknowledge as a limitation.
+    example_good: >-
+      Managerial ability (U) affects both subsidy receipt and investment; because it is
+      unobserved, the back-door path S ← U → I stays open, so we identify the effect through
+      the instrument in §4 rather than by conditioning.
+
+  - id: QNT-DAG-003
+    example_bad: >-
+      We include all available firm characteristics as controls to reduce omitted variable bias.
+    example_good: >-
+      Controls are chosen to block back-door paths: size and sector close S ← Size → I and
+      S ← Sector → I. Variables on the front-door path (R&D expenditure) are deliberately
+      excluded because conditioning would absorb part of the effect.
+
+  - id: QNT-DAG-004
+    example_bad: >-
+      We control for whether the firm survived the crisis, a standard robustness variable.
+    example_good: >-
+      Survival is a collider (Subsidy → Survival ← Demand shock); conditioning on it would
+      induce association between subsidy and the unobserved shock. We therefore report
+      specifications without it and show results are unchanged (Table A3).
+
+  - id: QNT-DAG-005
+    example_bad: >-
+      We also control for post-treatment employment growth to capture firm trajectory.
+    example_good: >-
+      Employment growth is measured after treatment and lies on the causal path, so we exclude
+      it from the main specification; instead we treat it as a mediator and report the
+      decomposition in §5.4.
+
+  - id: QNT-DID-001
+    example_bad: >-
+      The parallel trends assumption is standard in this literature and is therefore maintained.
+    example_good: >-
+      Figure 2 reports event-study coefficients for t−5 to t−1; all pre-treatment leads are
+      statistically indistinguishable from zero (joint F-test p=0.41), supporting parallel trends.
+
+  - id: QNT-DID-002
+    example_bad: >-
+      We estimate a two-way fixed effects model on the staggered rollout.
+    example_good: >-
+      Because adoption is staggered, TWFE places negative weights on some 2×2 comparisons
+      (Goodman-Bacon decomposition, Table A2); we therefore report Callaway–Sant'Anna and
+      Sun–Abraham estimates alongside TWFE.
+
+  - id: QNT-EST-001
+    example_bad: >-
+      We estimate the effect of the training program on wages.
+    example_good: >-
+      We estimate the average treatment effect on the treated (ATT): the mean wage gain for
+      participating firms relative to their untreated counterfactual.
+
+  - id: QNT-EST-002
+    example_bad: >-
+      We study the impact of digitalization on productivity.
+    example_good: >-
+      Treatment is binary: D=1 if the firm adopted an ERP system in year t, defined by the
+      contract signature date; firms adopting partially (module-only) are excluded (n=41).
+
+  - id: QNT-EST-003
+    example_bad: >-
+      The outcome is firm performance.
+    example_good: >-
+      Performance is return on assets (net income / total assets), averaged over t+1 to t+3 to
+      match the three-year horizon over which the program is expected to operate.
+
+  - id: QNT-EST-004
+    example_bad: >-
+      We assume no interference between units.
+    example_good: >-
+      SUTVA is questionable here: subsidies are allocated within local labor markets, so treated
+      firms may draw workers from controls. We therefore define treatment at the market level
+      (share of subsidized firms) and cluster at that level.
+
+  - id: QNT-EST-005
+    example_bad: >-
+      The coefficient on training is positive and significant at the 1% level.
+    example_good: >-
+      Training raises monthly wages by 42 yuan (SE 11), equivalent to 0.09 SD or 2.1% of the
+      sample mean, with a 95% CI of [20, 64].
+
+  - id: QNT-IDF-001
+    example_bad: >-
+      We run an OLS regression of wages on training with firm fixed effects.
+    example_good: >-
+      §4 is titled "Identification" and states the design: identification comes from the
+      staggered lottery that assigned training slots, which is orthogonal to firm-level shocks
+      conditional on cohort fixed effects.
+
+  - id: QNT-IDF-002
+    example_bad: >-
+      The instrument is valid.
+    example_good: >-
+      Two assumptions are required. (i) Relevance: lottery assignment raises training take-up
+      by 31 pp (first stage F=84). (ii) Exclusion: slots were allocated by a formula using
+      pre-period employment only, so assignment cannot affect wages except through training—a
+      claim supported by the ministry's allocation manual (§2.3).
+
+  - id: QNT-IDF-003
+    example_bad: >-
+      We exploit variation in policy exposure across regions.
+    example_good: >-
+      The comparison is between firms just above and just below the 50-employee eligibility
+      threshold, in the same year and region; firms far from the threshold are not used.
+
+  - id: QNT-IDF-004
+    example_bad: >-
+      The design relies on standard identifying assumptions.
+    example_good: >-
+      DiD requires parallel trends absent treatment (tested via event study, Figure 2); the
+      instrument requires relevance and exclusion (§4.2); we state each assumption and the
+      evidence bearing on it rather than invoking a generic "standard assumptions" clause.
+
+  - id: QNT-IDF-005
+    example_bad: >-
+      Because we control for 24 covariates, the estimate can be interpreted causally.
+    example_good: >-
+      Covariates cannot address unobserved demand shocks; identification rests on the lottery,
+      and the covariate set only improves precision. We show estimates are stable with and
+      without controls (Table 3, columns 1 and 3).
+
+  - id: QNT-IV-001
+    example_bad: >-
+      We use distance as an instrument for enrollment.
+    example_good: >-
+      The first stage is strong: each additional kilometer reduces enrollment by 7.4 pp
+      (SE 1.9, F=61, partial R²=0.18); Table 2 reports the full first-stage estimates.
+
+  - id: QNT-IV-002
+    example_bad: >-
+      Distance is exogenous, so the exclusion restriction holds.
+    example_good: >-
+      Exclusion requires that distance affects wages only through enrollment. We test this by
+      checking that distance is uncorrelated with pre-enrollment earnings and with local labor
+      demand (Table A4), and we discuss the remaining threat of residential sorting in §6.1.
+
+  - id: QNT-IV-003
+    example_bad: >-
+      The IV estimate shows that schooling raises wages by 9%.
+    example_good: >-
+      The estimate is a LATE for compliers—students induced to enroll by proximity—who are 38%
+      of the sample and disproportionately low-income; it does not directly extend to always-takers.
+
+  - id: QNT-IV-004
+    example_bad: >-
+      The first-stage F is 8.2; we report the 2SLS t-statistic of 2.9.
+    example_good: >-
+      With F=8.2 the instrument is weak, so conventional t-tests over-reject; we report
+      Anderson–Rubin confidence sets ([0.02, 0.19]) and the CLR p-value (0.03) instead.
+
+  - id: QNT-PSM-001
+    example_bad: >-
+      We match treated and control firms on propensity scores.
+    example_good: >-
+      The propensity score is estimated by logit on 12 pre-treatment covariates (size, age,
+      leverage, sector dummies, prior performance), with the specification and coefficients
+      reported in Table A1; matching is 1:1 nearest neighbour with caliper 0.05.
+
+  - id: QNT-PSM-002
+    example_bad: >-
+      After matching, the sample is balanced and estimation proceeds.
+    example_good: >-
+      Figure 3 plots the propensity-score distributions: overlap is thin above 0.8, so we trim
+      observations with scores outside [0.05, 0.80], retaining 1,842 of 2,104 treated firms.
+
+  - id: QNT-PSM-003
+    example_bad: >-
+      The matching procedure produces reliable estimates.
+    example_good: >-
+      All covariates achieve |SMD| < 0.06 after matching (Table 4; the largest is prior
+      performance at 0.05), down from up to 0.42 before matching, and variance ratios lie in [0.8, 1.2].
+
+  - id: QNT-PSM-004
+    example_bad: >-
+      We match the sample and estimate the effect.
+    example_good: >-
+      Of 2,104 treated firms, 1,842 match successfully; 231 are dropped for caliper violations
+      and 31 for lacking common support. Appendix B compares dropped and retained firms.
+
+  - id: QNT-PSM-005
+    example_bad: >-
+      We use propensity scores to control for selection.
+    example_good: >-
+      The score is used for design (matching to achieve balance), not as a regression
+      covariate; accordingly we report balance diagnostics and the matched-sample estimator,
+      not coefficients on the score itself.
+
+  - id: QNT-RDD-001
+    example_bad: >-
+      We use a bandwidth of 5 percentage points around the cutoff.
+    example_good: >-
+      The bandwidth follows Calonico–Cattaneo–Titiunik MSE-optimal selection (h=4.7 pp); results
+      for h = 2.5, 4.7 and 8 pp are reported in Table 5 and are stable in sign and significance.
+
+  - id: QNT-RDD-002
+    example_bad: >-
+      Firms cannot precisely manipulate their eligibility score.
+    example_good: >-
+      Figure 2 shows the McCrary density test (log difference 0.04, p=0.71) with no bunching at
+      the cutoff, and all pre-determined covariates are continuous at the threshold (Table 3).
+
+  - id: QNT-RPT-001
+    example_bad: >-
+      Table 2 reports the main results; *** p<0.01.
+    example_good: >-
+      Table 2 reports coefficients with standard errors clustered at the county level in
+      parentheses, N and fixed effects indicated per column, and notes define stars
+      (* p<0.10, ** p<0.05, *** p<0.01) and the dependent-variable scale.
+
+  - id: QNT-RPT-002
+    example_bad: >-
+      Standard errors are clustered at the firm level.
+    example_good: >-
+      Treatment is assigned at the county level and shocks are correlated within counties, so
+      standard errors are clustered at that level (42 clusters); firm-level clustering is
+      reported as a comparison in Table A5.
+
+  - id: QNT-RPT-003
+    example_bad: >-
+      The effect is significant (p=0.03).
+    example_good: >-
+      The effect is 0.42 pp (95% CI [0.04, 0.80], p=0.03), so while the null is rejected at
+      conventional levels, the interval includes economically small values.
+
+  - id: QNT-RPT-004
+    example_bad: >-
+      We cleaned the data and dropped outliers.
+    example_good: >-
+      Starting from 12,431 firm-year records, we drop 812 with missing assets, 96 with negative
+      equity, and winsorize the top/bottom 1% of ROA; the final sample is 11,523 firm-years
+      (replication file, step 1).
+
+  - id: QNT-SCM-001
+    example_bad: >-
+      We construct a synthetic control for the treated region.
+    example_good: >-
+      The donor pool comprises 27 untreated regions (excluding those with similar reforms);
+      the fit uses 8 pre-period predictors over 2005–2014, and placebo tests in 27 regions show
+      the treated unit's post-period gap ranks first (p=1/28).
+
+  - id: QNT-SEN-001
+    example_bad: >-
+      Conditional on covariates, treatment is as good as random.
+    example_good: >-
+      Because unconfoundedness is not testable, we report Rosenbaum bounds: an unobserved
+      confounder would need to raise the odds of treatment by a factor of 1.9 to overturn the
+      result, which we compare against the strongest observed covariate (1.4).
+
+  - id: QNT-SEN-002
+    example_bad: >-
+      Results are robust to alternative specifications, samples, and measures.
+    example_good: >-
+      Each robustness check targets a specific threat: (i) alternative outcome windows address
+      anticipation; (ii) dropping border counties addresses spillovers; (iii) the placebo
+      reform date addresses pre-trends. Table 6 maps each threat to its test.
+
+  - id: QNT-SEN-003
+    example_bad: >-
+      We also find effects on employment, which we report as additional evidence.
+    example_good: >-
+      The employment result was not prespecified (the pre-analysis plan covers wages only) and
+      is therefore labelled exploratory; it is reported in Appendix D and not used to support
+      the main claim.
+
+  - id: QNT-SEN-004
+    example_bad: >-
+      We test effects on six outcomes and find two significant at the 5% level.
+    example_good: >-
+      With six outcomes, we control the false discovery rate at 5% (Benjamini–Hochberg); the
+      two significant effects survive (adjusted q = 0.02 and 0.04).
+
+  - id: QNT-WRT-001
+    example_bad: >-
+      Digitalization leads to higher productivity, as shown by our cross-sectional regression.
+    example_good: >-
+      Digitized firms have 12% higher productivity conditional on covariates; because adoption
+      is self-selected, we describe this as an association rather than a causal effect.
+
+  - id: QNT-WRT-002
+    example_bad: >-
+      This study fills a gap in the literature on digitalization and productivity.
+    example_good: >-
+      Relative to the three closest studies—Autor et al. (2020) on adoption and productivity,
+      Bloom et al. (2012) on ICT complementarities, and Tambe (2014) on IT spillovers—we
+      contribute a within-firm design that separates adoption from firm-level shocks.

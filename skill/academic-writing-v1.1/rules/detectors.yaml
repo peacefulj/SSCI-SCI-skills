@@ -1,0 +1,655 @@
+# 词面检测器（detectors）v1.1.0
+# 作用：把可词面化的规则映射为正则检测，供 scripts/score.py 批量打分。
+# 未列入本文件的规则属"需人工核对"（不可词面判定），由 score.py 在报告中单列。
+# kind 语义：
+#   require      —— 必须命中 patterns 之一，否则计缺陷
+#   forbid       —— 命中 patterns 之一即计缺陷
+#   require_when —— when 命中时，patterns 必须至少命中一个，否则计缺陷
+#   forbid_when  —— when 命中时，patterns 命中即计缺陷
+
+detectors:
+  # ========================= 定量实证 QNT =========================
+  - id: QNT-IDF-001
+    track: quant
+    kind: require
+    severity: must
+    patterns: ["identification strategy", "identif(y|ication) (comes|relies|is based) on", "identifying assumption", "we exploit", "we make use of", "use .{0,45}as an? (instrument|instrumental variable)", "quasi-?natural experiment", "semi-?natural experiment", "source of variation", "识别策略", "识别假设"]
+
+  - id: QNT-IDF-002
+    track: quant
+    kind: require
+    severity: must
+    patterns: ["assumption(s)? (is|are) plausible", "is credible because", "which holds because", "we argue that .{0,40}(holds|is satisfied)", "(assumption|condition)[\\s\\S]{0,240}(is|was) satisfied", "meets? the .{0,30}assumption", "supports? the .{0,20}assumption", "(serves|is) (as )?a valid (instrument|variable)", "we contend that[^.]{0,120}(since|because)", "(trends?|assumption|condition)[^.]{0,80}(established|held|hold|met|supported|satisfied)", "related to [^.]{0,90}but unrelated", "unrelated to [^.]{0,90}but related", "verify that[^.]{0,80}share the same", "假设.{0,10}成立.{0,20}(因为|由于)"]
+
+  - id: QNT-DID-001
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["difference-in-difference", "diff-in-diff", "(?-i:\\bDiD\\b)", "双重差分"]
+    patterns: ["parallel trend", "pre-?trend", "event study", "平行趋势", "事件研究"]
+
+  - id: QNT-DID-002
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["staggered", "交错", "rolling( |-)out adoption"]
+    patterns: ["Callaway", "Sant'?Anna", "Sun.{0,5}Abraham", "de Chaisemartin", "Bacon decomposition", "negative weight"]
+
+  - id: QNT-IV-001
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["instrumental variable", "\\b2SLS\\b", "(?-i:\\bIV\\b)", "工具变量"]
+    patterns: ["first stage", "first-stage", "F[- ]statistic", "weak instrument", "第一阶段"]
+
+  - id: QNT-IV-003
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["instrumental variable", "\\b2SLS\\b", "工具变量"]
+    patterns: ["(?-i:\\bLATE\\b)", "complier", "local average treatment effect", "依从者"]
+
+  - id: QNT-PSM-002
+    track: quant
+    kind: require_when
+    severity: must
+    when: ["propensity score", "倾向得分", "(?-i:\\bPSM\\b)", "matching"]
+    patterns: ["overlap", "common support", "common value", "trimming", "共同支撑", "共同取值", "重叠"]
+
+  - id: QNT-PSM-003
+    track: quant
+    kind: require_when
+    severity: must
+    when: ["propensity score", "倾向得分", "(?-i:\\bPSM\\b)", "matching"]
+    patterns: ["balance", "standardized (mean )?difference", "(?-i:\\bSMD\\b)", "平衡性"]
+
+  - id: QNT-SEN-001
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["unconfounded", "conditional independen", "selection on observables", "as good as random", "无未观测混杂"]
+    patterns: ["sensitivity analys", "Rosenbaum", "Oster", "\\bbounds\\b", "E-value", "敏感性分析"]
+
+  - id: QNT-SEN-004
+    track: quant
+    kind: require_when
+    severity: nice
+    when: ["subgroup analys", "heterogeneity analys", "子群", "异质性分析"]
+    patterns: ["multiple comparison", "FDR", "Bonferroni", "false discovery", "exploratory", "多重比较", "探索性"]
+
+  - id: QNT-RPT-001
+    track: quant
+    kind: require
+    severity: must
+    patterns: ["standard error", "标准误", "clustered", "robust (standard )?error", "置信区间", "confidence interval"]
+
+  - id: QNT-RPT-003
+    track: quant
+    kind: forbid
+    severity: should
+    patterns: ["p\\s*<\\s*0\\.0[15].{0,30}(only|solely).{0,20}(criteri|evidence)", "仅以\\s*p\\s*值"]
+
+  - id: QNT-WRT-001
+    track: quant
+    kind: forbid_when
+    severity: must
+    when: ["cross-sectional", "OLS on", "correlat(e|ion) only", "横截面"]
+    patterns: ["\\b(causes|caused by|leads to|results in|drives)\\b.{0,40}(increase|decrease|improve)", "导致.{0,20}(提高|降低|改善)"]
+
+  - id: QNT-EST-005
+    track: quant
+    kind: require
+    severity: nice
+    patterns: ["standard deviation", "(?-i:\\bSD\\b)", "percent of the mean", "economically (large|meaningful|significant)", "(boost|raise|increase|promote|reduce)s? .{0,30}by \\d+(\\.\\d+)?\\s*(%|percent|percentage point)", "\\d+(\\.\\d+)?\\s*(%|percent|percentage point).{0,40}(increase|boost|higher)", "标准差", "经济意义", "百分点"]
+
+  # ========================= 预测建模 PRD =========================
+  - id: PRD-DAT-001
+    track: predictive
+    kind: require
+    severity: should
+    patterns: ["train(ing)?[,/ -]*(and )?(validation|dev)?[,/ -]*(and )?test", "training set.{0,80}test set", "training, validation and test", "hold-?out (set|data)", "训练集.{0,20}(验证|测试)集"]
+
+  - id: PRD-DAT-002
+    track: predictive
+    kind: require_when
+    severity: must
+    when: ["normaliz", "standardiz", "imput", "归一化", "标准化", "插补"]
+    patterns: ["training (set|fold|data) only", "fitted on the training", "inside the (training )?fold", "仅在训练", "训练集内"]
+
+  - id: PRD-CV-001
+    track: predictive
+    kind: require_when
+    severity: nice
+    when: ["cross-validat", "(?-i:\\bCV\\b)", "交叉验证", "resampl"]
+    patterns: ["(\\d+)[- ]fold", "(repeated|stratified|grouped)", "折", "重复\\s*\\d+\\s*次"]
+
+  - id: PRD-CV-003
+    track: predictive
+    kind: require
+    severity: nice
+    patterns: ["\\bbaseline\\b", "random (guess|forest)", "majority class", "均值预测", "基线"]
+
+  - id: PRD-TUN-001
+    track: predictive
+    kind: require_when
+    severity: should
+    when: ["hyperparameter", "tuning", "grid search", "超参", "调参"]
+    patterns: ["grid|random search|Bayesian optimi", "range|search space", "最终(取值|参数)|selected values"]
+
+  - id: PRD-TUN-002
+    track: predictive
+    kind: forbid
+    severity: must
+    patterns: ["tuned (on|using) the test set", "iterat.{0,30}test set.{0,30}(until|improve)", "(adjust|tun|modif).{0,40}(each|every) time.{0,40}test", "在测试集上(调参|调整)"]
+
+  - id: PRD-OVF-001
+    track: predictive
+    kind: require
+    severity: should
+    patterns: ["training[- ](and|vs\\.?|versus|to|test)[- ](validation|test)?", "training-test gap", "generalization gap", "overfit", "过拟合", "训练集.{0,20}测试集"]
+
+  - id: PRD-MET-001
+    track: predictive
+    kind: forbid
+    severity: must
+    patterns: ["accuracy (is|was) (used )?as the (only|sole) (metric|measure)", "report accuracy as the only", "accuracy as the sole", "仅用准确率", "只报告了准确率"]
+
+  - id: PRD-MET-002
+    track: predictive
+    kind: require
+    severity: should
+    patterns: ["precision", "recall", "(?-i:\\bF1\\b)", "AUC", "(?-i:\\bROC\\b)", "精确率", "召回率"]
+
+  - id: PRD-MET-004
+    track: predictive
+    kind: require
+    severity: nice
+    patterns: ["trivial baseline", "naive baseline", "random baseline", "majority[- ]class", "朴素基线"]
+
+  - id: PRD-IMP-002
+    track: predictive
+    kind: forbid_when
+    severity: nice
+    when: ["feature importance", "variable importance", "变量重要性", "特征重要性"]
+    patterns: ["(therefore|thus|so).{0,30}(should|policy).{0,30}(invest|increase|intervene)", "应当.{0,20}(加大投入|干预)"]
+
+  - id: PRD-FS-001
+    track: predictive
+    kind: forbid
+    severity: must
+    patterns: ["feature selection .{0,30}(before|prior to) .{0,20}cross-validat", "先.{0,10}(筛选|选择)特征.{0,10}再.{0,10}交叉验证"]
+
+  - id: PRD-REP-001
+    track: predictive
+    kind: require
+    severity: must
+    patterns: ["random seed", "seeds? (and|were|are) (released|provided|fixed)", "code.{0,30}(released|available|provided)", "github\\.com", "zenodo", "随机种子", "代码可得"]
+
+  - id: PRD-UNC-001
+    track: predictive
+    kind: require
+    severity: nice
+    patterns: ["prediction interval", "uncertainty", "conformal", "预测区间", "不确定性"]
+
+  # ========================= 质性 QLT =========================
+  - id: QLT-DSN-002
+    track: qualitative
+    kind: require
+    severity: must
+    patterns: ["case study design", "grounded theory", "phenomenolog", "ethnograph", "narrative inquiry", "IPA", "案例研究", "扎根理论", "现象学", "民族志"]
+
+  - id: QLT-DSN-003
+    track: qualitative
+    kind: require
+    severity: must
+    patterns: ["purposive", "purposeful", "theoretical sampling", "criterion sampling", "maximum variation", "snowball", "convenience sampl", "quota sampl", "目的性?抽样", "理论抽样", "滚雪球"]
+
+  - id: QLT-COD-001
+    track: qualitative
+    kind: require
+    severity: must
+    patterns: ["first[- ]cycle", "second[- ]cycle", "open coding", "axial coding", "descriptive coding", "pattern coding", "thematic analys", "第一轮编码", "第二轮编码"]
+
+  - id: QLT-COD-002
+    track: qualitative
+    kind: require
+    severity: nice
+    patterns: ["codebook", "coding (scheme|frame|manual)", "code list", "编码本", "编码表"]
+
+  - id: QLT-COD-006
+    track: qualitative
+    kind: require_when
+    severity: should
+    when: ["two coders", "two researchers coded", "inter-?coder", "双人编码", "编码者间"]
+    patterns: ["kappa", "agreement", "consensus", "一致性"]
+
+  - id: QLT-DSP-001
+    track: qualitative
+    kind: require_when
+    severity: nice
+    when: ["case study", "multiple case", "cross-case", "cross case", "multi-?site", "案例研究", "多案例", "跨案例"]
+    patterns: ["matrix", "display", "network diagram", "矩阵", "网络图", "展示"]
+
+  - id: QLT-DSP-002
+    track: qualitative
+    kind: require
+    severity: nice
+    patterns: ["\"[^\"]{15,}\"", "“", "「"]
+
+  - id: QLT-DSP-003
+    track: qualitative
+    kind: require
+    severity: must
+    patterns: ["\\bP\\d{1,2}\\b", "participant [A-Z]\\d", "respondent \\d", "参与者\\s*\\d", "受访者\\s*\\d"]
+
+  - id: QLT-DSP-004
+    track: qualitative
+    kind: require
+    severity: nice
+    patterns: ["negative case", "contrary", "counter-?example", "inconsisten", "devian", "反例", "负面案例", "不一致"]
+
+  - id: QLT-TRU-001
+    track: qualitative
+    kind: require
+    severity: must
+    patterns: ["credibility", "trustworthiness", "member check", "audit trail", "peer debrief", "可信度", "审计轨迹"]
+
+  - id: QLT-TRU-002
+    track: qualitative
+    kind: require_when
+    severity: nice
+    when: ["triangulat", "三角"]
+    patterns: ["(interview|observation|document).{0,60}(interview|observation|document)", "multiple (sources|data sources)", "多(种|类)来源"]
+
+  - id: QLT-TRU-003
+    track: qualitative
+    kind: require
+    severity: nice
+    patterns: ["reflexiv", "positionality", "researcher.{0,20}(stance|background)", "反身性", "研究者立场"]
+
+  - id: QLT-SAT-001
+    track: qualitative
+    kind: require_when
+    severity: nice
+    when: ["saturation", "饱和"]
+    patterns: ["no new (codes|themes)", "until saturation", "criteria for saturation", "未出现新(编码|主题)", "饱和判据"]
+
+  - id: QLT-SAT-002
+    track: qualitative
+    kind: require
+    severity: nice
+    patterns: ["(lasted|lasting|averag(e|ed|ing)|each (interview|session))[^.]{0,45}\\d+[- ]?(minute|hour|min|hr)", "\\d+\\s*pages? of (transcript|text|field notes)", "\\d+\\s*words? of (transcript|text)", "访谈(时长|持续|平均)[^。]{0,25}\\d+"]
+
+  - id: QLT-WRT-002
+    track: qualitative
+    kind: forbid
+    severity: should
+    patterns: ["(\"[^\"]{20,}\"\\s*){3,}", "(“[^”]{10,}”\\s*){3,}"]
+
+  - id: QLT-CAS-003
+    track: qualitative
+    kind: require_when
+    severity: nice
+    when: ["case study", "案例研究"]
+    patterns: ["rival explanation", "alternative explanation", "competing explanation", "竞争性解释", "替代解释"]
+
+  - id: QLT-CAS-001
+    track: qualitative
+    kind: require_when
+    severity: must
+    when: ["case study", "案例研究"]
+    patterns: ["chain of evidence", "evidence chain", "证据链"]
+
+  - id: QLT-ETH-001
+    track: qualitative
+    kind: require
+    severity: must
+    patterns: ["ethics (approval|committee)", "IRB", "informed consent", "伦理(审批|委员会)", "知情同意"]
+
+  # ========================= 基础科学 SCI =========================
+  - id: SCI-ABS-001
+    track: basic-science
+    kind: require
+    severity: must
+    patterns: ["\\d+(\\.\\d+)?\\s*(%|MPa|nm|°C|mg|mL|K|eV|GPa)"]
+
+  - id: SCI-MET-001
+    track: basic-science
+    kind: require
+    severity: must
+    patterns: ["(≥|>)?\\s*9\\d(\\.\\d+)?\\s*%", "Sigma-?Aldrich", "purity", "纯度", "厂家", "批号"]
+
+  - id: SCI-MET-002
+    track: basic-science
+    kind: require
+    severity: must
+    patterns: ["\\d+\\s*°C", "\\d+\\s*(h|min)\\b", "sccm", "rpm", "for \\d+ (h|min|s)", "\\d+\\s*(小时|分钟)"]
+
+  - id: SCI-MET-003
+    track: basic-science
+    kind: require
+    severity: must
+    patterns: ["(Bruker|Rigaku|JEOL|Hitachi|Thermo|Agilent|Shimadzu|PerkinElmer|Malvern)", "model [A-Z]\\d", "型号"]
+
+  - id: SCI-MET-004
+    track: basic-science
+    kind: require
+    severity: must
+    patterns: ["ANOVA", "t-?test", "Tukey", "Kruskal", "Origin", "SPSS", "R version", "Python \\d"]
+
+  - id: SCI-RES-002
+    track: basic-science
+    kind: require
+    severity: must
+    patterns: ["±", "± ", "mean\\s*±\\s*(SD|SE)", "标准差", "标准误"]
+
+  - id: SCI-DIS-003
+    track: basic-science
+    kind: require
+    severity: nice
+    patterns: ["limitation", "局限"]
+
+  - id: SCI-UNIT-001
+    track: basic-science
+    kind: forbid
+    severity: must
+    patterns: ["\\d+\\s*Å(?!.{0,20}\\()", "\\d+\\s*bar\\b(?!.{0,20}\\()"]
+
+  - id: SCI-ETH-001
+    track: basic-science
+    kind: require_when
+    severity: must
+    when: ["animal", "mice", "rats", "patient", "动物", "小鼠", "患者"]
+    patterns: ["ethics (approval|committee)", "IACUC", "informed consent", "伦理(审批|委员会)", "知情同意"]
+
+  - id: SCI-CIT-001
+    track: basic-science
+    kind: forbid
+    severity: must
+    patterns: ["as cited in", "转引", "quoted from"]
+
+  # ========================= 临床 CLN =========================
+  - id: CLN-RPG-001
+    track: clinical
+    kind: require
+    severity: must
+    patterns: ["CONSORT", "STROBE", "PRISMA", "STARD", "CARE\\b", "TRIPOD", "报告规范"]
+
+  - id: CLN-CON-001
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["randomi[sz]ed controlled trial", "(?-i:\\bRCT\\b)", "随机对照"]
+    patterns: ["randomi[sz]ed controlled trial", "randomi[sz]ed trial", "随机对照试验"]
+
+  - id: CLN-CON-002
+    track: clinical
+    kind: require_when
+    severity: must
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    when: ["randomi[sz]ed", "随机"]
+    patterns: ["flow (diagram|chart)", "Figure 1.{0,40}(flow|participant)", "流程图"]
+
+  - id: CLN-CON-003
+    track: clinical
+    kind: require_when
+    severity: should
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    when: ["randomi[sz]ed", "随机分组"]
+    patterns: ["sequence generation", "random (number )?(table|generator)", "computer-?generated", "permuted block", "随机序列", "区组"]
+
+  - id: CLN-CON-004
+    track: clinical
+    kind: require_when
+    severity: should
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    when: ["randomi[sz]ed", "随机分组"]
+    patterns: ["allocation (was )?conceal", "sequentially numbered", "central (randomi[sz]ation|allocation)", "分配隐藏"]
+
+  - id: CLN-CON-005
+    track: clinical
+    kind: require_when
+    severity: should
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    when: ["blind", "mask", "盲法", "双盲"]
+    patterns: ["(participants|providers|assessors).{0,40}(blinded|masked)", "who was blinded", "对谁(设)?盲"]
+
+  - id: CLN-CON-006
+    track: clinical
+    kind: require
+    severity: should
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    patterns: ["power (of )?0\\.\\d", "80\\s*(%|percent)\\s*power", "\\d+\\s*(%|percent)\\s*power", "per arm were required", "把握度", "检验效能", "sample size (was|were) (calculated|determined)"]
+
+  - id: CLN-CON-009
+    track: clinical
+    kind: require_when
+    severity: must
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    when: ["randomi[sz]ed", "trial", "试验"]
+    patterns: ["NCT\\d{6,}", "ChiCTR", "ISRCTN", "registered (at|with|in)", "注册号"]
+
+  - id: CLN-CON-010
+    track: clinical
+    kind: require
+    severity: should
+    not_when: ["systematic review", "meta-analy", "literature review", "cohort", "case-control", "cross-sectional", "系统综述", "队列", "病例对照", "横断面"]
+    patterns: ["baseline (characteristic|data|table)", "Table 1", "基线(特征|表)"]
+
+  - id: CLN-STA-001
+    track: clinical
+    kind: require
+    severity: must
+    patterns: ["95\\s*%\\s*(CI|confidence interval)", "置信区间"]
+
+  - id: CLN-STA-002
+    not_when: ["systematic review", "meta-analy", "系统综述", "荟萃分析"]
+    track: clinical
+    kind: require_when
+    severity: nice
+    when: ["(?-i:\\bOR\\b)", "odds ratio", "risk ratio", "(?-i:\\bRR\\b)", "hazard ratio", "(?-i:\\bHR\\b)"]
+    patterns: ["absolute (risk )?difference", "risk difference", "(?-i:\\bNNT\\b)", "绝对(风险)?差"]
+
+  - id: CLN-ETH-001
+    not_when: ["systematic review", "meta-analy", "系统综述", "荟萃分析"]
+    track: clinical
+    kind: require
+    severity: must
+    patterns: ["ethics (committee|approval|board)", "IRB", "伦理(委员会|审批)", "institutional review"]
+
+  - id: CLN-ETH-002
+    track: clinical
+    kind: require
+    severity: must
+    patterns: ["data (sharing|availability)", "available (from|upon)", "数据(共享|可得)"]
+
+  - id: CLN-PRI-001
+    track: clinical
+    kind: require_when
+    severity: must
+    when: ["systematic review", "meta-analy", "系统综述", "荟萃"]
+    patterns: ["search strategy", "search string", "(PubMed|Embase|Web of Science).{0,80}(AND|OR)", "检索式"]
+
+  - id: CLN-PRI-003
+    track: clinical
+    kind: require_when
+    severity: must
+    when: ["systematic review", "meta-analy", "系统综述"]
+    patterns: ["RoB ?2", "ROBINS-I", "risk of bias", "偏倚风险"]
+
+  - id: CLN-STB-003
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["cohort", "case-control", "cross-sectional", "队列", "病例对照", "横断面"]
+    patterns: ["sample size", "power calculation", "样本量"]
+
+  # ---- v1.1 校准补充：STROBE 观察性研究条目 ----
+  - id: CLN-STB-001
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["cohort", "case-control", "cross-sectional", "队列", "病例对照", "横断面"]
+    not_when: ["systematic review", "meta-analy", "系统综述"]
+    patterns: ["inclusion criteria", "eligibility criteria", "consecutive", "纳入标准", "入选标准"]
+
+  - id: CLN-STB-002
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["cohort", "case-control", "cross-sectional", "队列", "病例对照", "横断面"]
+    not_when: ["systematic review", "meta-analy", "系统综述"]
+    patterns: ["confounder", "adjusted for", "directed acyclic graph", "propensity", "混杂", "校正", "调整"]
+
+  - id: CLN-STB-004
+    track: clinical
+    kind: require_when
+    severity: nice
+    when: ["cohort", "case-control", "cross-sectional", "队列", "病例对照", "横断面"]
+    not_when: ["systematic review", "meta-analy", "系统综述"]
+    patterns: ["missing data", "multiple imputation", "complete-case", "缺失数据", "多重插补"]
+
+  - id: CLN-STB-005
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["cohort", "case-control", "cross-sectional", "队列", "病例对照", "横断面"]
+    not_when: ["systematic review", "meta-analy", "系统综述"]
+    patterns: ["residual confounding", "would (likely )?(inflate|attenuate|bias)", "direction of bias", "偏倚方向", "残余混杂"]
+
+  # ---- v1.1 校准补充：计量稳健性与报告 ----
+  - id: QNT-SEN-002
+    track: quant
+    kind: require
+    severity: nice
+    patterns: ["robustness", "alternative specification", "稳健性", "替代(设定|模型)"]
+
+  - id: QNT-RPT-002
+    track: quant
+    kind: require_when
+    severity: nice
+    when: ["cluster", "聚类"]
+    patterns: ["clustered (at|by) the", "because .{0,40}assigned at", "聚类(到|在)?.{0,10}层", "处理.{0,10}层级"]
+
+  - id: QNT-SEN-003
+    track: quant
+    kind: require
+    severity: nice
+    patterns: ["prespecified", "pre-registered", "exploratory", "预设", "探索性"]
+
+  # ---- v1.1 校准补充：PRISMA 系统综述条目 ----
+  - id: CLN-PRI-002
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["systematic review", "meta-analy", "系统综述", "荟萃"]
+    patterns: ["flow diagram", "flow chart", "Figure 1", "流程图"]
+
+  - id: CLN-PRI-004
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["systematic review", "meta-analy", "系统综述", "荟萃"]
+    patterns: ["GRADE", "certainty of evidence", "quality of evidence", "证据(确定性|质量)"]
+
+  - id: CLN-PRI-005
+    track: clinical
+    kind: require_when
+    severity: should
+    when: ["systematic review", "meta-analy", "系统综述", "荟萃"]
+    patterns: ["PROSPERO", "registered", "注册"]
+
+  # ---- v1.1.1 校准补充：引用格式 ----
+  - id: CIT-GBT-001
+    track: null
+    scope: references
+    kind: require_when
+    severity: must
+    when: ["参考文献"]
+    patterns: ["\\[M\\]", "\\[J\\]", "\\[D\\]", "\\[C\\]", "\\[N\\]", "\\[S\\]", "\\[P\\]", "\\[EB/OL\\]", "\\[J/OL\\]"]
+
+  - id: CIT-GBT-004
+    track: null
+    scope: references
+    kind: require_when
+    severity: must
+    when: ["\\[EB"]
+    patterns: ["\\[20\\d{2}-\\d{2}-\\d{2}\\]"]
+
+  - id: CIT-IEEE-004
+    track: null
+    scope: references
+    kind: forbid
+    severity: must
+    patterns: ["doi://s*https?://"]
+
+  - id: CIT-CHK-002
+    track: null
+    scope: references
+    kind: forbid
+    severity: must
+    patterns: ["as cited in", "转引自", "quoted from"]
+
+  # ---- v1.2.0：4 本欠梳理书目的新增检测器 ----
+  - id: QNT-MM-001
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["randomly assigned", "random(ized|ly) (assign|allocat)", "randomi[sz]ed (trial|experiment|controlled)", "随机(分组|分配|对照)"]
+    patterns: ["balanc", "attrition", "baseline", "平衡", "流失"]
+
+  - id: QNT-MM-003
+    track: quant
+    kind: forbid
+    severity: should
+    patterns: ["(individual|student|firm|household|worker|patient|teacher)[^.]{0,60}(would|will) (gain|improve|increase|earn|benefit)"]
+
+  - id: QNT-MM-005
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["regression discontinuity", "断点回归", "(?-i:\\bRDD?\\b)", "running variable", "forcing variable"]
+    patterns: ["(figure|fig\\.|plot|graph)[^.]{0,80}(running|forcing|threshold|cutoff|assignment|score)", "binscatter", "scatter", "散点", "断点图"]
+
+  - id: QNT-CFT-003
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["(two-way|individual|firm|unit|entity|city|county|state|district|school)[- ]fixed effect", "two-way fixed effects", "within (estimator|transformation)", "固定效应模型", "个体固定效应", "双向固定效应"]
+    patterns: ["time-?varying (confound|omitted|unobserved|shock)", "cannot (rule out|eliminate|absorb)", "does not (eliminate|address|absorb)", "remaining (bias|confounding)", "时变(混杂|遗漏)", "残余(偏误|混杂)", "无法消除"]
+
+  - id: QNT-REG-001
+    track: quant
+    kind: forbid
+    severity: should
+    patterns: ["coefficient[^.]{0,80}(is|represents?|captures?|corresponds? to) the effect"]
+
+  - id: QNT-REG-002
+    track: quant
+    kind: forbid_when
+    severity: should
+    when: ["significant", "显著性"]
+    patterns: ["significant[^.]{0,60}(large|substantial|important|meaningful)", "显著[^。]{0,20}(很大|重大|重要)"]
+
+  - id: QNT-REG-003
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["(?-i:\\bR2\\b)", "R-squared", "R²", "(?-i:\\bOLS\\b)"]
+    not_when: ["propensity score", "psmatch", "倾向得分", "nearest neighbo"]
+    patterns: ["residual", "diagnostic", "posterior predictive", "model (fit|check)", "goodness-of-fit", "残差", "拟合(优度|诊断)"]
+
+  - id: QNT-REG-004
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["interaction term", "interaction effect", "交互项", "moderat(ion|ing) (effect|analysis)"]
+    not_when: ["difference-in-difference", "diff-in-diff", "two-way fixed effect", "双重差分"]
+    patterns: ["simple slope", "marginal effect", "average marginal", "(interaction|moderation) (plot|figure|graph)", "(plot|figure)[^.]{0,60}(interaction|moderat)", "简单斜率", "分层(效应|分析)"]
+
+  - id: QNT-WHY-002
+    track: quant
+    kind: require_when
+    severity: should
+    when: ["works? through", "operates? (through|via)", "the mechanism (is|lies)", "channel through which", "机制在于"]
+    patterns: ["mediat", "direct (effect|path)", "indirect (effect|path)", "decompos", "中介"]

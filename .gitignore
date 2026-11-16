@@ -1,0 +1,37 @@
+# 密钥与运行时产物：不要提交
+.env
+__pycache__/
+*.pyc
+*.pyo
+_oneshot/
+_exports/
+uploads/
+.cache/
+cache/
+_sessions/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+
+# 数据目录（桌面版首次启动会生成）
+data/
+
+# 打包产物：体积大且可复现，不进版本库
+# 需要安装包的，用源码自己跑 build_installer.bat
+build/
+dist/
+dist_installer/
+*.spec.bak
+
+# 打包时漏拷的临时修补件
+*.bak
+
+# 插件安装时留下的原文件备份（旧版本快照，入库易与本体现版本混淆）
+# 注意：.radar-addon/manifest.json 是运行时依赖，不能忽略
+**/.radar-addon/orig/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

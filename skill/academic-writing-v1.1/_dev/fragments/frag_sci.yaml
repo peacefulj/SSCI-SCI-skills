@@ -1,0 +1,230 @@
+# 基础科学实验线（SCI）v1.1 新增
+# 书源：Day & Gastel, How to Write and Publish a Scientific Paper 9e；Montgomery, Design and Analysis of Experiments 8e
+# 说明：本线覆盖"通用 IMRaD + 统计报告 + 出版规范"层。
+#       领域专属的报告标准（ACS Style Guide、IUPAC 命名、晶体学 CIF 等）不在本包书源内，规则中标 note 提示需外查。
+# track: basic-science
+
+rules:
+  # ============ A. 标题与摘要（Day & Gastel ch.7、ch.9）============
+  - id: SCI-TIT-001
+    genre: [sci-journal]
+    track: basic-science
+    section: title
+    rule: 标题须具体，含研究对象/体系与关键处理，避免宽泛词与未定义缩写
+    source: Day & Gastel 9e, ch.7 p.46-49
+    signal: 标题为 "A Study on the Properties of Materials" 一类无信息量表述
+    fix: 改为含体系与关键变量的具体标题，如 "Thermal Conductivity of Graphene Oxide Films Below 50 nm"
+
+  - id: SCI-ABS-001
+    genre: [sci-journal]
+    track: basic-science
+    section: abstract
+    rule: 摘要须含目的、方法、主要结果（含量化值）、结论四要素
+    source: Day & Gastel 9e, ch.9 p.59-61
+    signal: 摘要只讲背景与方法，无任何数据结果
+    fix: 补一句带数值的结果，如 tensile strength increased from 42 to 58 MPa
+
+  - id: SCI-ABS-002
+    genre: [sci-journal]
+    track: basic-science
+    section: abstract
+    rule: 摘要不得引用参考文献，不得使用未展开的缩写
+    source: Day & Gastel 9e, ch.9 p.63
+    signal: 摘要出现 [12] 或 SEM/TGA 等缩写首次出现未展开
+    fix: 删除文献引用，缩写首次出现写全称
+
+  # ============ B. 引言（ch.10）============
+  - id: SCI-INT-001
+    genre: [sci-journal]
+    track: basic-science
+    section: introduction
+    rule: 引言须按"领域现状→已知→未知→本研究目的"推进，并以研究目的收尾
+    source: Day & Gastel 9e, ch.10 p.66
+    signal: 引言以文献综述结束，未出现本研究要解决什么
+    fix: 末段补明确目的句，如 the aim of this work was to determine whether…
+
+  - id: SCI-INT-002
+    genre: [sci-journal]
+    track: basic-science
+    section: introduction
+    rule: 引言只写必要背景，不得写成小综述（详细文献讨论留给讨论章）
+    source: Day & Gastel 9e, ch.10 p.67
+    signal: 引言占全文 30% 以上，且大段罗列他人工作
+    fix: 压缩至 15% 以内，把对比性讨论移入讨论
+
+  # ============ C. 材料与方法（ch.11）============
+  - id: SCI-MET-001
+    genre: [sci-journal]
+    track: basic-science
+    section: methods
+    rule: 材料须给精确规格、数量、来源，并优先使用通用名而非商标名（商标名首次出现须标注册信息）
+    source: Day & Gastel 9e, ch.11 p.72
+    signal: 只写 "commercial graphene" 或 "a well-known reagent"，无纯度、厂家、批号
+    fix: 补通用名、纯度、厂家与产地，如 graphene oxide (≥99%, Xianfeng Nanotech, Nanjing, China)
+
+  - id: SCI-MET-002
+    genre: [sci-journal]
+    track: basic-science
+    section: methods
+    rule: 方法须写到他人可重复：步骤顺序、关键参数、时长、环境条件齐全
+    source: Day & Gastel 9e, ch.11 p.73
+    signal: 只写 "samples were annealed"，无温度、时间、气氛
+    fix: 补全条件，如 annealed at 400 °C for 2 h under Ar flow (50 sccm)
+
+  - id: SCI-MET-003
+    genre: [sci-journal]
+    track: basic-science
+    section: methods
+    rule: 仪器与测量须给型号、厂家与关键采集参数；领域专属标准（如 ACS/IUPAC）需另行遵循并在文中声明
+    source: Day & Gastel 9e, ch.11 p.74 (Measurements and Analysis)
+    note: 本包不含领域表征标准原文，具体参数清单须按目标期刊作者指南核对
+    signal: 写 "XRD was used to characterize the samples" 而无靶材、扫描速率、步长
+    fix: 补仪器型号与参数，如 Bruker D8 Advance, Cu Kα, 2°/min, 0.02° step
+
+  - id: SCI-MET-004
+    genre: [sci-journal]
+    track: basic-science
+    section: methods
+    rule: 统计方法须写明检验类型、显著性水平、重复次数与所用软件
+    source: Day & Gastel 9e, ch.11 p.74; Montgomery, Design and Analysis of Experiments 8e, ch.2
+    signal: 只说 "data were statistically analyzed"，无检验名与软件
+    fix: 补 one-way ANOVA with Tukey HSD, α = 0.05, n = 5, OriginPro 2023
+
+  - id: SCI-MET-005
+    genre: [sci-journal]
+    track: basic-science
+    section: methods
+    rule: 实验设计须说明重复、随机化与区组安排，避免混杂批次效应
+    source: Montgomery, Design and Analysis of Experiments 8e, ch.1-2
+    signal: 多批次样品混合处理，但未提随机化或区组
+    fix: 补 randomization 与 blocking 说明，或声明采用完全随机设计及理由
+
+  # ============ D. 结果（ch.12）============
+  - id: SCI-RES-001
+    genre: [sci-journal]
+    track: basic-science
+    section: results
+    rule: 结果只呈现发现，不作解释与文献比较（解释留讨论）
+    source: Day & Gastel 9e, ch.12 p.77
+    signal: 结果段出现 "this implies that…" 或与他人结果对比
+    fix: 移入讨论，结果段只保留观测与统计陈述
+
+  - id: SCI-RES-002
+    genre: [sci-journal]
+    track: basic-science
+    section: results
+    rule: 数值须给有效数字、单位与不确定度（或标准差/标准误），且全文口径一致
+    source: Day & Gastel 9e, ch.12 p.78 (How to Handle Numbers)
+    signal: 报 "58.2341 MPa" 或 "58 MPa ± 2"（未说明是 SD 还是 SE）
+    fix: 统一有效数字，并注明 mean ± SD, n = 5
+
+  - id: SCI-RES-003
+    genre: [sci-journal]
+    track: basic-science
+    section: results
+    rule: 放入补充材料的图/表/数据须在正文显式指路，并说明其内容
+    source: Day & Gastel 9e, ch.12 p.79 (Supplementary Material Online)
+    signal: 正文只有 "see Supplementary Information"，未说明 SI 里有什么
+    fix: 改写为 "additional XRD patterns for all samples are given in Fig. S3"
+
+  # ============ E. 讨论（ch.13）============
+  - id: SCI-DIS-001
+    genre: [sci-journal]
+    track: basic-science
+    section: discussion
+    rule: 讨论开篇须用一句话给出本研究的主要发现，而非重复引言背景
+    source: Day & Gastel 9e, ch.13 p.82 (Components of the Discussion)
+    signal: 讨论第一段是背景复述，第三段才出现本研究结果
+    fix: 首句改为 "We show that…"
+
+  - id: SCI-DIS-002
+    genre: [sci-journal]
+    track: basic-science
+    section: discussion
+    rule: 须与既有文献逐项比较，并对不一致之处给出可能解释
+    source: Day & Gastel 9e, ch.13 p.82
+    signal: 讨论只重申自己的结果，未与任何具体文献对照
+    fix: 补 2–3 处对照，并解释差异来源（样品、条件、方法差异）
+
+  - id: SCI-DIS-003
+    genre: [sci-journal]
+    track: basic-science
+    section: discussion
+    rule: 须写局限：样品范围、条件边界、方法局限，并说明结论的适用边界
+    source: Day & Gastel 9e, ch.13 p.82 (Noting Strengths and Limitations)
+    signal: 讨论无 limitations 段落，或只写未来工作
+    fix: 补一段列出 2–3 项具体限制及其对结论的影响
+
+  # ============ F. 图表（ch.16–18）============
+  - id: SCI-TAB-001
+    genre: [sci-journal]
+    track: basic-science
+    section: results
+    rule: 表格用于呈现精确数值与多维比较，不得用表重复图中已有的趋势信息
+    source: Day & Gastel 9e, ch.16 p.101 (When to Use Tables)
+    signal: 同一组数据既有表又有相同内容的图
+    fix: 择一保留，趋势用图、精确值用表
+
+  - id: SCI-TAB-002
+    genre: [sci-journal]
+    track: basic-science
+    section: results
+    rule: 表题须自明，表注须定义全部缩写、符号与统计标记
+    source: Day & Gastel 9e, ch.16 p.108
+    signal: 表中出现 SD、ND、* 等但表注未定义
+    fix: 补表注逐项定义，并注明样本量
+
+  - id: SCI-FIG-001
+    genre: [sci-journal]
+    track: basic-science
+    section: results
+    rule: 图须自明：坐标轴含物理量与单位，图例说明条件，标尺与放大倍数不可缺
+    source: Day & Gastel 9e, ch.17 p.109-115
+    signal: 坐标轴只写 "Intensity" 或显微图无标尺
+    fix: 补 "Intensity (a.u.)" 与 "2θ (degree)"，显微图加比例尺
+
+  # ============ G. 规范与伦理 ============
+  - id: SCI-UNIT-001
+    genre: [sci-journal]
+    track: basic-science
+    section: general
+    rule: 单位须使用 SI 制，全文统一；非 SI 单位首次出现须给换算
+    source: Day & Gastel 9e, ch.32 p.230 (SI Units)
+    signal: 混用 Å 与 nm、bar 与 Pa 而不统一
+    fix: 统一为 SI，必要时括号给换算值
+
+  - id: SCI-ETH-001
+    genre: [sci-journal]
+    track: basic-science
+    section: ethics
+    rule: 涉及人类或动物实验须报伦理审批机构与批号，并说明处置方式
+    source: Day & Gastel 9e, ch.5 p.31 (Ethical Treatment of Humans and Animals)
+    signal: 动物实验未提伦理审批
+    fix: 补审批机构与批号，如 approved by the Institutional Animal Care Committee (No. 2023-041)
+
+  - id: SCI-ETH-002
+    genre: [sci-journal]
+    track: basic-science
+    section: ethics
+    rule: 须披露利益冲突与资助来源，并说明资助方在研究中的角色
+    source: Day & Gastel 9e, ch.5 p.31 (Disclosure of Conflicts of Interest)
+    signal: 致谢只写感谢某人，无资助编号与角色说明
+    fix: 补基金编号与 "the funder had no role in study design"
+
+  - id: SCI-AUT-001
+    genre: [sci-journal]
+    track: basic-science
+    section: general
+    rule: 作者资格须符合实质贡献标准，并给出各作者贡献说明
+    source: Day & Gastel 9e, ch.8 p.51 (Definition of Authorship)
+    signal: 有未参与研究的作者，或无贡献声明
+    fix: 补 CRediT 贡献声明，剔除不满足条件的作者
+
+  - id: SCI-CIT-001
+    genre: [sci-journal]
+    track: basic-science
+    section: references
+    rule: 引用须核对原文，不得转引二手，不得引未读文献
+    source: Day & Gastel 9e, ch.15 p.90 (Checking Against the Original)
+    signal: 参考文献列表与正文表述不符，或引用了明显不相关的文献凑数
+    fix: 逐条核对原文；无法获取原文的文献应删除

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html data-page-node-id="HN1UPiCh1KQX89BqSTqyaB" lang="zh-CN">
+<head data-page-node-id="kzvjVdUUbqJgHO8P5iOIxT">
+<meta data-page-node-id="YuRxZuWPi5zrm6Yrhg7KQG" charset="UTF-8">
+<meta data-page-node-id="JbSoXyWlsr1IAYA5v1ndoS" content="width=device-width, initial-scale=1.0" name="viewport">
+<title data-page-node-id="DPYdmmbdzrMYf2I8Jlzp4U" data-pnid-children="6Nof3ipPG0ojkU1wfzfeFe">PaperMate · 开源论文搭子</title>
+<link data-page-node-id="oHAaLyWGb1fs7KB3sG8ds5" href="style.css" rel="stylesheet">
+<script>
+/* MathJax 配置须在 tex-svg.js 之前生效 */
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    processEnvironments: true
+  },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] },
+  startup: { typeset: false }
+};
+</script>
+<script src="vendor/marked.min.js" defer></script>
+<script src="vendor/mathjax/tex-svg.js" defer></script>
+<script src="render.js" defer></script>
+</head>
+<body data-page-node-id="szhJ39SOzpUvMujhCyEJFw">
+<header data-page-node-id="1MEA9zruD3fCNMIZ8MfHih">
+  <div data-page-node-id="IduxEDZTazkPQAMx6gqKRm" class="header-in">
+    <div data-page-node-id="CcE3xzDOXZ8sNd4s54fXNi" class="logo"><span data-page-node-id="zD2NVU0V0hhreylM6qPjMA" class="mark" title="PaperMate · 开源论文搭子"><!--pnid:RW1C9QtD6z0QywcUOVj9zA-->PM</span><!--pnid:KIxwSY9YVANtnMRTntv475--> PaperMate <small data-page-node-id="bD9ke4S3fxfjpTyxXkYge5"><!--pnid:aYy4DogVaIqNqyNUIhtQUP-->v1.3.0</small></div>
+    <nav data-page-node-id="b3BOFnpJHLkNQhJZTiMTil" id="nav"></nav>
+    <button data-page-node-id="ncKqpTzWhOEhhaWIrYub5u" class="btn small ghost" onclick="openSettings()"><!--pnid:IJMULeorgFcKLjeXSc8FdF-->⚙ 设置</button>
+    <button id="btnLogout" class="btn small ghost" onclick="doLogout()" style="display:none">退出</button>
+  </div>
+</header>
+
+<div data-page-node-id="35sns75pEWrUuU39oc3DEh" class="wrap">
+
+  <!--pnid:P08Vw8edlEm0lusOXdYYim--><!-- 首页 / 能力页 -->
+  <section data-page-node-id="YKzLRU2Kh96ZNAmcSAV1lc" class="on" id="page-home">
+    <div data-page-node-id="m8XnpBhE7A5uw11gOrL7mm" class="hero">
+      <span data-page-node-id="IGM73EMigxTFlwxNtdTxuC" class="tag"><!--pnid:bZp83oS4qx0ilahSNuHbiL-->规则驱动的学术论文写作决策 + 审查助手</span>
+      <h1 data-page-node-id="EZttylnomfxDRFTWode495"><!--pnid:uTDHWUL4TPfr9UwADtPlBI-->论文全程陪跑，从选题到投稿返修</h1>
+      <p data-page-node-id="KnDTiJEXaLMrZiqJrqx7xP" class="lead"><!--pnid:B2TgjH0yHUZP758dkFpN54-->这不是一个"会写论文的通用 AI"，而是一套<strong data-page-node-id="dYIiJ0XC4A1L2jseoJds8x"><!--pnid:OPTnXFkzO1CaMX3U45D9Y0-->有据可查、可追溯、可判定</strong><!--pnid:Gbj4Cj7w0KBcrqHxlkxasz-->的写作规范库（393 条规则，逐条含出处与正反例句）。本助手识别你的学科与体裁后，加载对应规范，<strong data-page-node-id="bvaWG22OidsL4oAdgKZnT2"><!--pnid:Sz49p6zqCp94S9MzLc6FwI-->词面检测 + 大模型逐条判读</strong><!--pnid:argvUh8gfEBd9eqWN7qF1Y-->，给出可执行的结论。</p>
+      <div class="notice err" id="staleNotice" style="display:none">⚠️ <b>后端还是旧版本</b>：当前进程里没有「测试连接」「题名英译」这些接口，点了会报 405 Method Not Allowed。请关掉那个命令行窗口，重新双击 <code>start.bat</code>（不用改代码、不用重装）。</div>
+      <div data-page-node-id="qJj9NvqfDYZELGOEntT60u" class="notice warn" id="keyNotice" style="display:none"><!--pnid:o7lAsozHCiQVm0zRO48NiI-->⚠️ 尚未配置 API Key，深度判读、六阶段引导与一键成稿将无法使用。点右上角「设置」填写（DeepSeek / Anthropic / 萤算 任选一家）。</div>
+    </div>
+
+    <h2 data-page-node-id="gZymYxAUb4YOiCRmphhrqy"><!--pnid:fwqte5e2uZz093ru5P34vv-->七大能力（点卡片进入）</h2>
+    <div data-page-node-id="axXchaCQtmqdpAAir4RhYh" class="grid g3" id="capGrid"></div>
+
+    <h2 data-page-node-id="wLjAfMtaN67sEdwhkLxfTh"><!--pnid:vjZ0Y39JmjPNDn9BwTtUGW-->能力边界（使用前必读）</h2>
+    <div data-page-node-id="JMOEJGgbeJmULYq5y98Pi3" class="card">
+      <div data-page-node-id="yygvcmxXn6wuHjavI97WGl" class="bound"><div data-page-node-id="MYUc6Fk0fZ68nYKQvx4kQL" class="t"><!--pnid:i1wi6aTQpaSNx6XiluQVAA-->不支持纯理论数理类论文</div><div data-page-node-id="G1yWBUDkn76A4jkMEa33X7" class="d"><!--pnid:loVRvPjoxSP6Bs2dl6KZjq-->数学 / 理论物理 / 理论经济等"定义-定理-证明"结构文章不支持——规则库基于 IMRaD（摘要/引言/方法/结果/讨论），理论文章无"实验/结果"章节，硬套会系统性误判。</div></div>
+      <div data-page-node-id="5hmQaA7a7SX1By7M8Ytnpz" class="bound warn"><div data-page-node-id="GMYOCCNHe7Ih4Y6p0HMe1O" class="t"><!--pnid:NWLw1FsWO1y6bVxCpPTYkX-->基础科学、临床两条线可信度较低</div><div data-page-node-id="4raPpTyHDQUyMHMMt11nyo" class="d"><!--pnid:JMNpxt8SslpmeZozHfZwWw-->规则已建立但未做真实全文校验。定量实证、质性研究两条线最可靠（已用 12 篇真实论文逐条核对）。</div></div>
+      <div data-page-node-id="9SrtHCiQpLHwdxUkxZCIq5" class="bound"><div data-page-node-id="LKEoLe2ihKxApqFw6Ih9Qi" class="t"><!--pnid:1fPvAcVFw5HZWqYatwuuQN-->不覆盖领域表征标准</div><div data-page-node-id="QIetdiDTa7Nkbagaw1o16X" class="d"><!--pnid:Evt7KIa8R75S4jSNs8ucRT-->ACS Style Guide、IUPAC 命名、晶体学 CIF 等领域标准不在规则库内，须核对目标期刊作者指南。</div></div>
+      <div data-page-node-id="bound-oneshot" class="bound warn"><div class="t">一键成稿产出的是工作稿</div><div class="d">它保证结构、章节与表达符合规则库，但不会替你有数据、有文献、有真实结果：正文里的 <code>[TBD: ...]</code> 必须用真实数据填，<code>[CITE: ...]</code> 必须换成可核实的文献。英文优先，中文为受限通道。</div></div>
+      <div data-page-node-id="bound-aiwatermark" class="bound warn"><div class="t">AI 生成内容带水印，不可直接使用</div><div class="d">本应用产出的一切文本都是 <b>AI 生成内容</b>，平台导出或转存的副本可能带可见/不可见的 AI 标记（水印、隐写标识、元数据）。<b>严禁把带水印的成稿用于投稿、交稿或发表</b>——会被期刊的 AI 检测判定为代写，且隐写标记无法通过转存、截图、复制粘贴去除。正确用法：只当写作骨架，逐段用自己的语言重写，数据与文献全部换成真实可核实的。</div></div>
+      <div data-page-node-id="MeQVxgSAP3H7gEjEBjp1n2" class="bound warn"><div data-page-node-id="esKWMFQUXCDVV6a48u8H4V" class="t"><!--pnid:O9C2tN2yQliWYWOtwlR6zC-->词面检测 ≠ 审查结论</div><div data-page-node-id="KbW1IjDNbT6b1ZdZpEeoqb" class="d"><!--pnid:gFMCzyuVc7tGHxxd6OcSwS-->全库 393 条规则中仅 95 条可词面自动判定，其余约 298 条需大模型对照 signal 逐条判读。本应用两者都做：词面即时检测 + 大模型深度判读。</div></div>
+
+      <div class="quote-card" id="boundSlogan">
+        <p class="q">30 余本方法论专著，393 条可核查规则，管得住写法，管不了数据。</p>
+        <p class="q2">没有完美的论文，PaperMate 也一样。</p>
+        <p class="q-src">书单与逐条出处：<code>skill/academic-writing-v1.1/references/book-index.md</code>（31 本专著 + 6 份报告规范，规则标注到章节与页码）</p>
+      </div>
+    </div>
+
+    <h2 data-page-node-id="JtkUbcQXQo4hKCGx89I0Os"><!--pnid:fhkJHWvj56lT0KsH8HUZyF-->支持的学科主线</h2>
+    <div data-page-node-id="L9iEhcRqBf2AMbI7K7HlYj" class="card">
+      <table data-page-node-id="RKLLa8zBWW7eTVrZllrZZa" id="trackTable"></table>
+      <p data-page-node-id="dM5bLPIKunuju4XluRAeHJ" class="muted mt"><!--pnid:zti3D565JKYFQoLnfGwmRN-->规则数 = 该主线适用的规则总量（含共用规则）。"自动"= 有词面检测器的规则，"人工"= 需大模型判读的规则。</p>
+    </div>
+  </section>
+
+  <!--pnid:rGy5OunFXTcVA6y2XXN1pg--><!-- 阶段 1 选题 -->
+  <section data-page-node-id="iB5y7FZx7U6lz1ldiJxB7e" id="page-stage1">
+    <h1 data-page-node-id="RtGH0HpRv7ESGMfLAaU8le"><!--pnid:xmWF2iIwHdSoTvPDZ7KMg3-->选题定位</h1>
+    <p data-page-node-id="9yNKWnArhx5Zle6FG6yb5r" class="lead"><!--pnid:HWbAbmE3qkUARGutxc6xxf-->判断"做什么方向、值不值得做"，引导产出可回答、可证伪、有变量的研究问题，以及"现有文献缺什么、为什么现在能做"的 gap 论证。</p>
+    <div data-page-node-id="S9CPFFYYgmKlMbUbqFd3e2" class="card mt">
+      <label data-page-node-id="lbl-track"><!--pnid:JYtaIG0eNq1v14SrNwJUie-->学科主线</label>
+      <select data-page-node-id="igAaiUHieVtYET980wV6ml" id="s1-track"></select>
+      <label data-page-node-id="QoSohJix2dnwiZh9RFAcqM"><!--pnid:v6rTacxRVvBKvtm96Hrn1R-->研究方向（你想研究什么，一两句话）</label>
+      <textarea data-page-node-id="vq3TMtGwLuMnnUTW7OQ5o7" id="s1-dir" placeholder="例：想研究数字平台用工对劳动者收入的影响，但不确定切入点是否成立"></textarea>
+      <label data-page-node-id="bAGpn03ppmCQzz3KjqrQvc"><!--pnid:ps6KMALH6JJtFH1mfVr9ZT-->目标期刊 / 会议（可选，可从清单选或自行填写）</label>
+      <div data-page-node-id="venueRow" class="row">
+        <select data-page-node-id="sel-venue" id="s1-venue" style="flex:1"></select>
+      </div>
+      <input data-page-node-id="d1ajYgjLFZKQ4naHAMAGb8" id="s1-venue-custom" placeholder="或自定义：如 SSCI 管理类期刊 / 某 EI 会议" type="text" style="margin-top:6px">
+      <div data-page-node-id="hxowR4vMpASxUwAahFfarq" class="row mt"><button data-page-node-id="VkDRT4a1u8Bso9z7xSJEeX" class="btn" onclick="runWorkflow(1)"><!--pnid:5xYofSUVbMJJ12NljGhsq5-->开始选题引导</button></div>
+      <div data-page-node-id="Bm9KgqcKhjiRabrOrR1ko6" id="out1"></div>
+    </div>
+
+    <!-- 选题雷达：选题的常规一步（OpenAlex 趋势 + 三维评估），默认展开 -->
+    <details data-page-node-id="radarCard" class="card mt radar-card" id="radarCard" open>
+      <summary data-page-node-id="radarSum"><b>选题雷达</b>（OpenAlex 发文趋势 + AI 三维评估）— 选题的常规一步</summary>
+      <p class="hint">先跑趋势看这个方向近几年热度变化，再让 AI 给 3 个候选题目和三维打分（新颖性 / 可行性 / 数据可得性，标准随学科主线与层级变化）。<b>不填检索词也能跑：留空即用上方研究方向。</b></p>
+      <div data-page-node-id="trendRow" class="row" style="align-items:flex-end">
+        <div data-page-node-id="x2" class="col">
+          <label data-page-node-id="lbl-level"><!--pnid:lvl-->层级</label>
+          <select data-page-node-id="sel-level" id="s1-level">
+            <option value="bsc">本科毕设</option>
+            <option value="master">硕士论文</option>
+            <option value="phd">博士论文</option>
+            <option value="journal" selected>期刊投稿</option>
+            <option value="general">一般性研究</option>
+          </select>
+        </div>
+        <div data-page-node-id="trendCol" class="col" style="flex:2">
+          <label data-page-node-id="lbl-trend"><!--pnid:trd-->OpenAlex 检索词（英文更准，如 mobile money rural entrepreneurship）</label>
+          <input data-page-node-id="inp-trend" id="s1-trend" placeholder="留空则用上方研究方向" type="text">
+        </div>
+        <button data-page-node-id="btn-trend" class="btn" onclick="runTrend()"><!--pnid:bt-->跑趋势</button>
+      </div>
+      <div data-page-node-id="trendBox" id="trendBox" class="trendbox" style="display:none"></div>
+      <div data-page-node-id="radarBtn" class="row mt"><button data-page-node-id="radarEval" class="btn" onclick="runWorkflow(1,'radar')"><!--pnid:re-->AI 评估选题（雷达）</button></div>
+      <div data-page-node-id="radarOut" id="out1-radar"></div>
+    </details>
+  </section>
+
+  <!--pnid:uhD6InDjYCEVQgIa4m464R--><!-- 阶段 2 研究设计 -->
+  <section data-page-node-id="tlx1Cf4wHn3f0fjimMfHYk" id="page-stage2">
+    <h1 data-page-node-id="bgiB1FFJMHEb80Zo5uE7nS"><!--pnid:0VIrHEucGUq8RI1XNYw1FD-->研究设计评审</h1>
+    <p data-page-node-id="ChuUBwlIai8OQY2nY68ZdU" class="lead"><!--pnid:I7XdHQ2ig6y3McESci7bBQ-->按学科主线校验设计是否成立：识别策略（工具变量/断点/双重差分/固定效应）、内生性来源、抽样与样本量、对照组、数据可复现性。</p>
+    <div data-page-node-id="paxV7YwSXau6wjdHQuC37m" class="card mt">
+      <label data-page-node-id="c8cz3Ms5CzI4CR8Dx7QYh9"><!--pnid:bJ1tvbbbvhhK3FVrYWasgg-->学科主线</label>
+      <select data-page-node-id="NufSQy6tbuo19UJkEdmmBL" id="s2-track"></select>
+      <label data-page-node-id="XhkGgkWzcpY6CIYA2crwjH"><!--pnid:iOarvE4Eu7tiLII2IFtJQk-->研究设计描述（数据、方法、识别策略等）</label>
+      <textarea data-page-node-id="WN3MDeDCB9nwechmYm4S8f" id="s2-design" placeholder="例：用某省政策发布时间构造断点，用 RDD 估计政策对收入的影响，样本为 2015-2020 面板"></textarea>
+      <div data-page-node-id="goOLA9z4a6psteMZh4NyKP" class="row mt"><button data-page-node-id="uPVwsMU4M95znZ4o2myBBg" class="btn" onclick="runWorkflow(2)"><!--pnid:CcwzN1gM2XK7IBotVGTe5w-->开始设计评审</button></div>
+      <div data-page-node-id="J1C0pYhwTKUR32jN8PIIpz" id="out2"></div>
+    </div>
+  </section>
+
+  <!--pnid:GvzkpsCFmjj7qmiohQG8nZ--><!-- 阶段 3 初稿写作 -->
+  <section data-page-node-id="4UA5nBvGQ1Y84ItWZqi1Zb" id="page-stage3">
+    <h1 data-page-node-id="2bSBG6tMzVMLy37eFagqtD"><!--pnid:RP03gG6srOClozXLweg5f5-->初稿写作引导</h1>
+    <p data-page-node-id="qvztDYWrhj05J3QG0HwaGf" class="lead"><!--pnid:FdJxuO4YuLdZcVEuoJTMQb-->按引言 / 方法 / 结果 / 讨论逐段给框架与改写范例，每条规则自带正反例句（example_bad / example_good）可直接当范本。</p>
+    <div data-page-node-id="4cMVUZrQ7Mx34YZcw0xK9Q" class="card mt">
+      <label data-page-node-id="zE2VbpNv9uWfHVhT25wOiT"><!--pnid:Zd8DCOY2UudfXuPkeEIN7f-->学科主线</label>
+      <select data-page-node-id="mTMR7on2T9vKcyXoYPjEeI" id="s3-track"></select>
+      <label data-page-node-id="7drfKEFRzFTxD5frq4mJxj"><!--pnid:5sppKRbRxdW7m23VwdK348-->要写哪个章节</label>
+      <select data-page-node-id="qYN64OW1DspIKq3L2oZnYl" id="s3-section">
+        <option data-page-node-id="vZFYUd7Mmih7pWnVY8YDNt" value="introduction"><!--pnid:fuIrOPS9lWA8M53wRxl43V-->引言 Introduction</option>
+        <option data-page-node-id="IxlzOUyR07z5KBQw48s2kj" value="methods"><!--pnid:z3EbMO4n4vWY9P9epmGQnW-->方法 Methods</option>
+        <option data-page-node-id="yrQuyEI7209mnzc46ZL17W" value="results"><!--pnid:3hpbWgsWYhEfaEymGjhr07-->结果 Results</option>
+        <option data-page-node-id="delWqnxiJkoBu4RZNiKUwQ" value="discussion"><!--pnid:Tu0PNAFRW4G63Qn2Bz38S7-->讨论 Discussion</option>
+        <option data-page-node-id="Vpj1D32pu97Rtl7kklFCJc" value="abstract"><!--pnid:mRytw2GmCGAgHAESy2PK3m-->摘要 Abstract</option>
+        <option data-page-node-id="4d97LKWwW5suXRYHn76GmX" value="conclusion"><!--pnid:BGC5uIFmSaeSssl0PF8LPe-->结论 Conclusion</option>
+      </select>
+      <label data-page-node-id="DGkm6p80PDOcQjFtvqPm6q"><!--pnid:3avavKdYTIpIYSvTdhyRg0-->已有草稿（可选，有则给出针对性改写）</label>
+      <textarea data-page-node-id="0moN0TJdq6h3tmM9EAPMqp" id="s3-draft" placeholder="粘贴已有草稿段落，可留空"></textarea>
+      <div data-page-node-id="UqW5IGP1RVVRYdyoFaDklT" class="row mt"><button data-page-node-id="oq01WgYAavIfNB9itVE172" class="btn" onclick="runWorkflow(3)"><!--pnid:AnGl8fBel1VtWBziTVYHEO-->开始写作引导</button></div>
+      <div data-page-node-id="z1UNMWkslqcvSTLKMMTQGN" id="out3"></div>
+    </div>
+  </section>
+
+  <!--pnid:hRNhaexvDXgvnwFUPn8C1K--><!-- 阶段 4 引用格式 -->
+  <section data-page-node-id="wKjm2YxfDowePDqT0nikRj" id="page-stage4">
+    <h1 data-page-node-id="8f3Ym0tf0NXM0BEEyRwVMx"><!--pnid:HtKVtkXncmtTgYYddzRvUe-->引用格式规范</h1>
+    <p data-page-node-id="AbmgXGVZFdyJDaWg01W1N9" class="lead"><!--pnid:f5lfb8fyX9i9SmRRIc3dlO-->四套引用体系（IEEE / APA 第7版 / GB/T 7714 / 脚注制）怎么选、怎么改，避免"[1]编号+字母序"这类中英混排（CIT 族共 16 条规则）。</p>
+    <div data-page-node-id="VyDcl23buvdYDTPtskyUac" class="card mt">
+      <label data-page-node-id="IL3vMHteuiRbkPziYFEZC8"><!--pnid:bLnE7gLYjz59HtwOs9TAqJ-->投稿语言与目标</label>
+      <select data-page-node-id="JQf23wIjIiT7aicPqQRczc" id="s4-style">
+        <option data-page-node-id="88XCZA7Bax4PZpe055MwMK" value="ieee"><!--pnid:Eq9hUZXv5e2kvb4bWI1WKQ-->工程类，投 IEEE 会议或期刊 → IEEE</option>
+        <option data-page-node-id="1sUlXo3Kjd1T6GRyVm0jqV" value="apa"><!--pnid:ML8toriDE9LWf5Ss9B5SDM-->心理/教育/管理/社会学，投 SSCI/APA 系期刊 → APA 第7版</option>
+        <option data-page-node-id="Gl7SYDi1NYvYtzx863KgZx" value="gb7714"><!--pnid:I7l5NxHwVdQ4qnVWf72Rqz-->中文期刊 / 中文学位论文 / 国内会议 → GB/T 7714</option>
+        <option data-page-node-id="ZsHauZiz5vE31UgNadNHnV" value="quickref"><!--pnid:QeBMcJAd79IoWybdiGqcoO-->人文 / 历史 / 部分社科（脚注制）</option>
+      </select>
+      <label data-page-node-id="UtmbTsPTudLWXoBjzajami"><!--pnid:x8uM6fPTivCyLEKcg5fj2c-->参考文献列表或正文（可选，用于逐条检查）</label>
+      <textarea data-page-node-id="LwwapTZO6zjoShNPeDEjib" id="s4-refs" placeholder="粘贴参考文献或正文引用片段"></textarea>
+      <div data-page-node-id="0NUXWONYQ0AetiVBKhR9I9" class="row mt"><button data-page-node-id="jUs93mXkDhe9aT9zOgpzy5" class="btn" onclick="runWorkflow(4)"><!--pnid:ZeklaaPf6ePXYnzMMdp1eS-->开始引用检查</button></div>
+      <div data-page-node-id="ocHi6Gf5fSptZsMym810RY" id="out4"></div>
+    </div>
+  </section>
+
+  <!--pnid:56plvZ4FEMvnpZMuFBzSrp--><!-- 阶段 5 投稿前审查（核心） -->
+  <section data-page-node-id="Ckm7jC0qf5JRlB148Vaxoc" id="page-stage5">
+    <h1 data-page-node-id="SDYXQpE65NHytrCMjartOV"><!--pnid:dqL1vRmVBfPfLKb9ymiiKE-->投稿前审查</h1>
+    <p data-page-node-id="riGme7bVNXHXL7pqQ04EZq" class="lead"><!--pnid:1DthW6i26EDwnhCacHs14Y-->本助手最成熟的场景：结构自检 + 词面检测 + 大模型逐条判读 + 三层风险清单。</p>
+
+    <div data-page-node-id="knA3fbeQWCUHDMoSThaHpE" class="steps">
+      <div data-page-node-id="y3RiQ3dpAn14BkRdZa5Qb4" class="step"><b data-page-node-id="Gw5uv3SosVZzWx3cYDhykG"><!--pnid:nLZKjQPNQgDekrrBkdLGAS-->1 · 选学科</b><!--pnid:hl13mlmxDudhbQ2y6v4Yit-->确定学科主线与体裁，加载对应规则</div>
+      <div data-page-node-id="od6Mn8nofuaZIGEbOpqw1p" class="step"><b data-page-node-id="ng5Vm0lwqAEVxSD02vYptz"><!--pnid:90n6nc7rDl96Bglw9DjQ3l-->2 · 上传稿件</b><!--pnid:yUPFKTrP0Cu9i3UJsICyZK-->上传 Word / Markdown / LaTeX，或直接粘贴全文</div>
+      <div data-page-node-id="GARNbDrg0Qdzaesta4hGVf" class="step"><b data-page-node-id="vkAGtSku8LukNdYBIPHCTn"><!--pnid:PX6lJ3rc3milqH2CyMsGsU-->3 · 词面检测</b><!--pnid:0nivgmpSHVzUJRFHOsOaEt-->复用 skill 原生脚本即时出词面结果</div>
+      <div data-page-node-id="D8htl2n3nopMlCcCp0JC1S" class="step"><b data-page-node-id="H5QFyIkywQ0UvoQpoht45e"><!--pnid:67eW6F73xhqYtVZZUZta3B-->4 · 深度判读</b><!--pnid:MpUVbQNOrDjL7QVT8TLCID-->大模型逐条判读需人工的规则</div>
+    </div>
+
+    <div data-page-node-id="i6VNydhjNjZGA6QULwehyf" class="card">
+      <div data-page-node-id="KYFTfvrGH4q6C1LScBrHyx" class="g2 grid">
+        <div data-page-node-id="jrm8XcMxS47uFrT8jh46oW">
+          <label data-page-node-id="hricGr9cJlR3WUFfoaGA1N"><!--pnid:UTG3dBLgF4HLTNERFElEEr-->学科主线（track）</label>
+          <select data-page-node-id="ihpo6qHAKeJQQV4aVCIVpg" id="s5-track"></select>
+        </div>
+        <div data-page-node-id="UxFcf8i3L29qeG8BaujB6G">
+          <label data-page-node-id="SafkwFTptM9Xgk3afGp099"><!--pnid:RWxhVKujGisHm0wJ2cuobw-->体裁（genre，用于结构检查）</label>
+          <select data-page-node-id="p8DGO69WKYjbmTtzVtodWK" id="s5-genre"></select>
+        </div>
+      </div>
+      <div data-page-node-id="5lfCNKlpNWwyWoPgvjW4T6" class="muted mt" id="s5-stats"></div>
+
+      <label data-page-node-id="HW2huyRK1N3OOCLF3VPJmJ"><!--pnid:K2oata5ZuocGfx8CKTUkK9-->稿件正文</label>
+      <div data-page-node-id="Vm5Cb8Hc2JdXfbs9DkIheX" class="drop" id="dropZone"><!--pnid:0ssMQFv3jPSF14iVNEz2zb-->点击或拖拽上传 Word(.docx/.doc) / Markdown / LaTeX / PDF / TXT，或直接在下方粘贴全文（表格、公式、图片会一并解析）</div>
+      <input data-page-node-id="7hoC31FBhs9sIJ01wFkdlC" accept=".docx,.doc,.md,.markdown,.txt,.text,.tex,.latex,.pdf,.html" id="fileInput" type="file">
+      <div class="filenote" id="s5-filenote" style="display:none"></div>
+      <textarea data-page-node-id="uv3Xs386WnmeH5FjU2Rzds" class="mt" id="s5-text" placeholder="粘贴论文全文（含标题、摘要、引言、方法、结果、讨论、参考文献）。可直接从 Word 粘贴，表格会自动转为 Markdown 表格；公式用 $...$ 或 $$...$$；也可上传 .docx 保留表格与公式" style="min-height:220px"></textarea>
+
+      <div data-page-node-id="vUlfb0XhzcwNUdG1DJLcax" class="row mt">
+        <button data-page-node-id="stKuuCGiSfWJvz0mCEZAAU" class="btn" id="btnReview" onclick="runLexical()"><!--pnid:6iVCYILD7npZ1Uj3sq4J8Z-->① 词面检测</button>
+        <button data-page-node-id="vufEOOs6QWYpYIafkG1dON" class="btn" id="btnDeep" onclick="runDeep()" style="background:#6a4fd0"><!--pnid:g5NRODKmAdx8fLP584jYUU-->② 深度判读（LLM）</button>
+        <button data-page-node-id="bCYZdk6SpWXCQCnl0wCp4I" class="btn ghost" onclick="loadSample('good')"><!--pnid:5G991dCCCZcW4GqxyChfiY-->载入好样稿</button>
+        <button data-page-node-id="LnKaihB52fhwnxYxVlKS4l" class="btn ghost" onclick="loadSample('bad')"><!--pnid:NtjMSbGglfuyqk7IkQytyD-->载入差样稿</button>
+        <button data-page-node-id="lSb5VDPrEo505JjDWcmrfi" class="btn ghost" onclick="clearText()"><!--pnid:tsHkkBA6shOAiDYO7v6Mw6-->清空</button>
+      </div>
+      <div data-page-node-id="8pLMU6qf8lEqSMCbBltoPt" class="notice info" id="s5-hint" style="display:none"><!--pnid:tEy6yWSqVhfNskjkabf3bQ-->深度判读会把约 30 条需人工的规则逐条交给大模型对照 signal 判读，通常需 1~3 分钟，请耐心等待。</div>
+    </div>
+
+    <div data-page-node-id="uN6cGLfTxMN4EuzYg61UZT" class="mt" id="resultArea" style="display:none"></div>
+  </section>
+
+  <!--pnid:Y9sIv7UQsnHGFdpxrNtG2W--><!-- 阶段 6 投稿返修 -->
+  <section data-page-node-id="2T43M0kFb6iAWehydg4mLv" id="page-stage6">
+    <h1 data-page-node-id="UYW0NZIewP2rzWpxrPHmFp"><!--pnid:F5NbYyTBRPoBc2m5soxDmN-->投稿与返修</h1>
+    <p data-page-node-id="YopVTMytxHBgGShosF7WEo" class="lead"><!--pnid:BgnbcMMoO4dugGSF89KJSe-->产出投稿包清单（cover letter、标题页、伦理声明、数据可用性声明、报告规范清单），返修时产出 rebuttal 结构（逐条回应 + 改动定位 + 不改的理由）。</p>
+    <div data-page-node-id="7hS7B7ryOX5yyMlShzep1t" class="card mt">
+      <label data-page-node-id="9gOsrRbcC1PhhrxX5QYxLb"><!--pnid:qgRBffDIpAztW5bCmmk9k9-->模式</label>
+      <select data-page-node-id="rdC8KHJOCfxWOr44v90IFH" id="s6-mode">
+        <option data-page-node-id="BAKyifUfcBLvdx0fIUKQAW" value="submit"><!--pnid:exspUtoaMP06GRYSBsvQnW-->投稿准备</option>
+        <option data-page-node-id="koWwrbfdPFA7VMrhv2Ev7R" value="revision"><!--pnid:nuVRW0qGAy9qRMtNCHp550-->回复审稿意见（rebuttal）</option>
+      </select>
+      <label data-page-node-id="dG6wQzVpBw6n9Juokdg68Y"><!--pnid:LHPHgOUoX6i7jeHtutdnO5-->学科主线</label>
+      <select data-page-node-id="ygYq5Qt4xxsC5QEzdRDFnx" id="s6-track"></select>
+      <label data-page-node-id="AeC3FwK20Hd0PWh9QNB4x1"><!--pnid:X0AngQQI2YUCETslBoDv7T-->审稿意见（返修时粘贴，投稿准备可留空）</label>
+      <textarea data-page-node-id="xbirpcjlhOQoIF2DRDhslz" id="s6-comments" placeholder="粘贴审稿人意见"></textarea>
+      <div data-page-node-id="dSvNfIGIj2AE30MUyz5wz0" class="row mt"><button data-page-node-id="VQ9pnh8r96eleyGt35a59W" class="btn" onclick="runWorkflow(6)"><!--pnid:rDz9nuFNs0F24hfoBP45sA-->开始投稿/返修引导</button></div>
+      <div data-page-node-id="E5BuESAfBDd9GK9yKkjRYf" id="out6"></div>
+    </div>
+  </section>
+
+  <!-- 阶段 7 一键成稿（学术小白） -->
+  <section data-page-node-id="page-stage7" id="page-stage7">
+    <h1>一键成稿（学术小白）</h1>
+    <p class="lead">从选题 → 定题 → 研究设计 → 大纲 → 分章成稿 → 文献装配 → 自检，一次跑完，产出一篇符合规则库结构要求、引用可核实的工作稿。规则库基于国际期刊规范（SCI / SSCI / EI / AI 会议），<b>默认英文，中文为受限通道</b>。</p>
+
+    <div class="notice err" id="osAiWatermark">
+      <b>⚠️ 严禁把 AI 生成内容的水印稿用于投稿、交稿或任何实际用途。</b>
+      本应用产出的全部文本均为 <b>AI 生成内容</b>；平台侧的分发、导出或转存副本可能带有可见或不可见的 AI 标记（水印 / 隐写标识 / 元数据标签）。这类稿件存在三类实际风险：
+      <ol style="margin:6px 0 4px 18px;padding:0">
+        <li><b>学术不端认定</b>：期刊与高校已有 AI 检测与标记核查机制，带标记的稿件会被判定为 AI 代写。</li>
+        <li><b>版权与署名争议</b>：带水印的副本无法证明你的原创贡献，也可能违反目标期刊的 AI 使用声明。</li>
+        <li><b>技术性暴露</b>：隐写标记肉眼不可见，PDF 转存、截图、复制粘贴都不能清除。</li>
+      </ol>
+      <b>正确用法</b>：只把产出当作写作骨架与自查清单，逐段用自己的语言重写、用真实数据填充 <code>[TBD: ...]</code>、用可核实文献替换 <code>[CITE: ...]</code>，最终稿必须是你自己重新写出的文本。<b>不要使用任何带 AI 水印的成稿直接提交。</b>
+    </div>
+
+    <div class="notice warn">
+      <b>这不是「一键投稿」。</b>生成的是<b>工作稿</b>：<code>[TBD: ...]</code> 处必须由你用真实数据填写，<code>[CITE: ...]</code> 由第 6 步「文献装配」用 OpenAlex 真实检索结果替换：每条都带 DOI、可点开核对；检索不到就保留占位并写明原因，绝不编造作者与年份。不编数据、不造文献，是这套流程的硬约束。
+    </div>
+
+    <div class="card mt os-entry">
+      <div class="os-entry-main">
+        <div class="os-entry-title">第 0 步 · 先去「选题」用雷达把题定下来</div>
+        <p>选题是你自己的判断：这个方向你熟不熟、数据拿不拿得到、导师和审稿人认不认。所以这里<b>不替你自动选题</b>，也不把雷达结果自动搬过来。</p>
+        <ol>
+          <li>点右边按钮去「选题」页，填方向 → 跑 OpenAlex 趋势 → 让 AI 出 3 个候选并三维打分</li>
+          <li>你挑一个（或改成一个你自己的题目），点结果卡上的「复制题目」</li>
+          <li>回来粘到下面的<b>「已定题目」</b>，再开始成稿</li>
+        </ol>
+      </div>
+      <button class="btn" onclick="switchTab('stage1')">去选题页做雷达评估 →</button>
+    </div>
+
+    <div class="card mt">
+      <label>已定题目<span class="req">*</span>（英文题名，从选题页复制）</label>
+      <div class="row" style="gap:8px">
+        <input id="s7-title" placeholder="Digital Financial Inclusion and Firm Investment Efficiency: Evidence from County-Level Firms" style="flex:1" type="text">
+        <button class="btn ghost small" id="btnTranslateTitle" onclick="osTranslateTitle(true)" type="button">译为英文</button>
+      </div>
+      <p class="hint" id="s7-title-note" style="display:none"></p>
+      <p class="hint">必填。先在「选题」页用雷达把题定下来，点结果卡上的「复制题目」再粘到这里。<b>这里不替你想题目</b>，第 1 步只做题目体检（可证伪？变量可见？范围是否过大）。题目即研究方向，趋势与检索式都从它推出来。<br>粘过来的是<b>中文题名</b>也没关系：离开输入框会自动译成学术英文题名，也可以点「译为英文」手动触发；开始成稿时若仍是中文，还会再替你译一次。</p>
+
+      <div class="grid g2">
+
+        <div>
+          <label>学科主线 track</label>
+          <select id="s7-track"></select>
+        </div>
+        <div>
+          <label>体裁 genre（决定章节结构）</label>
+          <select id="s7-genre"></select>
+        </div>
+        <div>
+          <label>目标期刊 / 会议（可留空）</label>
+          <input id="s7-venue" placeholder="如 Journal of Development Economics / an EI conference" type="text">
+        </div>
+        <div>
+          <label>层级（影响选题打分与贡献定位）</label>
+          <select id="s7-level">
+            <option value="journal" selected>期刊投稿</option>
+            <option value="phd">博士论文</option>
+            <option value="master">硕士论文</option>
+            <option value="bsc">本科毕设</option>
+            <option value="general">一般性研究</option>
+          </select>
+        </div>
+        <div>
+          <label>语言</label>
+          <select id="s7-lang">
+            <option value="en" selected>English（推荐：与规则库一致）</option>
+            <option value="zh">中文（受限：国内刊惯例不在库内）</option>
+          </select>
+        </div>
+        <div>
+          <label>引用体系</label>
+          <select id="s7-citation">
+            <option value="apa" selected>APA 7th（author-date）</option>
+            <option value="ieee">IEEE（numeric, [1]）</option>
+            <option value="chicago">Chicago author-date</option>
+            <option value="gb7714">GB/T 7714（中文刊）</option>
+          </select>
+        </div>
+        <div>
+          <label>目标字数（正文，不含摘要与文献）</label>
+          <input id="s7-words" max="15000" min="3000" step="500" type="number" value="7000">
+        </div>
+        <div>
+          <label>数据状态（决定结果章怎么写）</label>
+          <select id="s7-data">
+            <option value="no" selected>无数据：只写分析框架 + 表格骨架 + 占位</option>
+            <option value="find">无数据，帮我找数据源（荐源 + 代下载公开源）</option>
+            <option value="demo">演示模式：生成带模拟值的排版预览稿（标注 SIMULATED）</option>
+            <option value="partial">部分数据：已有部分写实，缺的占位</option>
+            <option value="yes">已有真实数据：按真实分析写</option>
+          </select>
+        </div>
+        <div class="span2">
+          <label>数据文件（可选，可多选；只读结构不上传原始行）</label>
+          <div class="row">
+            <button class="btn ghost sm" onclick="osPickData()">上传数据（可多选）</button>
+            <button class="btn ghost sm" id="btnOsDataClear" onclick="osClearData()" style="display:none">移除</button>
+            <button class="btn ghost sm" id="btnOsSources" onclick="osFindSources()">查可用数据源</button>
+            <span class="hint" style="align-self:center">支持 csv / tsv / txt / xlsx / xls / ods / json；<b>只读列名、类型、缺失率与汇总统计</b>，行级数据不发给模型（文本列示例值会对疑似身份列脱敏）。</span>
+          </div>
+          <input id="s7-datafile" type="file" accept=".csv,.tsv,.txt,.xlsx,.xlsm,.xls,.ods,.json,.dta,.sav" multiple style="display:none">
+          <div id="osDataProfile"></div>
+          <div id="osDataSources"></div>
+        </div>
+      </div>
+
+      <div class="row mt">
+        <button class="btn ghost" id="btnOsGate" onclick="osGate()">① 前置条件检查</button>
+        <button class="btn" id="btnOsStart" onclick="osStart()">② 开始一键成稿</button>
+        <button class="btn ghost" id="btnOsCancel" onclick="osCancel()" style="display:none">取消任务</button>
+      </div>
+      <p class="hint mt">全程自动执行 7 步，约 5–15 分钟（取决于字数与模型速度；文献装配会多花几十秒检索）。每步产物落盘到 <code>_oneshot/&lt;任务号&gt;/</code>，可单步重跑。</p>
+    </div>
+
+    <div id="osGate"></div>
+
+    <div id="osRun" style="display:none">
+      <div class="card mt">
+        <div class="card-head">
+          <span class="card-title">执行时间轴</span>
+          <span class="muted" id="osPhase"></span>
+        </div>
+        <div class="os-steps" id="osSteps"></div>
+        <div class="os-log" id="osLog"></div>
+      </div>
+      <div id="osOut"></div>
+      <div id="osArtifact"></div>
+    </div>
+
+    <div class="promo mt" id="osPromo"></div>
+  </section>
+
+  <footer data-page-node-id="YQVqSyKya9SfCJyDogX8Qx"><!--pnid:3hXvnCAb56EHyqxssuT1RO-->Academic Writing Skill v1.2.0 · 规则库 393 条 · 检测器 95 个 · 选题雷达已内置 · 支持 Word / Markdown / LaTeX 输入输出 · 模型可自配（DeepSeek / Anthropic / 萤算）· 开源论文搭子 · 独立 Web 应用（本地运行）</footer>
+</div>
+
+<!--pnid:8PZuK8tkzMmZiDz8ENPWFG--><!-- 设置弹窗 -->
+<div data-page-node-id="pIMxO2SPBuJVqkQaIOP39l" class="modal" id="settingsModal" style="display:none">
+  <div data-page-node-id="6lgi7kwNNQUOWmEV1N6Zui" class="modal-box">
+    <h3 data-page-node-id="p4Z4ceMExqh2PyxCEumj2a"><!--pnid:H6LACRvtZdr8Q8SEyL7K6G-->设置 · 模型接入</h3>
+    <p data-page-node-id="fkXR2cPXHmjZReh1Iy0QIa" class="muted"><!--pnid:6D91icfLPFvjgZRmDR2OKc-->深度判读、六阶段引导与一键成稿都要调用大模型。Key 只保存在你本机浏览器 localStorage，不会上传。</p>
+
+    <label>服务商</label>
+    <div class="prov-chips" id="cfgProviders"></div>
+    <p class="hint" id="cfgProvNote"></p>
+
+    <label data-page-node-id="q2mCsOwYSlpIHHUrLN9Wub"><!--pnid:pVFfbm7ezniBwTGKQ6QwN0-->API Key</label>
+    <input data-page-node-id="H9oobujgi5erC6eU08w3wo" id="cfg-key" placeholder="sk-... / sk-ant-..." type="password" autocomplete="off">
+
+    <label data-page-node-id="yCciv5DbluEFiHqbYiphiD"><!--pnid:IRix5A3AN9RGZMRGY8ia0n-->接口地址</label>
+    <input data-page-node-id="t9tmzr9gbWEhTSwamS45Va" id="cfg-base" placeholder="https://api.deepseek.com" type="text">
+    <p class="hint">只接三家，地址照抄即可：<br>
+      DeepSeek <code>https://api.deepseek.com</code><br>
+      Anthropic <code>https://api.anthropic.com</code>（不带 <code>/v1</code>）<br>
+      萤算 <code>https://api.lumdatech.com/api/v1</code><br>
+      别填官网域名，也别把 <code>/chat/completions</code> 或 <code>/v1/messages</code> 一起粘进来。</p>
+
+    <label data-page-node-id="tsEp5V8ifKFFAmnnd51uDf"><!--pnid:eQe49CHenpWa4sp2e6fJGI-->模型 ID</label>
+    <input data-page-node-id="1TrZo5cegHEn7OQ9DU2SOT" id="cfg-model" placeholder="deepseek-chat" type="text">
+    <div class="prov-models" id="cfgModels"></div>
+
+    <div class="row mt">
+      <button class="btn ghost" id="btnCfgTest" onclick="testLLM()">测试连接</button>
+      <span class="hint" id="cfgTestHint" style="align-self:center"></span>
+    </div>
+    <div id="cfgTestResult"></div>
+
+    <div class="promo" id="settingsPromo"></div>
+
+    <div data-page-node-id="Fo13l88tJeDfHOUFSLDRXN" class="row mt">
+      <button data-page-node-id="KMQ186lH8Luh0vWBSHyfDh" class="btn" onclick="saveSettings()"><!--pnid:PHAPvr6EUFo3vWe1819zyw-->保存</button>
+      <button data-page-node-id="xPcyvFRE80pe66AoIF6lHy" class="btn ghost" onclick="closeSettings()"><!--pnid:I45bfWk4s1w5HU1Wt5Xd6P-->取消</button>
+    </div>
+  </div>
+</div>
+
+<script data-page-node-id="JQaznnjXlZNinFLWGVDwGn" src="app.js"></script>
+</body>
+</html>

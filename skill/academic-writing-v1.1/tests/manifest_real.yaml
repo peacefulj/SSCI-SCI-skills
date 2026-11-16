@@ -1,0 +1,14 @@
+# 真实发表论文语料（v1.1.3）：用于误报率统计，非验收基线
+samples:
+  - {file: plos_did_ordp.md,    track: quant,       grade: real, expect: [0, 8]}
+  - {file: q_0268994.md,        track: quant,       grade: real, expect: [0, 8]}
+  - {file: q_0276906.md,        track: quant,       grade: real, expect: [0, 8]}
+  - {file: q_0278875.md,        track: quant,       grade: real, expect: [0, 8]}
+  - {file: q_0281054.md,        track: quant,       grade: real, expect: [0, 8]}
+  - {file: q_0337827.md,        track: quant,       grade: real, expect: [0, 8]}
+  - {file: eric_qual_edi.md,    track: qualitative, grade: real, expect: [0, 8]}
+  - {file: qual_EJ1423390.md,   track: qualitative, grade: real, expect: [0, 8]}
+  - {file: qual_EJ1427115.md,   track: qualitative, grade: real, expect: [0, 8]}
+  - {file: qual_EJ1435035.md,   track: qualitative, grade: real, expect: [0, 8]}
+  - {file: qual_EJ1479040.md,   track: qualitative, grade: real, expect: [0, 8]}
+  - {file: qual_ed681035.md,    track: qualitative, grade: real, expect: [0, 8]}

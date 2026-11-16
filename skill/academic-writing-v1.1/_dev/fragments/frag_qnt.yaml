@@ -1,0 +1,363 @@
+# 定量实证 · 因果推断线（QNT）v1.1 新增
+# 书源：Imbens & Rubin 2015 / Huntington-Klein, The Effect 2e 2026 / Cunningham, The Mixtape / Morgan & Winship 2e
+# track: quant ；genre 沿用 v1.0 取值（ssci / sci-journal），便于旧过滤器兼容
+
+rules:
+  # ============ A. 估计量与潜在结果框架（Imbens & Rubin ch.1）============
+  - id: QNT-EST-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须显式写出因果估计量(estimand)的名称——ATE / ATT / LATE / MTE，不得只说"effect"
+    source: Imbens & Rubin 2015, ch.1 §1.10 p.18 (Causal Estimands)
+    signal: 方法或结果中出现 "the effect of X on Y"，但全文无法判定估计的是全样本平均效应还是受处理者平均效应
+    fix: 在方法首段写明 "We estimate the average treatment effect on the treated (ATT)…"，并在结果表头沿用同一名称
+
+  - id: QNT-EST-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 处理变量须给出可操作定义：类型（二值/多值/连续）、取值时点、编码方式
+    source: Imbens & Rubin 2015, ch.1 §1.7 p.13 (The Assignment Mechanism)
+    signal: 全文用 "treated firms""policy shock" 指代处理，但未说明何时算处理、处理强度如何编码
+    fix: 补一句定义 + 一个示例，例如 "Treated = 1 if the firm received the subsidy in fiscal year t, 0 otherwise"
+
+  - id: QNT-EST-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 结果变量须给测量口径与观测时点，且与估计量定义一致
+    source: Imbens & Rubin 2015, ch.1 §1.2 p.3 (Potential Outcomes)
+    signal: 结果变量只用变量名（如 performance、profitability）而无测量方式与时间窗
+    fix: 写明测量来源与窗口，例如 "ROA measured as net income / total assets, averaged over t+1 to t+3"
+
+  - id: QNT-EST-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须显式陈述 SUTVA（无干扰、处理版本唯一），或说明为何不成立及如何放宽
+    source: Imbens & Rubin 2015, ch.1 §1.6 p.9 (The Stable Unit Treatment Value Assumption)
+    signal: 存在群体层面处理（政策、班级、门店）却完全未提个体间干扰
+    fix: 补一段 "SUTVA may be violated through…; we address this by defining treatment at the market level"
+
+  - id: QNT-EST-005
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 系数须同时给统计显著性与经济意义（相对均值/标准差的幅度）
+    source: Angrist & Pischke, Mostly Harmless Econometrics, ch.2; Miller, Writing about Numbers, ch.5
+    signal: 结果段只有 "significant at the 1% level"，无任何幅度解读
+    fix: 补 "a 0.08 SD increase, equivalent to 12% of the sample mean"
+
+  # ============ B. 识别策略（The Effect ch.5；Imbens ch.12）============
+  - id: QNT-IDF-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须有独立小节明确命名识别策略(identification strategy)，而非把方法埋在回归说明里
+    source: Huntington-Klein, The Effect 2e, ch.5 p.67 (Identification)
+    signal: 方法章只有"我们用 OLS/固定效应"，没有"我们靠什么变异识别因果"的段落
+    fix: 新增 "Identification" 小节，首句写 "Identification comes from…"
+
+  - id: QNT-IDF-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 识别假设须逐条写出，并给出为何在此情境下可信的论证（引制度背景或前人文证据）
+    source: Huntington-Klein, The Effect 2e, ch.5 p.67; Imbens & Rubin 2015, ch.12 p.257
+    signal: 只写 "assuming conditional independence holds"，无任何支持性论证
+    fix: 每条假设后补 1–2 句依据，例如 "The rule was announced before the fiscal year, so firms could not manipulate assignment"
+
+  - id: QNT-IDF-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须说明识别所用变异的来源（source of variation），即"比较的是谁与谁"
+    source: Huntington-Klein, The Effect 2e, ch.5 p.67, ch.10 p.143
+    signal: 读者无法回答"这个系数是被哪部分样本的差异驱动的"
+    fix: 补一句 "The estimate is driven by within-firm changes around the subsidy cutoff"
+
+  - id: QNT-IDF-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 设计特定假设须按方法逐条陈述：DiD 的平行趋势、IV 的排除性限制、RDD 的连续性、匹配的条件独立
+    source: Huntington-Klein, The Effect 2e, ch.6–9 pp.87–142
+    signal: 用了 DiD 却没出现 parallel trends 相关表述
+    fix: 按所用方法补对应假设句，并与后文检验一一对应
+
+  - id: QNT-IDF-005
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 不得以"控制了更多变量"替代识别论证（控制变量不解决未观测混杂）
+    source: The Effect 2e, ch.8 p.115 (Causal Paths and Closing Back Doors); Pearl, Primer, ch.2
+    signal: 仅以 "we control for a rich set of covariates" 作为因果性理由
+    fix: 改为按 DAG 说明该控制集关闭了哪些后门路径，并承认未观测混杂的存在
+
+  # ============ C. 因果图（The Effect ch.6–9）============
+  - id: QNT-DAG-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 观测数据的因果结论须提供因果图（DAG），并说明其节点与边来自何种理论或制度知识
+    source: Huntington-Klein, The Effect 2e, ch.6–7 pp.87–114
+    signal: 全篇无图，或图仅为概念示意而无箭头方向
+    fix: 补 DAG 并配一句 "Edges encode the institutional knowledge that…"
+
+  - id: QNT-DAG-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: DAG 须显式标注未观测变量，并说明其对识别的影响
+    source: The Effect 2e, ch.7 p.101; Pearl, Primer, ch.2.3
+    signal: DAG 里所有节点都带观测数据，暗示不存在未观测混杂
+    fix: 用虚线节点标出不可观测变量，并在正文说明相应的敏感性分析
+
+  - id: QNT-DAG-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 控制变量的取舍须按后门准则论证，不得"能控就控"
+    source: The Effect 2e, ch.8 p.115; Pearl, Primer, ch.3.3 p.61 (Backdoor Criterion)
+    signal: 控制集包含大量与结果相关但不在任何后门路径上的变量，且无取舍理由
+    fix: 逐一说明每个控制变量关闭了哪条路径，删除无用控制并给出理由
+
+  - id: QNT-DAG-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须排查对撞变量(collider)与 M-bias，说明为何未控制某变量
+    source: The Effect 2e, ch.8 p.115; Pearl, Primer, ch.2.3 p.40
+    signal: 控制集里有明显是"结果的原因之一且受处理影响"的变量，却未讨论
+    fix: 补一段 "We deliberately do not control for Z, a collider on T→Z←Y"
+
+  - id: QNT-DAG-005
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 不得控制处理后变量(bad control)，若必须控制须说明其经济学含义并改用中介分析
+    source: The Effect 2e, ch.8 p.115; Imbens & Rubin 2015, ch.1 §1.8 p.15 (Covariates)
+    signal: 控制集包含明确在处理之后才发生的变量（如处理后的员工数、处理后的融资额）
+    fix: 移出主回归，或改用中介分析并明确报告"总效应"与"直接效应"两个量
+
+  # ============ D. 匹配与倾向得分（Imbens & Rubin ch.13–18）============
+  - id: QNT-PSM-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 使用倾向得分须报模型设定（函数形式、纳入的协变量清单）与估计方法
+    source: Imbens & Rubin 2015, ch.13 p.281 (Estimating the Propensity Score)
+    signal: 只写 "we use propensity score matching"，无协变量清单与模型形式
+    fix: 补协变量表 + 一句 "logit of treatment on 12 pre-treatment covariates listed in Table A1"
+
+  - id: QNT-PSM-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 须报告共同支撑(overlap)检验，并给出倾向得分的分布图或 trimming 规则
+    source: Imbens & Rubin 2015, ch.14 p.309 (Assessing Overlap)
+    signal: 匹配样本已生成，但没有任何关于得分分布重叠的展示
+    fix: 补匹配前后的倾向得分密度图，并报落在共同支撑外的样本比例
+
+  - id: QNT-PSM-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 须报告协变量平衡性（标准化均值差 SMD，经验阈值 0.1），而非只报匹配后结果
+    source: Imbens & Rubin 2015, ch.15 p.337 (Matching to Improve Balance)
+    signal: 只有匹配后的处理效应表，没有平衡性检验表
+    fix: 补 balance table，列匹配前/后 SMD，并注明 "all SMD below 0.1"
+
+  - id: QNT-PSM-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 须报匹配过程中的样本损失（初始 N、匹配成功 N、被丢弃 N 及原因）
+    source: Imbens & Rubin 2015, ch.16 p.359 (Trimming); ch.18 p.401 (Matching Estimators)
+    signal: 结果表样本量比数据描述部分的样本量小，但全文未解释差异
+    fix: 补一句 "Of 8,412 firms, 7,905 fell in the common support; 507 were trimmed"
+
+  - id: QNT-PSM-005
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 倾向得分的用途须区分：用于平衡性设计 vs 用于估计权重，二者报告要求不同
+    source: Imbens & Rubin 2015, ch.13 p.281; ch.17 p.377 (Subclassification)
+    signal: 混用 "PSM 估计" 与 "IPW 估计" 的说法，未说明最终采用哪一种
+    fix: 明确写 "We use the propensity score for balance assessment, and estimate effects by…"
+
+  # ============ E. 工具变量（Imbens ch.23–25；Mixtape）============
+  - id: QNT-IV-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 须报告第一阶段结果：工具对处理变量的系数、F 统计量或偏 R²
+    source: Imbens & Rubin 2015, ch.23–25 pp.533–580; Cunningham, The Mixtape, ch.5
+    signal: 只有 2SLS 的第二阶段表，第一阶段完全缺失
+    fix: 补第一阶段表，报系数、F 值，并按经验阈值说明是否弱工具
+
+  - id: QNT-IV-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须陈述排除性限制(exclusion restriction)并给出不可检验假设的支持性论证
+    source: Imbens & Rubin 2015, ch.23 p.533; The Mixtape, ch.5
+    signal: 只写 "Z is a valid instrument"，无任何关于 Z 只通过 T 影响 Y 的论证
+    fix: 补制度性论证 + 一个可证伪的推论（如 Z 对安慰剂结局无效应）
+
+  - id: QNT-IV-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: discussion
+    rule: 须说明 IV 估计的是依从者(compliers)的局部效应，不得直接外推为总体平均效应
+    source: Imbens & Rubin 2015, ch.23 p.533 (LATE); The Mixtape, ch.5
+    signal: IV 结果被表述为 "the effect of X on Y for the population"，无 compliers 讨论
+    fix: 补 "This is a LATE for compliers, i.e. firms whose treatment status responds to Z; it does not identify the ATE"
+
+  - id: QNT-IV-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 弱工具情形须改用弱识别稳健推断（Anderson-Rubin / CLR），不得只报常规 t 检验
+    source: Imbens & Rubin 2015, ch.23–25; The Mixtape, ch.5
+    signal: 第一阶段 F 值偏低但结果仍用常规标准误与 p 值
+    fix: 补 AR 置信区间，并注明 "conventional asymptotics may be unreliable given the weak first stage"
+
+  # ============ F. DiD / RDD / 合成控制（Mixtape）============
+  - id: QNT-DID-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: DiD 须提供平行趋势的证据（事件研究图或处理前趋势检验），不能只声称成立
+    source: Cunningham, The Mixtape, ch.9; Huntington-Klein, The Effect 2e, ch.10 p.143
+    signal: 出现 "parallel trends assumption is satisfied" 但无任何检验或图
+    fix: 补事件研究图，报处理前各期系数及联合检验 p 值
+
+  - id: QNT-DID-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 交错处理(staggered adoption)情形须说明为何 TWFE 可能有偏，并采用现代估计量或给出稳健性对照
+    source: Cunningham, The Mixtape, ch.9 ( staggered DiD ); Goodman-Bacon 分解
+    signal: 处理时点不一致，但只用双向固定效应且未讨论负权重问题
+    fix: 补 Callaway–Sant'Anna 或 Sun–Abraham 估计作为对照，并说明结论是否改变
+
+  - id: QNT-RDD-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: RDD 须报带宽选择规则，并给多个带宽下的稳健性结果
+    source: Cunningham, The Mixtape, ch.6; The Effect 2e, ch.10 p.143
+    signal: 只报一个带宽下的结果，未说明带宽如何确定
+    fix: 补带宽选择方法（如 IK/CCT 最优带宽）与 ±50% 带宽的敏感性表
+
+  - id: QNT-RDD-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: RDD 须做操纵检验（断点附近密度连续性）与协变量连续性检验
+    source: Cunningham, The Mixtape, ch.6 (McCrary density test)
+    signal: 有 RDD 设计但无密度检验、无断点附近协变量平衡展示
+    fix: 补 McCrary 密度图与断点两侧协变量均值表
+
+  - id: QNT-SCM-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 合成控制须报 donor pool 构成、预测变量与拟合期，并给 placebo 检验
+    source: Cunningham, The Mixtape, ch.10
+    signal: 只给合成控制路径图，未说明权重如何得到、对照单元如何选
+    fix: 补 donor pool 清单、权重表与 in-space/in-time placebo 分布
+
+  # ============ G. 敏感性与稳健性（Imbens ch.21–22）============
+  - id: QNT-SEN-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 基于条件独立的识别须做敏感性分析，量化"未观测混杂需多强才能推翻结论"
+    source: Imbens & Rubin 2015, ch.22 p.496 (Sensitivity Analysis and Bounds)
+    signal: 通篇假定无未观测混杂，却无任何敏感性分析
+    fix: 补 Rosenbaum bounds 或 Oster δ 检验，并写成 "an unobserved confounder would need to be X times stronger than…"
+
+  - id: QNT-SEN-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 稳健性检验须与具体威胁一一对应，不得堆砌与结论无关的替代设定
+    source: Imbens & Rubin 2015, ch.21 p.479 (Assessing Unconfoundedness)
+    signal: 稳健性小节列出 8 个替代回归，但未说明每个检验针对什么质疑
+    fix: 改为表格：威胁 → 检验 → 结论，每行一一对应
+
+  - id: QNT-SEN-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 须区分预设(prespecified)分析与探索性(exploratory)分析，并明确标注
+    source: Imbens & Rubin 2015, ch.21 p.479; NASEM, Reproducibility and Replicability, ch.4
+    signal: 主结果与事后追加的异质性分析混在同一节，无标注
+    fix: 在表注或小节标题标 "prespecified" / "exploratory"
+
+  - id: QNT-SEN-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 多重比较须做校正（Bonferroni / FDR）或说明为何不校正
+    source: Imbens & Rubin 2015, ch.20 p.461; NASEM, Reproducibility, ch.4
+    signal: 同时检验 10 个以上结局或子群，仅按 p<0.05 挑显著
+    fix: 补 FDR 校正后的 q 值，或声明 "these subgroup tests are exploratory and not adjusted"
+
+  # ============ H. 报告与写作 ============
+  - id: QNT-RPT-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 回归表须报标准误（并说明类型）、样本量、固定效应与聚类层级；星号须在表注定义
+    source: Miller, Writing about Numbers, ch.7; Angrist & Pischke, MHE, ch.8
+    signal: 表格只有系数与星号，无括号内标准误或 N
+    fix: 补括号标准误、N、FE 行与表注 "Standard errors clustered at the firm level in parentheses"
+
+  - id: QNT-RPT-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 须说明聚类层级的选择理由（处理分配层级或误差相关结构）
+    source: Angrist & Pischke, MHE, ch.8; Imbens & Rubin 2015, ch.19
+    signal: 报告 "clustered standard errors" 但未说明为何在该层级聚类
+    fix: 补一句 "Treatment is assigned at the province level, so we cluster at that level"
+
+  - id: QNT-RPT-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 置信区间须与假设检验一并给出，不得只报 p 值
+    source: Miller, Writing about Numbers, ch.6; Imbens & Rubin 2015, ch.19
+    signal: 结果叙述通篇 "p < 0.05"，无任何区间估计
+    fix: 每个主效应后补 95% CI
+
+  - id: QNT-RPT-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 数据来源、样本筛选与清洗步骤须写到可被第三方复现
+    source: NASEM, Reproducibility and Replicability, ch.3; McGilvray, Executing Data Quality Projects 2e
+    signal: 只说 "data from CSMAR"，未说明时间范围、筛选规则、缺失处理
+    fix: 补数据附录：来源、时间窗、纳入排除规则、清洗脚本可得性
+
+  - id: QNT-WRT-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: discussion
+    rule: 不得用因果语言描述未经识别的相关结果（"导致/带来/促进"）
+    source: Pearl, Primer, ch.1; Angrist & Pischke, MHE, ch.3 p.44
+    signal: 识别策略仅为横截面回归加控制变量，却写 "X increases Y by…"
+    fix: 改为 "X is associated with Y"，或补足识别策略后再用因果表述
+
+  - id: QNT-WRT-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: introduction
+    rule: 贡献须相对"最接近的 3 篇文献"说明增量，不得只声称填补空白
+    source: Booth et al., The Craft of Research 5e, ch.4; Imbens & Rubin 2015, ch.1 §1.1
+    signal: 贡献段只有 "this paper fills a gap in the literature"，未点名对比文献
+    fix: 改为 "Relative to A (2020) and B (2022), we…" 并逐条列差异

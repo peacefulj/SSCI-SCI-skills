@@ -1,0 +1,210 @@
+# v1.2.0 新增：补齐 4 本欠梳理书目（book-to-skill 五步法）
+# 书源：Angrist & Pischke, Mastering 'Metrics 2015 /
+#       Morgan & Winship, Counterfactuals and Causal Inference 2e 2015 /
+#       Gelman, Hill & Vehtari, Regression and Other Stories 2020 /
+#       Pearl & Mackenzie, The Book of Why 2018
+# 说明：Book of Why 的 DAG/对撞/后门内容已由 QNT-DAG-001..005（Pearl, Primer 来源）覆盖，
+#       本片段只补其独有的因果层级、反事实与中介写作规则。
+
+rules:
+  # ============ Mastering 'Metrics（Angrist & Pischke 2015）============
+  - id: QNT-MM-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 随机化实验须报告随机化单位、执行机制与样本流失(attrition)，并给出处理组与对照组的基线平衡检验
+    source: Angrist & Pischke, Mastering 'Metrics, ch.1 §1.1 pp.1–8 (Randomized Trials)
+    signal: 出现 randomly assigned / randomized experiment，但全文无基线平衡表或流失率说明
+    fix: 补一段执行与平衡信息，如 "Households were randomized into treatment (n=1,204) and control (n=1,198) via public lottery; baseline covariates balance at p>0.12 on all 24 covariates (Table 1); differential attrition was 1.8 pp"
+    example_bad: "Individuals were randomly assigned to the job-training program."
+    example_good: "Randomization was carried out at the household level by an independent agency; Table 1 shows baseline balance (all SMD < 0.08), and attrition was 6% with no differential between arms."
+
+  - id: QNT-MM-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 回归中的控制变量须为预处理变量并有先验理由，不得以"试出来显著"的标准挑选控制集
+    source: Angrist & Pischke, Mastering 'Metrics, ch.2 §2.3 pp.68–79 (Ceteris Paribus?)
+    signal: 结果表并列多个设定，核心系数随控制集增减在显著与不显著之间摆动，但全文无控制变量选择依据
+    fix: 声明控制变量在处理之前测量并给出入选理由，如 "All controls are pre-treatment (measured in the baseline year); Table 2 reports specifications with and without them, chosen ex ante"
+    example_bad: "We include additional controls until the coefficient becomes statistically significant."
+    example_good: >-
+      Our control set is fixed ex ante: pre-treatment demographics and baseline outcome. Column 2–4 show results are insensitive to this choice, and we do not select controls by significance.
+
+  - id: QNT-MM-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 不得从平均效应推断个体效应；对单个单位的"会怎样"式表述须标注为平均意义上的表述或补个体异质性证据
+    source: Angrist & Pischke, Mastering 'Metrics, ch.2 §2.1–2.2 pp.47–55 (Regression as comparison of CEF)
+    signal: 出现 "an individual/firm given X would gain β" 类从平均系数推个体的句子
+    fix: 改为平均语言并补异质性，如 "On average, charter attendance raises math scores by 0.2 SD; individual gains vary widely (IQR 0.05–0.35)"
+    example_bad: "A student attending the charter school would gain 0.2 SD in math."
+    example_good: "On average, charter attendance is associated with a 0.2 SD gain in math scores; the distribution of individual effects is wide, and we report quantile treatment effects in Figure 6."
+
+  - id: QNT-MM-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: IV 场景须陈述单调性(monotonicity)假设与依从类型（compliers / always-takers / never-takers），界定 LATE 的适用人群
+    source: Angrist & Pischke, Mastering 'Metrics, ch.3 §3.1–3.2 pp.99–123 (Instrumental Variables)
+    signal: 使用 IV 或随机分派作为工具，但全文既无单调性假设也无依从类型定义
+    fix: 补假设与人群界定，如 "Distance is a valid instrument under monotonicity (no one enrolls because they live farther); we estimate LATE for compliers, who are 38% of the sample (Table 4)"
+    example_bad: "We instrument for enrollment with distance to the nearest school."
+    example_good: "Distance satisfies monotonicity—no student enrolls solely because they live farther away; estimates are LATEs for compliers (students induced by distance), who comprise 38% of the sample."
+
+  - id: QNT-MM-005
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: RDD 须给出结果变量对 running variable 的图（散点加局部均值或拟合线），使断点在图上直接可见
+    source: Angrist & Pischke, Mastering 'Metrics, ch.4 §4.1 pp.148–163 (Regression Discontinuity Designs)
+    signal: 使用 RD 术语与估计，但全文没有 running variable 上的结果图
+    fix: 补可视化，如 "Figure 3 plots mortality against age with 0.5-year bins; the jump at age 65 is visible in both local means and fitted lines"
+    example_bad: "We estimate a sharp RD at the Medicare eligibility threshold; the coefficient is 0.02 (p<0.01)."
+    example_good: "Figure 3 plots mortality by age in 0.5-year bins with local linear fits on each side; the jump at age 65 is clearly visible and corresponds to the Table 3 estimate."
+
+  - id: QNT-MM-006
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: DiD 的处理效应须辅以处理组与对照组结果的时间轨迹（均值序列图或表），不能只报交互项系数
+    source: Angrist & Pischke, Mastering 'Metrics, ch.5 §5.1–5.2 pp.178–204 (Differences-in-Differences)
+    signal: 出现 treated×post 类交互项估计，但没有任何两组均值随时间变化的图表
+    fix: 补时间轨迹图，图中给出两组逐年均值——处理前两条序列平行（每年 0.4 vs 0.5 pp），处理后缺口打开
+    example_bad: "The interaction term Post×Treat is positive and significant (β=0.031)."
+    example_good: >-
+      Figure 4 shows mean outcomes by group and year: the two series move in parallel before 2014 and diverge afterward, consistent with the Table 4 interaction estimate of 0.031.
+
+  # ============ Morgan & Winship 2e（Counterfactuals and Causal Inference）============
+  - id: QNT-CFT-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 观测组间差异不得直接等同因果效应；须说明处理分配机制与 naive 估计的偏误来源（自我选择等）
+    source: Morgan & Winship 2e, ch.2 §2.7 pp.54–62 (Average Causal Effects and Naive Estimation)
+    signal: 直接把 treated 与 untreated 的结果差解读为 effect，全文无选择偏误或分配机制讨论
+    fix: >-
+      补偏误来源分析，如 "The raw 3 pp gap conflates program effects with self-selection: firms opt in when prospects worsen, biasing naive estimates downward"
+    example_bad: "Treated firms grow 3 pp faster than untreated firms, so the program works."
+    example_good: >-
+      The naive 3 pp gap is not causal: eligibility was self-selected and correlated with prior growth. We formalize selection in a potential-outcomes framework and address it with matching (§4).
+
+  - id: QNT-CFT-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 时变处理(over-time treatments)须说明处理状态的时变路径与滞后结构，不得把当期状态当固定属性测量
+    source: Morgan & Winship 2e, ch.2 §2.8 pp.62–70 (Over-Time Potential Outcomes and Causal Effects)
+    signal: 处理变量为随时间变化的状态（婚姻/就业/贫困/在职状态），但按单一时点测量且无滞后或路径说明
+    fix: 明确测量窗口与滞后，如 "Marital status varies over the panel; we measure exposure as the share of years married between ages 20–30 and test lags 1–3 (Table 5)"
+    example_bad: "We regress earnings on current marital status."
+    example_good: "Marital status changes over the panel; treatment is defined as years married during ages 20–30 (the exposure window), and we report effects for lag 0–3 specifications in Table 5."
+
+  - id: QNT-CFT-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: method
+    rule: 使用固定效应估计时须说明其不能消除的时变混杂，并讨论残余选择偏误的来源
+    source: Morgan & Winship 2e, ch.11 §11.3 pp.363–392 (Panel Data); ch.8 §8.1 pp.268–269 (Nonignorability)
+    signal: 用个体/单位固定效应作为识别手段，但全文未讨论 FE 对时变混杂无能为力的局限
+    fix: 补局限讨论，如 "FE removes time-invariant confounding, but shocks to earnings that themselves shift labor supply (e.g. layoffs) remain; we probe this with placebo outcomes in §5.3"
+    example_bad: "With individual fixed effects included, remaining bias is unlikely to be a concern."
+    example_good: "Individual fixed effects absorb time-invariant heterogeneity, but time-varying confounders (regional demand shocks affecting both hiring and training) remain; we assess this threat with placebo outcomes and discuss it in §5.3."
+
+  - id: QNT-CFT-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 处理效应存在明显异质性来源（基线水平、人群分层、剂量）时，须报告效应分布或分组效应，不得只给单一平均数
+    source: Morgan & Winship 2e, ch.8 §8.3 pp.278–290 (Self-Selection, Heterogeneity, and Causal Graphs)
+    signal: 样本内部异质性明显（不同基线水平或亚群）而全文只报一个平均效应且无 heterogeneity 讨论
+    fix: >-
+      补异质性证据，如 "Effects are heterogeneous: +$2,900 for the bottom income tercile vs +$310 for the top (Table 7); quantile effects in Figure 6"
+    example_bad: "The program raises annual income by $1,200 on average."
+    example_good: >-
+      The average effect is +$1,200, but it masks strong heterogeneity: +$2,900 in the bottom income tercile versus +$310 in the top (Table 7); we report quantile treatment effects in Figure 6.
+
+  # ============ Gelman, Hill & Vehtari, Regression and Other Stories ============
+  - id: QNT-REG-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 观测数据的回归系数须解释为条件比较（covariate 相同的两组之差），不得直接等同于"效应"
+    source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.6 §6.3 p.84 (Interpret coefficients as comparisons, not effects); ch.10 §10.2 p.133
+    signal: 出现 "the coefficient of X is the effect of X" 类表述，或回归系数被直接冠以效应含义而数据为观测性质
+    fix: 改为比较语言，如 "Comparing two schools identical on all covariates but differing by one student, predicted scores differ by −2.1; this is a conditional association, not necessarily an effect"
+    example_bad: "The coefficient on class size (−2.1) is the effect of adding one student."
+    example_good: "The coefficient of −2.1 is the predicted score difference between observationally comparable schools differing by one student; as an observational estimate, it need not equal a causal effect."
+
+  - id: QNT-REG-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 统计显著性不得用作重要性判断；称结果 large / substantial / important 须同时给出量级与不确定性
+    source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.4 §4.5 pp.60–66 (Problems with the concept of statistical significance)
+    signal: 出现 significant 一词与大小/重要性词混用，或以显著性直接推出影响重大
+    fix: 量级与不确定性并报，如 "The estimate is 0.3 pp (95% CI [−0.1, 0.7])—statistically distinguishable from zero but economically negligible"
+    example_bad: "The effect is highly significant, hence substantial."
+    example_good: >-
+      The effect is statistically significant but small: 0.3 pp (95% CI [0.1, 0.5]), roughly 2% of the baseline mean, so we do not claim practical importance.
+
+  - id: QNT-REG-003
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 拟合的回归模型须报告残差诊断或数据-模型复现检查（残差图、后验预测检验），不得以 R² 作为拟合质量的主证据
+    source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.11 §11.3–11.4 pp.161–166 (Residual plots; Comparing data to replications); §11.6 p.168
+    signal: 出现 R²/回归拟合，但全文无 residual、诊断图或模型复现检查
+    fix: 补诊断，如 "Residual plots show no systematic pattern (Figure 5); posterior predictive checks reproduce the outcome distribution within sampling noise"
+    example_bad: "The model fits well, with R² = 0.82."
+    example_good: "Beyond R² = 0.82, Figure 5 shows residual plots with no systematic pattern, and posterior predictive checks indicate the fitted model reproduces the outcome distribution within sampling variation."
+
+  - id: QNT-REG-004
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 交互项系数不得单独解读；须给出简单斜率、边际效应或交互图，说明交互的方向与范围
+    source: Gelman, Hill & Vehtari, Regression and Other Stories, ch.10 §10.3 pp.134–136 (Interactions)
+    signal: 结果表出现 X×Z 交互项并报告其显著性，但全文无交互图、简单斜率或分层效应
+    fix: >-
+      补解读，如 "Figure 7 plots predicted outcomes by treatment status across moderator values; simple slopes: +0.9 (low Z), −0.2 (high Z)"
+    example_bad: "The interaction term is significant (β = −0.4, p < .05), indicating moderation."
+    example_good: >-
+      The interaction (β = −0.4, p < .05) is displayed in Figure 7: the treatment effect is +0.9 at low moderator values and −0.2 at high values, reversing sign beyond z = 1.4.
+
+  - id: QNT-REG-005
+    genre: [ssci, sci-journal]
+    track: quant
+    section: results
+    rule: 跨组或跨期比较率值（死亡率/失业率/发病率等）须做人口结构标准化或回归调整，不得直接比较粗率
+    source: >-
+      Gelman, Hill & Vehtari, Regression and Other Stories, ch.2 §2.4 pp.31–33 (Data and adjustment: trends in mortality rates); §2.3 p.25
+    signal: 比较两组/两时期的率值差异并归因于处理或趋势，全文无标准化或调整字样
+    fix: 先调整再比较，如 "After age-standardization, mortality declined 18% (1900–1990); the crude doubling reflects an aging population"
+    example_bad: "Cancer mortality doubled from 1900 to 1990, so treatment deteriorated."
+    example_good: "Age-standardized cancer mortality declined by 18% between 1900 and 1990; the crude rate doubled only because the population aged, so we compare standardized rates throughout (Table 2)."
+
+  # ============ Pearl & Mackenzie, The Book of Why ============
+  - id: QNT-WHY-001
+    genre: [ssci, sci-journal]
+    track: quant
+    section: discussion
+    rule: 反事实陈述（"若 X 不同，Y 本会怎样"）须显式声明所依赖的因果模型与估计口径，不得仅凭关联数据给出
+    source: Pearl & Mackenzie, The Book of Why, ch.1 pp.24–35 (The Ladder of Causation); ch.8 (Counterfactuals)
+    signal: 正文出现 would have been / had X been different 类反事实宣称，但全文未提供支撑它的模型、假设或估计方法
+    fix: 声明模型与口径，如 "Under the DAG in Figure 1 and assuming no unmeasured confounding (assessed in §6.2), the counterfactual mean profit under adoption is 12% (95% CI [4, 19]); see sensitivity bounds in Table 9"
+    example_bad: "Had the firm adopted ERP, profits would have been 12% higher."
+    example_good: "Counterfactually, firms adopting ERP would have earned 12% more (95% CI [4, 19]); this estimate rests on the DAG in Figure 1 and conditional ignorability, with sensitivity bounds in Table 9."
+
+  - id: QNT-WHY-002
+    genre: [ssci, sci-journal]
+    track: quant
+    section: discussion
+    rule: 声称机制或中介（"X 通过 M 起作用"）须做中介分析（直接/间接效应分解）或引用对 M 的独立测量证据，不得仅凭相关链推断
+    source: >-
+      Pearl & Mackenzie, The Book of Why, ch.9 pp.300–330 (Mediation: The Search for a Mechanism); cf. Morgan & Winship 2e, ch.10 §10.1 pp.326–330
+    signal: 出现 works through / operates via / the mechanism is / 机制在于，但全文无中介分析或对中介变量的独立检验
+    fix: 补中介证据，如 "Training's effect decomposes into a direct effect (+$420) and an indirect effect via certification (+$310, 42% of total; Table 8); certification was measured independently at month 12"
+    example_bad: "Job training raises wages mainly through improved skills."
+    example_good: "The training effect decomposes into a direct wage effect (+$420) and an indirect effect through certification (+$310, 42% of the total; Table 8); certification is measured independently at month 12, before wage outcomes."

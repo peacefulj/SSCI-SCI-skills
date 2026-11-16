@@ -1,0 +1,195 @@
+# 目标期刊 / 会议清单（选题环节「下拉」数据源）
+#
+# 排序约定（v1.1.0 起）：**英文国际刊/会在前，中文刊在后**。
+# 本工具的规则库基于国际期刊规范（IMRaD + 英文写作惯例），默认产出英文稿，
+# 因此下拉先给英文目标；中文刊保留在每组末尾并标注「中文稿」，方便确有中文投稿需求时选用。
+# 标注为通用参考口径（FT50 / ABS / JCR / CCF），投稿前请以最新官方分区与作者指南为准。
+
+quant:        # 定量实证（经济/管理/金融/社会学定量）
+  - name: Journal of Finance
+    en: Journal of Finance
+    tier: FT50 · ABS 4*
+  - name: Journal of Financial Economics
+    en: Journal of Financial Economics
+    tier: FT50 · ABS 4*
+  - name: Review of Financial Studies
+    en: Review of Financial Studies
+    tier: FT50 · ABS 4*
+  - name: American Economic Review
+    en: American Economic Review
+    tier: Top 5 · ABS 4*
+  - name: Quarterly Journal of Economics
+    en: Quarterly Journal of Economics
+    tier: Top 5 · ABS 4*
+  - name: Management Science
+    en: Management Science
+    tier: FT50 · ABS 4*
+  - name: Strategic Management Journal
+    en: Strategic Management Journal
+    tier: FT50 · ABS 4*
+  - name: Research Policy
+    en: Research Policy
+    tier: FT50 · ABS 4*
+  - name: Journal of Management
+    en: Journal of Management
+    tier: ABS 4
+  - name: American Sociological Review
+    en: American Sociological Review
+    tier: 国际顶刊（社会学定量）
+  - name: 经济研究
+    en: Economic Research Journal
+    tier: 中文顶刊（中文稿）
+  - name: 管理世界
+    en: Management World
+    tier: 中文顶刊（中文稿）
+  - name: 金融研究
+    en: Journal of Financial Research
+    tier: 中文顶刊（中文稿）
+  - name: 中国工业经济
+    en: China Industrial Economics
+    tier: 中文顶刊（中文稿）
+
+eng:          # 工程技术（计算机/电子/机械/土木/AI）
+  - name: IEEE TPAMI
+    en: IEEE Transactions on Pattern Analysis and Machine Intelligence
+    tier: CCF-A · JCR Q1
+  - name: IEEE TIP
+    en: IEEE Transactions on Image Processing
+    tier: CCF-A · JCR Q1
+  - name: IEEE TKDE
+    en: IEEE Transactions on Knowledge and Data Engineering
+    tier: CCF-A · JCR Q1
+  - name: CVPR
+    en: IEEE/CVF Conference on Computer Vision and Pattern Recognition
+    tier: CCF-A
+  - name: ICCV
+    en: International Conference on Computer Vision
+    tier: CCF-A
+  - name: NeurIPS
+    en: Conference on Neural Information Processing Systems
+    tier: CCF-A
+  - name: ICML
+    en: International Conference on Machine Learning
+    tier: CCF-A
+  - name: ICLR
+    en: International Conference on Learning Representations
+    tier: CCF-A
+  - name: ACL
+    en: Annual Meeting of the Association for Computational Linguistics
+    tier: CCF-A
+  - name: KDD
+    en: ACM SIGKDD Conference on Knowledge Discovery and Data Mining
+    tier: CCF-A
+  - name: 计算机学报
+    en: Chinese Journal of Computers
+    tier: 中文权威（中文稿）
+  - name: 软件学报
+    en: Journal of Software
+    tier: 中文权威（中文稿）
+  - name: 电子学报
+    en: Acta Electronica Sinica
+    tier: 中文权威（中文稿）
+
+clinical:     # 医学临床
+  - name: New England Journal of Medicine
+    en: New England Journal of Medicine
+    tier: JCR Q1 · 国际顶刊
+  - name: The Lancet
+    en: The Lancet
+    tier: JCR Q1 · 国际顶刊
+  - name: JAMA
+    en: JAMA
+    tier: JCR Q1 · 国际顶刊
+  - name: BMJ
+    en: The BMJ
+    tier: JCR Q1 · 国际顶刊
+  - name: Annals of Internal Medicine
+    en: Annals of Internal Medicine
+    tier: JCR Q1
+  - name: PLOS Medicine
+    en: PLOS Medicine
+    tier: JCR Q1
+  - name: 中华医学杂志
+    en: National Medical Journal of China
+    tier: 中文核心（中文稿）
+  - name: 中华内科杂志
+    en: Chinese Journal of Internal Medicine
+    tier: 中文核心（中文稿）
+
+qual:         # 质性研究（社会学/教育学/人类学/管理案例）
+  - name: American Sociological Review
+    en: American Sociological Review
+    tier: 国际顶刊
+  - name: American Journal of Sociology
+    en: American Journal of Sociology
+    tier: 国际顶刊
+  - name: Academy of Management Journal
+    en: Academy of Management Journal
+    tier: FT50 · ABS 4*
+  - name: Organization Science
+    en: Organization Science
+    tier: FT50 · ABS 4*
+  - name: Qualitative Research
+    en: Qualitative Research
+    tier: SSCI Q1
+  - name: Human Relations
+    en: Human Relations
+    tier: ABS 3 · SSCI Q1
+  - name: 社会学研究
+    en: Sociological Studies
+    tier: 中文权威（中文稿）
+  - name: 教育研究
+    en: Educational Research
+    tier: 中文权威（中文稿）
+
+basicexp:     # 基础科学实验（化学/生物/材料/物理）
+  - name: Nature
+    en: Nature
+    tier: JCR Q1 · 国际顶刊
+  - name: Science
+    en: Science
+    tier: JCR Q1 · 国际顶刊
+  - name: Nature Materials
+    en: Nature Materials
+    tier: JCR Q1
+  - name: Journal of the American Chemical Society
+    en: Journal of the American Chemical Society
+    tier: JCR Q1
+  - name: Angewandte Chemie International Edition
+    en: Angewandte Chemie International Edition
+    tier: JCR Q1
+  - name: Advanced Materials
+    en: Advanced Materials
+    tier: JCR Q1
+  - name: Physical Review Letters
+    en: Physical Review Letters
+    tier: JCR Q1
+  - name: 化学学报
+    en: Acta Chimica Sinica
+    tier: 中文核心（中文稿）
+  - name: 物理学报
+    en: Acta Physica Sinica
+    tier: 中文核心（中文稿）
+
+theory:       # 理论·数理（数学/理论物理/理论经济/运筹）
+  - name: Annals of Mathematics
+    en: Annals of Mathematics
+    tier: 国际顶刊
+  - name: Inventiones Mathematicae
+    en: Inventiones Mathematicae
+    tier: 国际顶刊
+  - name: Journal of the American Mathematical Society
+    en: Journal of the American Mathematical Society
+    tier: 国际顶刊
+  - name: Econometrica
+    en: Econometrica
+    tier: Top 5 · ABS 4*
+  - name: Theoretical Economics
+    en: Theoretical Economics
+    tier: 国际权威
+  - name: SIAM Journal on Optimization
+    en: SIAM Journal on Optimization
+    tier: 国际权威
+  - name: 数学学报
+    en: Acta Mathematica Sinica
+    tier: 中文核心（中文稿）

@@ -1,0 +1,184 @@
+# v1.2.0：为存量规则补 example_bad / example_good（预测建模 PRD，25 条）
+# 示例取自典型 ML 论文自评/审稿场景，用于 few-shot 判定与教学。
+
+examples:
+  - id: PRD-MET-001
+    example_bad: >-
+      Our fraud detector achieves 98.7% accuracy, outperforming all baselines.
+    example_good: >-
+      Because only 1.2% of transactions are fraudulent, accuracy is uninformative; we report
+      precision 0.71, recall 0.63 and AUPRC 0.68 against a 0.012 prevalence baseline.
+
+  - id: PRD-MET-002
+    example_bad: >-
+      The model reaches an AUC of 0.91, indicating strong performance.
+    example_good: >-
+      We report AUC 0.91 alongside precision 0.78 at the deployed threshold and calibration
+      (Brier 0.11), since AUC alone hides threshold behaviour and probability quality.
+
+  - id: PRD-MET-003
+    example_bad: >-
+      Our regressor attains RMSE 4.31, a strong result.
+    example_good: >-
+      Our model attains RMSE 4.31 / MAE 3.02 / R² 0.64, against RMSE 5.87 / MAE 4.55 / R² 0.41
+      for the mean-prediction baseline and 5.02 / 3.88 / 0.52 for gradient boosting.
+
+  - id: PRD-MET-004
+    example_bad: >-
+      The transformer improves F1 by 7 points over the previous state of the art.
+    example_good: >-
+      Against the trivial majority-class baseline (F1 0.31) and a bag-of-words logistic
+      regression (F1 0.62), the transformer reaches F1 0.74, so the gain is not an artefact of
+      task difficulty.
+
+  - id: PRD-MET-005
+    example_bad: >-
+      The classifier outputs well-separated probabilities (AUC 0.93).
+    example_good: >-
+      Discrimination is high (AUC 0.93), but the reliability diagram shows systematic
+      overconfidence above 0.8; after temperature scaling, ECE falls from 0.09 to 0.03.
+
+  - id: PRD-DAT-001
+    example_bad: >-
+      We split the data into training and test sets and tune hyperparameters on the test set
+      for the best result.
+    example_good: >-
+      Data are split 70/15/15 into train/validation/test; hyperparameters are tuned on
+      validation only, and the test set is evaluated once after all choices are frozen.
+
+  - id: PRD-DAT-002
+    example_bad: >-
+      Features were standardized and imputed on the full dataset before cross-validation.
+    example_good: >-
+      Standardization and median imputation are fitted inside each training fold and then
+      applied to the held-out fold, so no validation statistics leak into training.
+
+  - id: PRD-DAT-003
+    example_bad: >-
+      We randomly split the panel of monthly observations into train and test.
+    example_good: >-
+      We split chronologically: models are trained on 2015–2020, validated on 2021, and tested
+      on 2022; all features use only information available at prediction time.
+
+  - id: PRD-DAT-004
+    example_bad: >-
+      We removed duplicate rows and randomly assigned the remaining records to folds.
+    example_good: >-
+      Because the same patient contributes multiple visits, we group splits by patient ID and
+      audit for target leakage; no patient appears in more than one fold.
+
+  - id: PRD-DAT-005
+    example_bad: >-
+      Missing values were handled appropriately.
+    example_good: >-
+      Income is missing for 18.4% of records; we impute with chained equations (10 imputations)
+      fitted on training data and report results under complete-case analysis as a robustness check.
+
+  - id: PRD-GEN-001
+    example_bad: >-
+      The model generalizes well, as shown by high accuracy on our held-out test set.
+    example_good: >-
+      Beyond the internal test set, the model retains 0.79 AUROC on a later cohort (2023) and
+      0.74 at a second hospital, indicating the gain is not specific to the development sample.
+
+  - id: PRD-REP-001
+    example_bad: >-
+      Code and data are available upon reasonable request.
+    example_good: >-
+      Code, fixed random seeds (42 for splits, 7 for initialization), and the conda environment
+      are released at <repo>; the processed dataset is public, and access conditions for the
+      restricted subset are described in Appendix C.
+
+  - id: PRD-CLB-001
+    example_bad: >-
+      We address class imbalance by oversampling the minority class.
+    example_good: >-
+      We combine class-weighted loss (ω = 8.3) with threshold tuning on validation data;
+      minority-class recall rises from 0.41 to 0.63 at unchanged precision 0.70.
+
+  - id: PRD-CV-001
+    example_bad: >-
+      We use 5-fold cross-validation.
+    example_good: >-
+      We use 5-fold stratified cross-validation repeated 3 times, stratified on the label and
+      grouped by hospital, because observations within a hospital are not exchangeable.
+
+  - id: PRD-CV-002
+    example_bad: >-
+      We tune hyperparameters with 5-fold CV and report the best fold's score.
+    example_good: >-
+      Tuning uses nested CV: an inner 5-fold loop selects hyperparameters, and an outer 5-fold
+      loop estimates performance, so reported scores never reuse tuning folds.
+
+  - id: PRD-CV-003
+    example_bad: >-
+      Cross-validation yields an F1 of 0.74.
+    example_good: >-
+      Cross-validation yields F1 0.74 (SD 0.031 across folds; 95% CI [0.71, 0.77] from a
+      bootstrap over folds), and we report this spread rather than a single point estimate.
+
+  - id: PRD-FS-001
+    example_bad: >-
+      We first select the top 200 features by mutual information on the full dataset, then run
+      10-fold cross-validation.
+    example_good: >-
+      Feature selection is performed inside each resampling iteration: mutual-information
+      ranking is recomputed on the training portion only, avoiding selection bias in the CV estimate.
+
+  - id: PRD-IMP-001
+    example_bad: >-
+      Permutation importance shows that income is the most important predictor.
+    example_good: >-
+      We report permutation importance (10 repeats) with confidence bands; because correlated
+      predictors split credit, income and wealth rank unstably, so we also report grouped
+      (cluster) importance.
+
+  - id: PRD-IMP-002
+    example_bad: >-
+      The model shows that raising price decreases demand, confirming the pricing theory.
+    example_good: >-
+      Price has high predictive importance, but this reflects association in the training
+      distribution, not a causal effect; we make no causal claim from the model.
+
+  - id: PRD-OVF-001
+    example_bad: >-
+      Training accuracy reaches 0.99, demonstrating model quality.
+    example_good: >-
+      Training accuracy is 0.99 versus 0.86 on the held-out set; the 13-point gap indicates
+      overfitting, which we reduce by dropout and early stopping (gap narrows to 3 points).
+
+  - id: PRD-OVF-002
+    example_bad: >-
+      We fit a deep network to 180 samples with 2,000 features.
+    example_good: >-
+      With 2,000 features and 180 samples (p ≫ n), we use elastic-net regularization with the
+      penalty chosen by nested CV, and compare against PCA-50 plus ridge as a low-variance baseline.
+
+  - id: PRD-OVF-003
+    example_bad: >-
+      We use a gradient-boosted ensemble because it is the most accurate model.
+    example_good: >-
+      We trade a 1.5-point AUROC loss for interpretability by deploying a regularized logistic
+      model in the clinical workflow, and keep the boosted ensemble as an offline benchmark.
+
+  - id: PRD-TUN-001
+    example_bad: >-
+      We tuned the model until performance was satisfactory.
+    example_good: >-
+      We search learning rate ∈ {1e-4…1e-2} (log), depth ∈ {2,4,8}, and L2 ∈ {0,0.1,1} by
+      random search (60 draws); the selected configuration is lr=3e-3, depth=4, L2=0.1.
+
+  - id: PRD-TUN-002
+    example_bad: >-
+      We iterated on the architecture while monitoring test accuracy and stopped at the best
+      test score.
+    example_good: >-
+      Architecture choices were made on validation data only; the test set was touched once,
+      after freezing the model, and any post-hoc change is reported as exploratory.
+
+  - id: PRD-UNC-001
+    example_bad: >-
+      The model predicts a 7.3% drop in demand next quarter.
+    example_good: >-
+      The point forecast is a 7.3% drop, with an 80% prediction interval of [2.1%, 12.6%]
+      from conformal prediction; intervals are wider for low-volume regions.

@@ -1,0 +1,118 @@
+# v1.2.0：为存量规则补 example_bad / example_good（结果呈现 RPR，16 条）
+
+examples:
+  - id: RPR-FIG-001
+    example_bad: >-
+      Figure 3: Results. (No axis labels, no units, no note.)
+    example_good: >-
+      Figure 3. Mean test scores by school type (points) with 95% confidence intervals.
+      Vertical axis: score in SD units of the national distribution; horizontal axis: year.
+      n = 214 schools; intervals are cluster-robust at the district level.
+
+  - id: RPR-FIG-002
+    example_bad: >-
+      Table 4 reports the group means, and Figure 5 plots the same group means.
+    example_good: >-
+      Group means with confidence intervals appear only in Figure 5; Table 4 is reserved for the
+      regression estimates, so the same numbers are not presented twice.
+
+  - id: RPR-FIG-003
+    example_bad: >-
+      Figure 2 shows the treatment effects for each subgroup.
+    example_good: >-
+      Figure 2 plots subgroup estimates with 95% confidence intervals; error bars are 95% CIs
+      based on cluster-robust standard errors (not standard deviations), as stated in the note.
+
+  - id: RPR-NUM-001
+    example_bad: >-
+      The program increased enrollment by 3,412 students.
+    example_good: >-
+      The program increased enrollment by 3,412 students—about 4% of the district total, or one
+      additional student per classroom.
+
+  - id: RPR-NUM-002
+    example_bad: >-
+      Spending grew 300% after the reform.
+    example_good: >-
+      Spending grew from 12 to 48 million yuan, a 300% increase (i.e. four times the pre-reform level).
+
+  - id: RPR-NUM-003
+    example_bad: >-
+      The estimated effect is 0.4231789 SD.
+    example_good: >-
+      The estimated effect is 0.42 SD (95% CI [0.31, 0.53]), reported to two decimals to match
+      the precision of the test-score scale.
+
+  - id: RPR-NUM-004
+    example_bad: >-
+      Wages rose by 2,400 last year.
+    example_good: >-
+      Average monthly wages rose by 2,400 yuan (2023 constant prices, full-time urban employees,
+      December-to-December) last year.
+
+  - id: RPR-NUM-005
+    example_bad: >-
+      The province spends more on education than the national average, so its schools perform better.
+    example_good: >-
+      Per-pupil spending is 18% above the national average; after converting to 2023 constant
+      prices and adjusting for cost-of-living differences, the gap narrows to 6%, and the
+      performance comparison uses that adjusted measure.
+
+  - id: RPR-STA-001
+    example_bad: >-
+      The difference is significant at p < .001, demonstrating a strong effect.
+    example_good: >-
+      The difference is 0.18 SD (95% CI [0.09, 0.27], p < .001): precisely estimated, but modest
+      relative to the 1.0 SD achievement gap between income groups.
+
+  - id: RPR-STA-002
+    example_bad: >-
+      The regression proves that class size causes achievement gains (p = 0.004).
+    example_good: >-
+      The estimate is consistent with a small class-size effect (β = 0.04, p = 0.004); a p-value
+      quantifies incompatibility with the null, not the probability that the hypothesis is true,
+      and the design remains observational.
+
+  - id: RPR-TAB-001
+    example_bad: >-
+      A full-grid table with vertical borders and shaded cells for every coefficient.
+    example_good: >-
+      A three-line table: top rule, rule under the header, bottom rule; no vertical lines and no
+      internal grid, with coefficients aligned on the decimal point.
+
+  - id: RPR-TAB-002
+    example_bad: >-
+      Table 2. Regression results.
+    example_good: >-
+      Table 2. Effect of the training program on monthly wages, by specification (dependent
+      variable: log monthly wage; sample: full-time employees in 214 firms, 2015–2019).
+
+  - id: RPR-TAB-003
+    example_bad: >-
+      Table 3. Main estimates. *** p<0.01.
+    example_good: >-
+      Table 3 notes define all abbreviations (ROA, SMD, FE), state that standard errors are
+      cluster-robust at the county level, define stars (* p<0.10, ** p<0.05, *** p<0.01), and
+      cite the data source (Annual Industrial Survey, 2015–2019).
+
+  - id: RPR-TAB-004
+    example_bad: >-
+      Column 1 reports 3.4, column 2 reports 12.07, column 3 reports 0.981.
+    example_good: >-
+      All columns report two decimals (3.40, 12.07, 0.98), aligned on the decimal point, with
+      standard errors in parentheses below each estimate.
+
+  - id: RPR-WRT-001
+    example_bad: >-
+      Table 5 presents the coefficients for the five specifications, and the reader can see that
+      columns 2 and 4 differ from the others.
+    example_good: >-
+      The effect is robust: it remains between 0.38 and 0.44 across all five specifications
+      (Table 5), including the specification that drops border counties (column 4).
+
+  - id: RPR-WRT-002
+    example_bad: >-
+      The effect is about 12%, somewhat larger than the 9.8% shown in Table 3.
+    example_good: >-
+      The effect is 9.8% (Table 3, column 2), and the text reports exactly this figure; any
+      alternative estimate is labelled by its column.

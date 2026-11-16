@@ -1,0 +1,2642 @@
+[
+  {
+    "file": "tests\\samples\\qnt_good_1.md",
+    "track": "quant",
+    "words": 225,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-DID-001",
+      "QNT-SEN-004",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "QNT-SEN-002",
+      "QNT-RPT-002",
+      "QNT-SEN-003"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-WRT-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_good_2.md",
+    "track": "quant",
+    "words": 211,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 1,
+    "defects": [
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "QNT-SEN-002",
+      "QNT-SEN-003"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_good_3.md",
+    "track": "quant",
+    "words": 211,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IDF-002",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-RPT-001",
+      "QNT-RPT-003",
+      "QNT-EST-005",
+      "QNT-SEN-002",
+      "QNT-SEN-003"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_mid_1.md",
+    "track": "quant",
+    "words": 111,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 6,
+    "defects": [
+      {
+        "id": "QNT-IDF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IDF-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-DID-001",
+      "QNT-RPT-003"
+    ],
+    "na": [
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_mid_2.md",
+    "track": "quant",
+    "words": 87,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "QNT-IDF-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IV-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-SEN-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-IV-001",
+      "QNT-RPT-003"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_mid_3.md",
+    "track": "quant",
+    "words": 88,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "QNT-IDF-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-PSM-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-SEN-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-IDF-001",
+      "QNT-PSM-002",
+      "QNT-RPT-003"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_bad_1.md",
+    "track": "quant",
+    "words": 104,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 9,
+    "defects": [
+      {
+        "id": "QNT-IDF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IDF-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IV-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-IV-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-PSM-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-PSM-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-RPT-003",
+      "QNT-WRT-001",
+      "QNT-SEN-002"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      16
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_bad_2.md",
+    "track": "quant",
+    "words": 83,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 8,
+    "defects": [
+      {
+        "id": "QNT-IDF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IDF-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IV-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-IV-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-RPT-003"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-PSM-002",
+      "QNT-PSM-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      16
+    ]
+  },
+  {
+    "file": "tests\\samples\\qnt_bad_3.md",
+    "track": "quant",
+    "words": 75,
+    "cjk_chars": 0,
+    "applicable_rules": 39,
+    "auto_checked": 17,
+    "manual_only": 22,
+    "defect_count": 8,
+    "defects": [
+      {
+        "id": "QNT-IDF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-IDF-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-PSM-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-PSM-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QNT-RPT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-EST-005",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QNT-SEN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QNT-RPT-003"
+    ],
+    "na": [
+      "QNT-DID-001",
+      "QNT-DID-002",
+      "QNT-IV-001",
+      "QNT-IV-003",
+      "QNT-SEN-001",
+      "QNT-SEN-004",
+      "QNT-WRT-001",
+      "QNT-RPT-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      16
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_good_1.md",
+    "track": "qualitative",
+    "words": 284,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-DSP-002",
+      "QLT-DSP-003",
+      "QLT-DSP-004",
+      "QLT-TRU-001",
+      "QLT-TRU-002",
+      "QLT-TRU-003",
+      "QLT-SAT-001",
+      "QLT-SAT-002",
+      "QLT-WRT-002",
+      "QLT-CAS-003",
+      "QLT-CAS-001",
+      "QLT-ETH-001"
+    ],
+    "na": [],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_good_2.md",
+    "track": "qualitative",
+    "words": 223,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-DSP-002",
+      "QLT-DSP-003",
+      "QLT-DSP-004",
+      "QLT-TRU-001",
+      "QLT-TRU-002",
+      "QLT-TRU-003",
+      "QLT-SAT-001",
+      "QLT-SAT-002",
+      "QLT-WRT-002",
+      "QLT-ETH-001"
+    ],
+    "na": [
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_good_3.md",
+    "track": "qualitative",
+    "words": 220,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 1,
+    "defects": [
+      {
+        "id": "QLT-SAT-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-COD-006",
+      "QLT-DSP-001",
+      "QLT-DSP-002",
+      "QLT-DSP-003",
+      "QLT-DSP-004",
+      "QLT-TRU-001",
+      "QLT-TRU-002",
+      "QLT-TRU-003",
+      "QLT-SAT-002",
+      "QLT-WRT-002",
+      "QLT-ETH-001"
+    ],
+    "na": [
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": false,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_mid_1.md",
+    "track": "qualitative",
+    "words": 136,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-CAS-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QLT-CAS-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-DSP-001",
+      "QLT-DSP-002",
+      "QLT-DSP-004",
+      "QLT-WRT-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-TRU-002",
+      "QLT-SAT-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_mid_2.md",
+    "track": "qualitative",
+    "words": 93,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "QLT-DSP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSN-003",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-DSP-002",
+      "QLT-WRT-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_mid_3.md",
+    "track": "qualitative",
+    "words": 87,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "QLT-DSN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-COD-001",
+      "QLT-COD-002",
+      "QLT-DSP-002",
+      "QLT-SAT-002",
+      "QLT-WRT-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_bad_1.md",
+    "track": "qualitative",
+    "words": 100,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 11,
+    "defects": [
+      {
+        "id": "QLT-DSN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-COD-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QLT-DSP-002",
+      "QLT-WRT-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      20
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_bad_2.md",
+    "track": "qualitative",
+    "words": 93,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 10,
+    "defects": [
+      {
+        "id": "QLT-DSN-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QLT-COD-001",
+      "QLT-DSP-002",
+      "QLT-WRT-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      20
+    ]
+  },
+  {
+    "file": "tests\\samples\\qlt_bad_3.md",
+    "track": "qualitative",
+    "words": 65,
+    "cjk_chars": 0,
+    "applicable_rules": 41,
+    "auto_checked": 18,
+    "manual_only": 23,
+    "defect_count": 10,
+    "defects": [
+      {
+        "id": "QLT-DSN-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-COD-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-COD-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-DSP-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-TRU-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-SAT-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "QLT-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "QLT-DSN-002",
+      "QLT-DSP-002",
+      "QLT-WRT-002"
+    ],
+    "na": [
+      "QLT-COD-006",
+      "QLT-TRU-002",
+      "QLT-SAT-001",
+      "QLT-CAS-003",
+      "QLT-CAS-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      20
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_good_1.md",
+    "track": "predictive",
+    "words": 268,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-DAT-002",
+      "PRD-CV-001",
+      "PRD-CV-003",
+      "PRD-TUN-001",
+      "PRD-TUN-002",
+      "PRD-OVF-001",
+      "PRD-MET-001",
+      "PRD-MET-002",
+      "PRD-MET-004",
+      "PRD-IMP-002",
+      "PRD-FS-001",
+      "PRD-REP-001",
+      "PRD-UNC-001"
+    ],
+    "na": [],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_good_2.md",
+    "track": "predictive",
+    "words": 223,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-DAT-002",
+      "PRD-CV-001",
+      "PRD-CV-003",
+      "PRD-TUN-001",
+      "PRD-TUN-002",
+      "PRD-OVF-001",
+      "PRD-MET-001",
+      "PRD-MET-002",
+      "PRD-MET-004",
+      "PRD-IMP-002",
+      "PRD-FS-001",
+      "PRD-REP-001",
+      "PRD-UNC-001"
+    ],
+    "na": [],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_good_3.md",
+    "track": "predictive",
+    "words": 224,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 1,
+    "defects": [
+      {
+        "id": "PRD-REP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-DAT-002",
+      "PRD-CV-001",
+      "PRD-CV-003",
+      "PRD-TUN-001",
+      "PRD-TUN-002",
+      "PRD-OVF-001",
+      "PRD-MET-001",
+      "PRD-MET-002",
+      "PRD-MET-004",
+      "PRD-FS-001",
+      "PRD-UNC-001"
+    ],
+    "na": [
+      "PRD-IMP-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_mid_1.md",
+    "track": "predictive",
+    "words": 87,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 6,
+    "defects": [
+      {
+        "id": "PRD-DAT-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-CV-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-TUN-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-REP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-UNC-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-CV-001",
+      "PRD-TUN-002",
+      "PRD-OVF-001",
+      "PRD-MET-001",
+      "PRD-MET-002",
+      "PRD-IMP-002",
+      "PRD-FS-001"
+    ],
+    "na": [],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_mid_2.md",
+    "track": "predictive",
+    "words": 82,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "PRD-CV-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-OVF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-IMP-002",
+        "status": "defect",
+        "reason": "前提情境下出现禁用表述"
+      },
+      {
+        "id": "PRD-REP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-UNC-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-TUN-001",
+      "PRD-TUN-002",
+      "PRD-MET-001",
+      "PRD-FS-001"
+    ],
+    "na": [
+      "PRD-DAT-002",
+      "PRD-CV-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_mid_3.md",
+    "track": "predictive",
+    "words": 92,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 5,
+    "defects": [
+      {
+        "id": "PRD-CV-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-OVF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-REP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-UNC-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-CV-001",
+      "PRD-TUN-002",
+      "PRD-MET-001",
+      "PRD-MET-002",
+      "PRD-FS-001"
+    ],
+    "na": [
+      "PRD-DAT-002",
+      "PRD-TUN-001",
+      "PRD-IMP-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      7
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_bad_1.md",
+    "track": "predictive",
+    "words": 95,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "PRD-DAT-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-CV-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-CV-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-TUN-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-MET-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-UNC-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-TUN-002",
+      "PRD-OVF-001",
+      "PRD-MET-001",
+      "PRD-FS-001",
+      "PRD-REP-001"
+    ],
+    "na": [
+      "PRD-IMP-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      7,
+      16
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_bad_2.md",
+    "track": "predictive",
+    "words": 83,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 8,
+    "defects": [
+      {
+        "id": "PRD-DAT-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-CV-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-TUN-002",
+        "status": "defect",
+        "reason": "命中禁用表述"
+      },
+      {
+        "id": "PRD-MET-001",
+        "status": "defect",
+        "reason": "命中禁用表述"
+      },
+      {
+        "id": "PRD-MET-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-REP-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-UNC-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-DAT-001",
+      "PRD-OVF-001",
+      "PRD-IMP-002",
+      "PRD-FS-001"
+    ],
+    "na": [
+      "PRD-CV-001",
+      "PRD-TUN-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      7,
+      16
+    ]
+  },
+  {
+    "file": "tests\\samples\\prd_bad_3.md",
+    "track": "predictive",
+    "words": 40,
+    "cjk_chars": 0,
+    "applicable_rules": 25,
+    "auto_checked": 14,
+    "manual_only": 11,
+    "defect_count": 7,
+    "defects": [
+      {
+        "id": "PRD-DAT-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-CV-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "PRD-CV-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-OVF-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "PRD-UNC-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "PRD-TUN-002",
+      "PRD-MET-001",
+      "PRD-FS-001",
+      "PRD-REP-001"
+    ],
+    "na": [
+      "PRD-DAT-002",
+      "PRD-TUN-001",
+      "PRD-IMP-002"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      7,
+      16
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_good_1.md",
+    "track": "clinical",
+    "words": 297,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "CLN-RPG-001",
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-STA-001",
+      "CLN-ETH-001",
+      "CLN-ETH-002"
+    ],
+    "na": [
+      "CLN-STA-002",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_good_2.md",
+    "track": "clinical",
+    "words": 259,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "CLN-RPG-001",
+      "CLN-STA-001",
+      "CLN-STA-002",
+      "CLN-ETH-001",
+      "CLN-ETH-002",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_good_3.md",
+    "track": "clinical",
+    "words": 209,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 0,
+    "defects": [],
+    "passed": [
+      "CLN-RPG-001",
+      "CLN-STA-001",
+      "CLN-ETH-002",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-STA-002",
+      "CLN-ETH-001",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_mid_1.md",
+    "track": "clinical",
+    "words": 112,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 6,
+    "defects": [
+      {
+        "id": "CLN-CON-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-CON-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-CON-006",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-CON-009",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "CLN-RPG-001",
+      "CLN-CON-003",
+      "CLN-CON-010",
+      "CLN-STA-001"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-005",
+      "CLN-STA-002",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      8
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_mid_2.md",
+    "track": "clinical",
+    "words": 107,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 4,
+    "defects": [
+      {
+        "id": "CLN-RPG-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-STA-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-ETH-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-STB-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      }
+    ],
+    "passed": [
+      "CLN-STA-001",
+      "CLN-ETH-001",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      8
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_mid_3.md",
+    "track": "clinical",
+    "words": 80,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 6,
+    "defects": [
+      {
+        "id": "CLN-RPG-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-PRI-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-005",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      }
+    ],
+    "passed": [
+      "CLN-STA-001",
+      "CLN-PRI-001"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-STA-002",
+      "CLN-ETH-001",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      8
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_bad_1.md",
+    "track": "clinical",
+    "words": 92,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 9,
+    "defects": [
+      {
+        "id": "CLN-CON-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-CON-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-CON-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-CON-006",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-CON-009",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-CON-010",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-STA-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "CLN-RPG-001"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-005",
+      "CLN-STA-002",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      18
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_bad_2.md",
+    "track": "clinical",
+    "words": 67,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 8,
+    "defects": [
+      {
+        "id": "CLN-RPG-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-STA-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-STB-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-STB-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-STB-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-STB-005",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      }
+    ],
+    "passed": [
+      "CLN-STB-002"
+    ],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-STA-002",
+      "CLN-PRI-001",
+      "CLN-PRI-003",
+      "CLN-PRI-002",
+      "CLN-PRI-004",
+      "CLN-PRI-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      18
+    ]
+  },
+  {
+    "file": "tests\\samples\\cln_bad_3.md",
+    "track": "clinical",
+    "words": 53,
+    "cjk_chars": 0,
+    "applicable_rules": 32,
+    "auto_checked": 23,
+    "manual_only": 9,
+    "defect_count": 8,
+    "defects": [
+      {
+        "id": "CLN-RPG-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-STA-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-ETH-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "CLN-PRI-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-003",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-002",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-004",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      },
+      {
+        "id": "CLN-PRI-005",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      }
+    ],
+    "passed": [],
+    "na": [
+      "CLN-CON-001",
+      "CLN-CON-002",
+      "CLN-CON-003",
+      "CLN-CON-004",
+      "CLN-CON-005",
+      "CLN-CON-006",
+      "CLN-CON-009",
+      "CLN-CON-010",
+      "CLN-STA-002",
+      "CLN-ETH-001",
+      "CLN-STB-003",
+      "CLN-STB-001",
+      "CLN-STB-002",
+      "CLN-STB-004",
+      "CLN-STB-005"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": false,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      8,
+      18
+    ]
+  },
+  {
+    "file": "tests\\samples\\sci_good_1.md",
+    "track": "basic-science",
+    "words": 221,
+    "cjk_chars": 0,
+    "applicable_rules": 24,
+    "auto_checked": 10,
+    "manual_only": 14,
+    "defect_count": 1,
+    "defects": [
+      {
+        "id": "SCI-ETH-001",
+        "status": "defect",
+        "reason": "前提已出现但缺少配套要素"
+      }
+    ],
+    "passed": [
+      "SCI-ABS-001",
+      "SCI-MET-001",
+      "SCI-MET-002",
+      "SCI-MET-003",
+      "SCI-MET-004",
+      "SCI-RES-002",
+      "SCI-DIS-003",
+      "SCI-UNIT-001",
+      "SCI-CIT-001"
+    ],
+    "na": [],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "good",
+    "expect": [
+      0,
+      1
+    ]
+  },
+  {
+    "file": "tests\\samples\\sci_mid_1.md",
+    "track": "basic-science",
+    "words": 78,
+    "cjk_chars": 0,
+    "applicable_rules": 24,
+    "auto_checked": 10,
+    "manual_only": 14,
+    "defect_count": 5,
+    "defects": [
+      {
+        "id": "SCI-MET-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-MET-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-MET-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-RES-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "SCI-ABS-001",
+      "SCI-DIS-003",
+      "SCI-UNIT-001",
+      "SCI-CIT-001"
+    ],
+    "na": [
+      "SCI-ETH-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "mid",
+    "expect": [
+      3,
+      8
+    ]
+  },
+  {
+    "file": "tests\\samples\\sci_bad_1.md",
+    "track": "basic-science",
+    "words": 55,
+    "cjk_chars": 0,
+    "applicable_rules": 24,
+    "auto_checked": 10,
+    "manual_only": 14,
+    "defect_count": 5,
+    "defects": [
+      {
+        "id": "SCI-MET-001",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-MET-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-MET-003",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-MET-004",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      },
+      {
+        "id": "SCI-RES-002",
+        "status": "defect",
+        "reason": "缺失必需要素"
+      }
+    ],
+    "passed": [
+      "SCI-ABS-001",
+      "SCI-DIS-003",
+      "SCI-UNIT-001",
+      "SCI-CIT-001"
+    ],
+    "na": [
+      "SCI-ETH-001"
+    ],
+    "sections": {
+      "abstract": true,
+      "introduction": true,
+      "related-work": false,
+      "method": true,
+      "results": true,
+      "discussion": true,
+      "conclusion": false,
+      "references": false
+    },
+    "grade": "bad",
+    "expect": [
+      3,
+      12
+    ]
+  }
+]

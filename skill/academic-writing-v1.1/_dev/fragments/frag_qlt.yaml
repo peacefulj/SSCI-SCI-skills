@@ -1,0 +1,382 @@
+# 质性研究线（QLT）v1.1 新增
+# 书源：Saldaña, Coding Manual 1e (2009)；Miles & Huberman & Saldaña, QDA 3e (2014)；Yin, Case Study Research 6e；Smith et al., IPA 2e
+# track: qualitative ；genre 用 ssci（社会科学索引期刊）
+
+rules:
+  # ============ A. 设计与方法传统（Yin ch.1–2；Creswell 已有 DSG）============
+  - id: QLT-DSN-001
+    genre: [ssci]
+    track: qualitative
+    section: introduction
+    rule: 须论证为何质性路径适合该研究问题（而非默认选择）
+    source: Yin, Case Study Research 6e, ch.1 p.9 (When to Use the Different Methods)
+    signal: 只写 we conducted a qualitative study，未说明为何量化无法回答该问题
+    fix: 补一句对照论证，如 how/why 型问题需要过程性证据，问卷无法捕捉
+
+  - id: QLT-DSN-002
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须命名具体质性传统（案例研究/现象学/扎根理论/民族志/叙事），并说明其对方法选择的约束
+    source: Yin 6e, ch.1 p.13; Miles & Huberman, QDA 3e, ch.1 (Genres of Qualitative Research)
+    signal: 只说 qualitative research 或 qualitative interviews，无传统归属
+    fix: 明确写 we adopt an instrumental case study design 或 interpretive phenomenological analysis
+
+  - id: QLT-DSN-003
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 抽样须为有目的抽样，并写出纳入标准、排除标准与信息饱和的依据
+    source: Miles & Huberman, QDA 3e, ch.2 (Research Design and Management); Yin 6e, ch.2
+    signal: 只报样本量 N=24，未说明为何是这 24 人、如何找到
+    fix: 补抽样框、标准清单与招募渠道；说明最大变异抽样或同质抽样策略
+
+  - id: QLT-DSN-004
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 案例研究须界定单个案例的边界（时间、地点、活动、角色），否则案例不可辨识
+    source: Yin 6e, ch.2 p.25 (Designing Case Studies), ch.1 p.14 (Definition)
+    signal: 案例以一个公司/城市命名，但未说明案例的内部边界与时间窗
+    fix: 补一句界定，如 the case is bounded by the firm’s 2018–2021 digital unit and its 140 staff
+
+  - id: QLT-DSN-005
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 多案例研究须说明案例选择逻辑（逐字复制/理论复制），并预告跨案例比较方式
+    source: Yin 6e, ch.2 (literal vs theoretical replication)
+    signal: 选了三家案例，但未说明为何是三家、彼此是什么关系
+    fix: 补选择逻辑，如 three cases chosen for theoretical replication on governance type
+
+  # ============ B. 编码（Saldaña）============
+  - id: QLT-COD-001
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须报编码方法：属第一轮还是第二轮、采用哪一类（结构/描述/情感/价值/主题化）
+    source: Saldaña, Coding Manual 1e, ch.3 p.45 (First Cycle), ch.4 p.149 (Second Cycle)
+    signal: 只写 data were coded thematically，未说明编码类型与轮次
+    fix: 写明两轮编码的具体方法，如 initial descriptive coding followed by pattern coding
+
+  - id: QLT-COD-002
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须提供编码本示例（codebook）：编码名、定义、判定标准、示例片段
+    source: Saldaña, Coding Manual 1e, ch.1 p.21 (The codebook or code list)
+    signal: 提到 coding scheme，但附录与正文都无编码定义
+    fix: 附表给出至少 5 个核心编码的定义与原文示例
+
+  - id: QLT-COD-003
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须说明第一轮编码如何归并为第二轮类别/主题，并给出归并规则
+    source: Saldaña, Coding Manual 1e, ch.4 p.149; ch.1 p.9 (From codes to categories)
+    signal: 直接呈现主题，中间从编码到主题的转换过程缺失
+    fix: 补一张归并示意（code → category → theme），并说明合并依据
+
+  - id: QLT-COD-004
+    genre: [ssci]
+    track: qualitative
+    section: general
+    rule: 须严格区分 code（片段标签）、category（归类）、theme（解释性陈述），不得混用
+    source: Saldaña, Coding Manual 1e, ch.1 p.13 (Differences between codes and themes)
+    signal: 同一个词既被称为 coding 又被称为 theme
+    fix: 全文统一术语，并在方法段给三者的操作性定义
+
+  - id: QLT-COD-005
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须体现分析性备忘录（analytic memo）的使用，说明备忘录如何推动主题形成
+    source: Saldaña, Coding Manual 1e, ch.2 p.32 (Writing Analytic Memos)
+    signal: 分析过程只有 coding，无任何反思性记录
+    fix: 补一段说明备忘录的书写频率与作用，并引 1 条备忘录摘录
+
+  - id: QLT-COD-006
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 多人编码时须报编码者间一致性（系数值与计算方法），单人编码须声明并说明校验方式
+    source: Saldaña, Coding Manual 1e, ch.1 p.27; Miles & Huberman, QDA 3e, ch.4
+    signal: 有两位以上研究者参与分析，但未报一致性
+    fix: 补 kappa 或一致性百分比，并说明分歧如何解决
+
+  - id: QLT-COD-007
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须报编码载体与工具（软件及版本，或手工编码的实现方式）
+    source: Saldaña, Coding Manual 1e, ch.1 p.21 (Manual and CAQDAS Coding)
+    signal: 全文未提编码在何处进行（NVivo/ATLAS.ti/Excel/纸质）
+    fix: 补一句，如 coded in NVivo 14 with a shared project file
+
+  # ============ C. 数据展示（Miles & Huberman ch.5–10）============
+  - id: QLT-DSP-001
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 结果须用矩阵或网络图等显示形式承载，不能只有连续文字叙述
+    source: Miles & Huberman, QDA 3e, ch.5 (Designing Matrix and Network Displays)
+    signal: 结果部分全是大段引文串讲，无任何表格或图示
+    fix: 补一张主题-案例矩阵（rows 主题、columns 案例、cell 标证据强度）
+
+  - id: QLT-DSP-002
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 每个主题须至少配两条独立原始引文作为证据，不得一句引文撑一个主题
+    source: Miles & Huberman, QDA 3e, ch.7 (Methods of Describing); ch.11
+    signal: 主题下有且只有一句引文，或引文为概括性转述
+    fix: 每个主题补足两条以上引文，并优先纳入不同案例/不同受访者的证据
+
+  - id: QLT-DSP-003
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 引文须标注可追溯的参与者代号与资料来源（访谈/观察/文件），并保持匿名一致
+    source: Miles & Huberman, QDA 3e, ch.6 (Methods of Exploring)
+    signal: 引文只写一位受访者表示，无编号
+    fix: 统一标注为 P07, interview, 2023-04
+
+  - id: QLT-DSP-004
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 须主动呈现与主题相矛盾的负面案例（negative case），并解释其含义
+    source: Miles & Huberman, QDA 3e, ch.11 (Drawing and Verifying Conclusions)
+    signal: 所有证据都整齐地支持结论，无一处例外
+    fix: 补一段 contrary evidence，并说明它如何限定结论范围
+
+  - id: QLT-DSP-005
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 须保证从原始数据到编码到主题的链条可追溯（数据浓缩不丢链）
+    source: Miles & Huberman, QDA 3e, ch.4 (Fundamentals of Qualitative Data Analysis)
+    signal: 主题陈述无法回溯到具体片段，读者只能相信作者
+    fix: 补附录映射表：主题 → 编码 → 片段编号
+
+  # ============ D. 可信度（Miles & Huberman ch.11）============
+  - id: QLT-TRU-001
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须明确采用的可信度策略（三角验证/成员核查/同行审议/审计轨迹），并逐项说明如何实施
+    source: Miles & Huberman, QDA 3e, ch.11; Yin 6e, ch.4
+    signal: 只写 to ensure trustworthiness，无具体策略与实施细节
+    fix: 列 3–4 项策略，每项写明做法与覆盖范围
+
+  - id: QLT-TRU-002
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 三角验证须说明是哪几类数据源/方法/研究者的三角，不得只写 triangulation 一词
+    source: Yin 6e, ch.4 p.111 (Principles of Data Collection)
+    signal: 出现 triangulation 但未说明交叉了什么
+    fix: 写明 interviews、observations and internal documents 三类来源交叉
+
+  - id: QLT-TRU-003
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须写研究者反身性（reflexivity）：立场、与受访者关系、对解释的可能影响
+    source: Miles & Huberman, QDA 3e, ch.3 (Ethical Issues in Analysis)
+    signal: 研究者仿佛透明，全文无任何立场说明
+    fix: 补一段 positionality，含进入渠道、既有关系与可能的解释偏向
+
+  - id: QLT-TRU-004
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须提供厚描述（thick description）支撑可迁移性判断，而非直接声称可推广
+    source: Miles & Huberman, QDA 3e, ch.11; Yin 6e, ch.6
+    signal: 讨论部分声称 findings are generalizable，但情境描述极薄
+    fix: 补情境细节（组织类型、制度环境、时间背景），把结论表述为可迁移的条件而非普遍规律
+
+  - id: QLT-TRU-005
+    genre: [ssci]
+    track: qualitative
+    section: general
+    rule: 不得把量化信度/效度标准直接套用到质性研究，须用可信度/可迁移/可依赖/可确认四标准
+    source: Miles & Huberman, QDA 3e, ch.11
+    signal: 用 Cronbach alpha 或 construct validity 作为质性质量标准
+    fix: 改用 credibility、transferability、dependability、confirmability 并对应具体做法
+
+  # ============ E. 饱和与样本量 ============
+  - id: QLT-SAT-001
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须说明理论饱和的判据（何种情况下判定再无新主题），不得只声称达到饱和
+    source: Miles & Huberman, QDA 3e, ch.2; Saldaña, Coding Manual 1e, ch.1 p.19
+    signal: 一句 data collection continued until saturation，无判据
+    fix: 补判据，如最后 4 次访谈未产生新编码
+
+  - id: QLT-SAT-002
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须报实际分析的文本量（访谈数、时长/字数、观察小时、文件页数），不能只报人数
+    source: Miles & Huberman, QDA 3e, ch.2
+    signal: 只有受访者人数，无文本规模
+    fix: 补 24 interviews averaging 62 minutes, 610 pages of transcript
+
+  # ============ F. 写作与呈现（Miles & Huberman ch.12）============
+  - id: QLT-WRT-001
+    genre: [ssci]
+    track: qualitative
+    section: discussion
+    rule: 结果与讨论须分离：结果只呈现证据与模式，理论对话放讨论
+    source: Miles & Huberman, QDA 3e, ch.12 (Writing About Qualitative Research)
+    signal: 结果段中途开始与文献辩论
+    fix: 把文献对话移入讨论，结果段只保留证据与模式陈述
+
+  - id: QLT-WRT-002
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 不得用引文代替论证：每段引文后须有解释句说明它支撑哪个论点
+    source: Graff & Birkenstein, They Say I Say 5e, ch.3; Miles & Huberman, QDA 3e, ch.12
+    signal: 连续三句以上引文堆叠，中间无作者解释
+    fix: 采用引文三明治——引入（谁说的）→ 引文 → 解释（意味着什么）
+
+  - id: QLT-WRT-003
+    genre: [ssci]
+    track: qualitative
+    section: discussion
+    rule: 须给出理论贡献：说明研究发现修正/扩展了哪一既有概念，而非只描述现象
+    source: Miles & Huberman, QDA 3e, ch.12
+    signal: 讨论只有实践启示，无与理论的对话
+    fix: 补一段 we extend the concept of X by showing that…
+
+  - id: QLT-WRT-004
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 结果呈现须有叙事线（问题→张力→解决），不得是主题清单的平铺
+    source: Miles & Huberman, QDA 3e, ch.12
+    signal: 结果小标题为 主题一/主题二/主题三，彼此无逻辑递进
+    fix: 重组为有张力的序列，如 tension → coping → resolution
+
+  # ============ G. 案例研究（Yin ch.4–6）============
+  - id: QLT-CAS-001
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须展示证据链（chain of evidence）：问题→数据→分析→结论可逐环追溯
+    source: Yin, Case Study Research 6e, ch.4 p.111 (chain of evidence)
+    signal: 结论直接给出，读者无法回溯到具体证据来源
+    fix: 补证据链说明，并让引文编号、编码表、结论三者可互查
+
+  - id: QLT-CAS-002
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须建立案例研究资料库（case study database），并说明其构成与可得性
+    source: Yin 6e, ch.4 p.111 (case study database)
+    signal: 未说明原始资料如何归档、是否可供复核
+    fix: 补一句 database 构成：transcripts、field notes、documents、coding files
+
+  - id: QLT-CAS-003
+    genre: [ssci]
+    track: qualitative
+    section: discussion
+    rule: 须主动处理竞争性解释（rival explanations），并说明为何被排除
+    source: Yin 6e, ch.5 (Analyzing Case Study Evidence)
+    signal: 只给一种解释路径，无替代解释的排查
+    fix: 补 rival explanations 小节，列 2–3 个替代机制并给排除依据
+
+  - id: QLT-CAS-004
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: 多案例研究须先逐个案例呈现，再做跨案例综合，不得直接跳到综合结论
+    source: Yin 6e, ch.5; ch.6 (Reporting Case Studies)
+    signal: 无个案描述，直接给跨案例分析
+    fix: 补个案小节（每案 1–2 页），再设 cross-case synthesis 一节
+
+  - id: QLT-CAS-005
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须说明数据收集的六类证据来源中实际使用了哪几类，并交代各自的采集规程
+    source: Yin 6e, ch.4 p.111 (six sources of evidence)
+    signal: 只写 we conducted interviews，其他来源一概不提
+    fix: 列表说明访谈、观察、档案、文件、参与者观察、实物证据的使用情况
+
+  # ============ H. IPA（Smith et al.）============
+  - id: QLT-IPA-001
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: IPA 研究须体现双重诠释（double hermeneutic）：研究者解释受访者对自身经验的解释
+    source: Smith, Flowers & Larkin, IPA 2e, ch.2 (The theoretical foundations of IPA)
+    signal: 采用 IPA 但分析只是归纳主题，无对受访者意义建构的再解释
+    fix: 补一层解释，说明受访者如何理解其经历，以及研究者的解释性介入
+
+  - id: QLT-IPA-002
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: IPA 须呈现超级主题表（superordinate themes with subthemes），并与个案逐一对应
+    source: Smith et al., IPA 2e, ch.5 (Analysis)
+    signal: 主题呈现为平面清单，无层级结构
+    fix: 补主题层级表，标出每个超级主题下的子主题与对应个案
+
+  - id: QLT-IPA-003
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: IPA 须采用同质目的性抽样，样本量小且说明同质性依据
+    source: Smith et al., IPA 2e, ch.3 (Planning an IPA research study)
+    signal: 样本跨度过大（职业/年龄/情境差异极大）却称 IPA
+    fix: 收窄样本，并说明共享的经验特征
+
+  - id: QLT-IPA-004
+    genre: [ssci]
+    track: qualitative
+    section: results
+    rule: IPA 引文须保留原话与副语言标记，且注释说明其与本主题的关联
+    source: Smith et al., IPA 2e, ch.5 (Analysis)
+    signal: 引文被改写成书面语，失去口语特征
+    fix: 保留原始措辞与停顿标记，另用一段解释诠释
+
+  # ============ I. 报告规范与伦理 ============
+  - id: QLT-RPG-001
+    genre: [ssci]
+    track: qualitative
+    section: submission
+    rule: 访谈与焦点小组研究投稿时须对照 COREQ（32 项）自查并附清单
+    source: EQUATOR Network, COREQ checklist
+    signal: 方法部分缺少研究者资质、访谈场所、是否重复访谈等条目
+    fix: 补 COREQ 清单作为附件，并在方法中补齐缺失条目
+
+  - id: QLT-RPG-002
+    genre: [ssci]
+    track: qualitative
+    section: submission
+    rule: 非访谈类的质性设计（案例/民族志/扎根理论）须对照 SRQR（21 项）自查
+    source: EQUATOR Network, SRQR checklist
+    signal: 方法部分无抽样策略、无反思性、无分析技术说明
+    fix: 附 SRQR 清单并补齐条目
+
+  - id: QLT-ETH-001
+    genre: [ssci]
+    track: qualitative
+    section: method
+    rule: 须报伦理审批、知情同意方式、匿名化规则与数据保管方案
+    source: Miles & Huberman, QDA 3e, ch.3 (Ethical Issues in Analysis)
+    signal: 只写 informed consent was obtained，无审批号、无匿名化规则
+    fix: 补伦理批号、同意形式（口头/书面）、化名规则与数据保存期限
+
+  - id: QLT-IPA-005
+    genre: [ssci]
+    track: qualitative
+    section: discussion
+    rule: IPA 的质量评估须按敏感性/承诺与严谨/透明与连贯/影响与重要性四条原则自评，不用量化效度标准
+    source: Smith et al., IPA 2e, ch.9 (Assessing validity and quality)
+    signal: 用内部效度、外部效度、信度等量化术语评价 IPA 研究质量
+    fix: 改为按 sensitivity to context、commitment and rigour、transparency and coherence、impact and importance 四项逐条说明

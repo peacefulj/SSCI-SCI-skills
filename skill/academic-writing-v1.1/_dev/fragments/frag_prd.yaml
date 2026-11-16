@@ -1,0 +1,380 @@
+# 预测建模（PRD）+ 报告呈现（RPR）v1.1 新增
+# 书源：Kuhn & Johnson, Applied Predictive Modeling (2013)；James et al., ISLR 2e；Miller, Writing about Numbers 2e (2015)
+# track: predictive
+
+rules:
+  # ============ A. 数据切分与泄漏（APM ch.2–3）============
+  - id: PRD-DAT-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: experiments
+    rule: 须明确三分 train / validation / test，并声明 test 集只用于最终评估一次
+    source: Kuhn & Johnson, Applied Predictive Modeling, ch.2 p.19 (A Short Tour of the Predictive Modeling Process)
+    signal: 只提 "we split the data"，未说明比例、是否分层、test 何时使用
+    fix: 补 "70/15/15 stratified split; the test set was touched once, after model selection"
+
+  - id: PRD-DAT-002
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 所有预处理（标准化、插补、编码、降维）须仅在训练集内拟合后再应用到验证/测试集
+    source: APM, ch.3 p.27 (Data Pre-processing)
+    signal: 描述"先对全量数据标准化/插补，再切分"，构成信息泄漏
+    fix: 改为 "all preprocessing steps were estimated on the training fold only and applied unchanged to held-out data"
+
+  - id: PRD-DAT-003
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 时间序列或面板数据须按时间切分，且禁止用未来信息构造特征
+    source: APM, ch.4 p.61; ISLR 2e, ch.5
+    signal: 时序数据用随机切分或 k-fold 交叉验证
+    fix: 改为滚动/前向验证（rolling-origin），并说明预测时点
+
+  - id: PRD-DAT-004
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 须显式排查目标泄漏与重复样本（同一实体跨集合出现）
+    source: APM, ch.20 p.521 (Factors That Can Affect Model Performance)
+    signal: 特征中含明显由结果派生的变量（如"最终状态""结案金额"），或同一患者/企业在多个集合出现
+    fix: 补泄漏排查说明：按实体分组切分（grouped split），删除派生特征
+
+  - id: PRD-DAT-005
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 缺失数据处理方式须说明（删除/单一插补/多重插补/模型内处理）及比例
+    source: APM, ch.3 p.27; ISLR 2e, ch.5
+    signal: 只写 "missing values were removed"，未报删除比例与是否导致选择偏差
+    fix: 报各变量缺失率、处理方式，并做"删除 vs 插补"的敏感性对照
+
+  # ============ B. 重采样与调参（APM ch.4）============
+  - id: PRD-CV-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: experiments
+    rule: 须说明重采样方案（k 折/重复次数/分层/分组）及选择理由
+    source: APM, ch.4 p.61 (Over-Fitting and Model Tuning)
+    signal: 只说 "cross-validation"，无折数、无重复、无分层说明
+    fix: 补 "10-fold CV repeated 5 times, stratified by outcome; folds grouped by firm to avoid leakage"
+
+  - id: PRD-CV-002
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: experiments
+    rule: 调参与性能评估须嵌套：外层评估、内层调参，不得用同一折同时调参与报告
+    source: APM, ch.4 p.61
+    signal: 报告的"交叉验证准确率"正是用来选超参的同一指标
+    fix: 改为嵌套 CV，或单列独立 test 集结果作为唯一报告口径
+
+  - id: PRD-CV-003
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: experiments
+    rule: 须报告性能的变异（折间标准差或置信区间），不得只给单点均值
+    source: APM, ch.4 p.61; NASEM, Reproducibility, ch.4
+    signal: 结果表只有单个准确率数值，无方差或区间
+    fix: 补均值 ± 标准差，并注明折数
+
+  - id: PRD-TUN-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 须报超参搜索空间与搜索方法（网格/随机/贝叶斯），以及最终选定的参数值
+    source: APM, ch.4 p.61
+    signal: 只写 "we tuned hyperparameters"，无搜索范围与最终取值
+    fix: 补超参表：参数、范围、搜索方法、最优值
+
+  - id: PRD-TUN-002
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 禁止在测试集上调参或用测试集结果反向修改模型
+    source: APM, ch.2 p.19; ch.4 p.61
+    signal: 文中出现"在测试集表现不佳后调整了模型，再报告测试集结果"
+    fix: 改用验证集完成所有选择，测试集只报一次
+
+  # ============ C. 过拟合与复杂度（APM ch.4、ch.20）============
+  - id: PRD-OVF-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 须同时报告训练集与留出集的性能，并解释差距
+    source: APM, ch.4 p.61; ch.20 p.521
+    signal: 只报测试性能，或训练与测试性能完全相同（异常信号）
+    fix: 补两列对照，并在差距过大时讨论过拟合或分布差异
+
+  - id: PRD-OVF-002
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 当特征数接近或超过样本量时，须使用正则化或降维，并说明强度选择依据
+    source: APM, ch.6 p.101 (Linear Regression and Its Cousins); ISLR 2e, ch.6
+    signal: p ≫ n 场景下仍用无正则的 OLS/逻辑回归并报告全部系数
+    fix: 改用 ridge/lasso/elastic net，并报 λ 选择路径（CV 曲线）
+
+  - id: PRD-OVF-003
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: discussion
+    rule: 须讨论模型复杂度与可解释性的取舍，说明为何选择该复杂度
+    source: APM, ch.20 p.521
+    signal: 直接采用最复杂模型，未给"简单模型是否已足够"的对照
+    fix: 补一条复杂度阶梯（线性→树→集成）的性能对照曲线
+
+  # ============ D. 性能指标（APM ch.5、ch.11）============
+  - id: PRD-MET-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 指标须与研究目标一致；类别不平衡时不得只用 accuracy
+    source: APM, ch.11 p.247 (Measuring Performance in Classification Models)
+    signal: 正类占比 <10% 却以 accuracy 作为唯一评价指标
+    fix: 补 precision/recall/F1 与 PR-AUC，并说明为何这些指标更贴合目标
+
+  - id: PRD-MET-002
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 分类任务须至少报告两项互补指标（如 recall + precision，或 AUC + 校准）
+    source: APM, ch.11 p.247
+    signal: 结果表只有一列 accuracy 或一列 AUC
+    fix: 补第二项指标，并说明二者在本任务中的权衡
+
+  - id: PRD-MET-003
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 回归任务须报 RMSE/MAE 与 R²，且给出基线模型的同一指标
+    source: APM, ch.5 p.95 (Measuring Performance in Regression Models)
+    signal: 只报 RMSE，无 R²、无基线对照
+    fix: 补基线（均值预测/上一期值）的同口径指标
+
+  - id: PRD-MET-004
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: experiments
+    rule: 须设置朴素基线（trivial baseline），证明模型增益不是来自任务本身容易
+    source: APM, ch.5 p.95; ch.2 p.19
+    signal: 只与同类复杂模型比较，无"常数预测/随机预测"基线
+    fix: 补 trivial baseline 行，并报告相对提升幅度
+
+  - id: PRD-MET-005
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 概率输出须做校准评估（校准曲线或 Brier 分数），不能只报区分度
+    source: APM, ch.11 p.247
+    signal: 输出概率用于决策，但只报 AUC，无校准检验
+    fix: 补 reliability diagram 与 Brier score
+
+  # ============ E. 变量重要性与特征选择（APM ch.18–19）============
+  - id: PRD-IMP-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 报告变量重要性须说明方法，并提示其在不相关特征存在时的不稳定性
+    source: APM, ch.18 p.463 (Measuring Predictor Importance)
+    signal: 给出一张"重要性排序"图，未说明是 permutation、impurity 还是系数
+    fix: 补方法说明，并报告至少两种方法的一致性（或说明不一致处）
+
+  - id: PRD-IMP-002
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: discussion
+    rule: 不得把预测重要性解释为因果效应
+    source: APM, ch.18 p.463; Pearl, Primer, ch.1
+    signal: 由特征重要性直接得出"X 是驱动因素，应加大投入"的结论
+    fix: 改为 "X improves predictive accuracy"；若要做因果主张，另设识别策略
+
+  - id: PRD-FS-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 特征选择须在重采样内部完成，不得在全集上先筛特征再交叉验证
+    source: APM, ch.19 p.487 (An Introduction to Feature Selection)
+    signal: 描述"先用全样本做相关性筛选/T 检验，再做 10 折交叉验证"
+    fix: 把特征选择嵌入每一折，或改用嵌套流程
+
+  # ============ F. 不平衡、泛化与不确定性 ============
+  - id: PRD-CLB-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: method
+    rule: 类别不平衡须说明处理方式（重采样/代价敏感/阈值调整）及其对指标的影响
+    source: APM, ch.16 p.419 (Remedies for Severe Class Imbalance)
+    signal: 正负比严重失衡但方法只字未提
+    fix: 补处理方式，并报处理前后的 precision-recall 对照
+
+  - id: PRD-GEN-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 须至少给一种外部验证（不同时间段、不同机构、不同地区）以支持泛化性
+    source: APM, ch.20 p.521
+    signal: 全部结果来自单一时段单一样本，却在讨论中大谈推广价值
+    fix: 补时间外/样例外验证，或把结论限定在样本范围内
+
+  - id: PRD-UNC-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: results
+    rule: 关键预测须给不确定性（预测区间或集合预测），而非单点值
+    source: APM, ch.5 p.95
+    signal: 面向决策的预测只给点估计，无区间
+    fix: 补预测区间或 conformal 预测集
+
+  - id: PRD-REP-001
+    genre: [sci-journal, ei-conf]
+    track: predictive
+    section: general
+    rule: 须提供代码、随机种子、环境版本与数据可得性说明
+    source: APM, ch.2 p.19; NASEM, Reproducibility, ch.3
+    signal: 仅称"code available upon request"
+    fix: 给仓库链接或 DOI，并附 requirements/环境文件与种子设定
+
+  # ============ G. 报告呈现（RPR，Miller）============
+  - id: RPR-NUM-001
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 抽象数字须给参照系（相对均值、与他人对比、换算为可感知单位）
+    source: Miller, Writing about Numbers 2e, ch.2 (Seven Basic Principles)
+    signal: 出现 "the coefficient is 0.034" 或 "the rate is 12.7 per 100,000" 而读者无从判断大小
+    fix: 补参照："about one-third of the sample mean" 或 "roughly 1 in 8,000 people"
+
+  - id: RPR-NUM-002
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 百分比变化须给基数，避免"增长了 300%"式表述歧义
+    source: Miller, ch.2
+    signal: 只写 "increased by 300%"，未说明从多少到多少
+    fix: 改为 "rose from 2% to 8%" 或 "a fourfold increase (from 2% to 8%)"
+
+  - id: RPR-NUM-003
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 有效数字须与测量精度匹配，禁止虚假精确
+    source: Miller, ch.2
+    signal: 样本量 43 的调查报告给出 "37.21%" 之类精度
+    fix: 降为 "37%"；小数位与样本量/测量误差相称
+
+  - id: RPR-NUM-004
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 所有数量须带单位与口径（时点、人群、币种、是否可比价）
+    source: Miller, ch.5 (Basic Types of Quantitative Comparisons)
+    signal: 只写 the cost was 2.4 million，无币种、无年份、无价格基准
+    fix: 补 "USD 2.4 million in 2020 prices"
+
+  - id: RPR-NUM-005
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 比较须同基准：先统一口径（人均/实际值/同一年）再比较
+    source: Miller, ch.5
+    signal: 直接比较不同规模单位的总量（大省与直辖市的 GDP 总量对比）
+    fix: 改为人均或增长率等可比口径，并在文中说明换算
+
+  - id: RPR-TAB-001
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 表格须用三线表（无竖线、无内部网格），表头与表体对齐清楚
+    source: Miller, ch.6 (Creating Effective Tables)
+    signal: 表格含大量竖线/网格线，或表头跨列未合并说明
+    fix: 改为三线表；复杂表头用合并单元格并配表注
+
+  - id: RPR-TAB-002
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 表标题须自明：单看标题与表注即可理解表在讲什么、样本是谁
+    source: Miller, ch.6
+    signal: 表题为 "Results" 或 "Regression results"
+    fix: 改为 "Table 2. Effect of subsidy on ROA, 2010–2018 (N = 8,412)"
+
+  - id: RPR-TAB-003
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 表注须定义所有缩写、符号、星号与数据来源
+    source: Miller, ch.6
+    signal: 表中出现 FE、SMD、CI 等缩写但表注未展开
+    fix: 补表注，逐项定义并注明数据来源与显著性标记规则
+
+  - id: RPR-TAB-004
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 同一列/行的有效数字位数须统一，小数点对齐
+    source: Miller, ch.6
+    signal: 一列中混有 "0.5""0.432""1.2345"
+    fix: 统一为三位小数
+
+  - id: RPR-FIG-001
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 图须自明：坐标轴带变量名与单位，图例说明分组，注明样本量与误差含义
+    source: Miller, ch.7 (Creating Effective Charts)
+    signal: 图有坐标轴无数值标签、图例缺失或使用缩写
+    fix: 补轴标签（含单位）、图例、误差棒含义与 N
+
+  - id: RPR-FIG-002
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 同一信息不得既用表又用图重复呈现
+    source: Miller, ch.7
+    signal: 表 3 与图 2 展示完全相同的数值
+    fix: 保留一种：精确数值用表，趋势/形态用图
+
+  - id: RPR-FIG-003
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 含估计值的图须显示不确定性（置信区间/误差棒），并说明是 SE 还是 95% CI
+    source: Miller, ch.7; ch.9 (Writing about Distributions and Associations)
+    signal: 折线图/柱状图无误差棒，或误差棒未说明含义
+    fix: 补误差棒并在图注写明 "bars show 95% confidence intervals"
+
+  - id: RPR-STA-001
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 统计结论须以效应量 + 区间为主，p 值为辅
+    source: Miller, ch.3 (Causality, Statistical Significance, and Substantive Significance)
+    signal: 结论句只有 "the difference was statistically significant"
+    fix: 改为 "the difference was 4.2 percentage points (95% CI 1.1 to 7.3)"
+
+  - id: RPR-STA-002
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 不得把 p 值写成"证明"或"显著性=重要性"
+    source: Miller, ch.3
+    signal: 出现 "p < 0.05, proving that…" 或 "highly significant" 作为重要性依据
+    fix: 改为 "provides evidence against the null"；重要性另用效应量论证
+
+  - id: RPR-WRT-001
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 结果段须先给答案再给数字（结论先行），不得让读者自己从表格里找结论
+    source: Miller, ch.10 (Writing about Data and Methods); ch.11
+    signal: 段落以 "Table 3 shows…" 开头，通篇描述表格而无结论句
+    fix: 段首写 "Subsidies raised ROA by 1.8 points."，随后才引表
+
+  - id: RPR-WRT-002
+    genre: [ssci, sci-journal]
+    track: reporting
+    section: results
+    rule: 文中叙述的数字须与表格完全一致（含符号、量级、样本量）
+    source: Miller, ch.10
+    signal: 正文写 "2.4%" 而表中为 "0.024" 未加百分号换算说明，或数字对不上
+    fix: 逐处核对；统一百分数/比例口径并在表注说明

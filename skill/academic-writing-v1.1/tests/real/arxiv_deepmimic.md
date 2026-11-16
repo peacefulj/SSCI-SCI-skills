@@ -1,0 +1,7 @@
+# DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills
+
+## Abstract
+A longstanding goal in character animation is to combine data-driven specification of behavior with a system that can execute a similar behavior in a physical simulation, thus enabling realistic responses to perturbations and environmental variation. We show that well-known reinforcement learning (RL) methods can be adapted to learn robust control policies capable of imitating a broad range of example motion clips, while also learning complex recoveries, adapting to changes in morphology, and accomplishing user-specified goals. Our method handles keyframed motions, highly-dynamic actions such as motion-captured flips and spins, and retargeted motions. By combining a motion-imitation objective with a task objective, we can train characters that react intelligently in interactive settings. This approach thus combines the convenience and motion quality of using motion clips to define the desired style and appearance, with the flexibility and generality afforded by RL methods and physics-based animation. We demonstrate results using multiple characters and a large variety of skills, including locomotion, acrobatics, and martial arts.
+
+## References
+[1] X. B. Peng, P. Abbeel, S. Levine, and M. van de Panne, "DeepMimic: Example-guided deep reinforcement learning of physics-based character skills," ACM Trans. Graph., vol. 37, no. 4, pp. 1–14, Jul. 2018, doi: 10.1145/3197517.3201311.

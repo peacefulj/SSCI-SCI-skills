@@ -1,0 +1,36 @@
+{
+  "addon": "academic-writing-topic-radar",
+  "addon_version": "1.1.0",
+  "installed_at": "2026-11-12 16:04:45",
+  "skill_root": "C:\\Users\\appro\\Desktop\\测试\\academic-writing-agent\\skill\\academic-writing-v1.1",
+  "baseline_sha256": {
+    "rules/rules.yaml": "0b9aa8fe3aec8ac564ec4a46cd65efacd279a22e480c38edc2bcc4156554d442",
+    "rules/detectors.yaml": "5724c3f3f0552b07de0997e03061ae6da00a34e15c9487da96c7bee393b3e0a6",
+    "SKILL.md": "0813c21f073c08d881ae15d31f046e4d10650f5b32dafbc56db0bfb8fa41bfac",
+    "使用教程.md": "6bdbbb73725e36d388ebd671b2be26bd13a9ff53583b9724293ce172a7563c3d"
+  },
+  "files": [
+    {
+      "path": "references/topic-selection.md",
+      "sha256": "7c1053cdf3eb868b9d2b85aa5187255c71cfb3d2deeb36f567823a4c22ecacdb"
+    },
+    {
+      "path": "references/topic-scoring-dimensions.md",
+      "sha256": "fa78ca5f78de2ac8cb8bed6fd6db1c8fae6fa8a94305087379e22d7a50807f63"
+    },
+    {
+      "path": "assets/topic-prompts.md",
+      "sha256": "8ee8f8b4fa9103b759a7ad384171c19314a17887742d51e36430c023848bac2c"
+    },
+    {
+      "path": "assets/target-venues.yaml",
+      "sha256": "d8d0bb4fac62be9e1a1b80836934dc62c3f5bc2142410c3a27795c66c18d0dac"
+    },
+    {
+      "path": "scripts/topic_radar.py",
+      "sha256": "5184f4dd8e5350502468cfa9088342b4331cfd4f0681a62182f56ab3befa496b"
+    }
+  ],
+  "note": "baseline_sha256 记录挂载前的指纹；rules/* 挂载后必须与之一致，否则视为污染。",
+  "upgraded_at": "2026-11-12 18:23:56"
+}

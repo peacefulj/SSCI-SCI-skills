@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 · PaperMate</title>
+<link href="style.css" rel="stylesheet">
+<style>
+/* 登录页是独立整页，不复用主界面的 header/wrap 栅格，样式就地写死，
+   避免主界面改版时把登录页一起带歪。 */
+body.login-page{
+  margin:0; min-height:100vh; display:flex; align-items:center;
+  justify-content:center; background:var(--bg,#f6f7f9);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+    "Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+.login-card{
+  width:min(380px,92vw); background:#fff; border-radius:14px;
+  padding:34px 30px 26px; box-shadow:0 8px 32px rgba(16,24,40,.10);
+  border:1px solid rgba(16,24,40,.06);
+}
+.login-logo{display:flex; align-items:center; gap:9px; font-size:17px;
+  font-weight:600; color:#1a1d21; margin-bottom:6px}
+.login-logo .mark{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:26px; height:26px; border-radius:7px; background:#1a1d21;
+  color:#fff; font-size:11px; font-weight:700; letter-spacing:.3px;
+}
+.login-sub{font-size:13px; color:#6b7280; margin:0 0 22px; line-height:1.6}
+.login-card label{display:block; font-size:12.5px; color:#4b5563; margin-bottom:6px}
+.login-card input[type=password]{
+  width:100%; box-sizing:border-box; padding:10px 12px; font-size:14px;
+  border:1px solid #d7dbe0; border-radius:8px; outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.login-card input[type=password]:focus{
+  border-color:#1a1d21; box-shadow:0 0 0 3px rgba(26,29,33,.08);
+}
+.login-btn{
+  width:100%; margin-top:16px; padding:10px; font-size:14px; font-weight:600;
+  color:#fff; background:#1a1d21; border:none; border-radius:8px;
+  cursor:pointer; transition:opacity .15s;
+}
+.login-btn:hover{opacity:.88}
+.login-btn:disabled{opacity:.5; cursor:default}
+.login-err{
+  display:none; margin-top:12px; padding:9px 11px; font-size:12.5px;
+  color:#b42318; background:#fef3f2; border:1px solid #fecdca; border-radius:7px;
+}
+.login-hint{
+  margin-top:20px; padding-top:14px; border-top:1px solid #eef0f3;
+  font-size:11.5px; color:#9aa1ab; line-height:1.7;
+}
+.login-hint code{background:#f3f4f6; padding:1px 5px; border-radius:4px}
+</style>
+</head>
+<body class="login-page">
+<form class="login-card" id="loginForm" autocomplete="off">
+  <div class="login-logo"><span class="mark">PM</span> PaperMate</div>
+  <p class="login-sub">此站点需要访问口令。口令由部署者设置，不是你的 API Key。</p>
+  <label for="pw">访问口令</label>
+  <input type="password" id="pw" name="password" autofocus
+         placeholder="请输入访问口令" autocomplete="current-password">
+  <button class="login-btn" id="btnLogin" type="submit">进入</button>
+  <div class="login-err" id="loginErr"></div>
+  <div class="login-hint">
+    口令在服务器 <code>.env</code> 的 <code>PAPERMATE_ACCESS_TOKEN</code> 里。
+    登录状态保持 30 天，换浏览器或清 Cookie 后需重新输入。
+  </div>
+</form>
+
+<script>
+"use strict";
+(function(){
+  var form = document.getElementById("loginForm");
+  var pw = document.getElementById("pw");
+  var btn = document.getElementById("btnLogin");
+  var err = document.getElementById("loginErr");
+
+  // 只允许跳回站内相对路径，挡掉 ?next=https://evil.com 这类开放重定向
+  function safeNext(){
+    var q = new URLSearchParams(location.search);
+    var n = q.get("next") || "/";
+    return (n.charAt(0) === "/" && n.charAt(1) !== "/") ? n : "/";
+  }
+
+  function showErr(msg){
+    err.textContent = msg;
+    err.style.display = "block";
+  }
+
+  // 已登录就直接回去，别让用户白输一遍
+  fetch("/api/auth/status", {credentials: "same-origin"})
+    .then(function(r){ return r.json(); })
+    .then(function(s){
+      if(s.mode === "private" || s.logged_in){ location.replace(safeNext()); }
+    })
+    .catch(function(){});
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    err.style.display = "none";
+    var v = pw.value;
+    if(!v){ showErr("请输入口令"); return; }
+    btn.disabled = true;
+    btn.textContent = "验证中…";
+    try{
+      var res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        credentials: "same-origin",
+        body: JSON.stringify({password: v})
+      });
+      var data = await res.json().catch(function(){ return {}; });
+      if(res.ok){
+        location.replace(safeNext());
+        return;
+      }
+      // 401 只说明口令错，不要提示「还剩 N 次」——那是给爆破者的免费信息
+      showErr(data.detail || "口令不正确");
+      pw.select();
+    }catch(e2){
+      showErr("连不上服务器，请稍后重试");
+    }finally{
+      btn.disabled = false;
+      btn.textContent = "进入";
+    }
+  });
+})();
+</script>
+</body>
+</html>

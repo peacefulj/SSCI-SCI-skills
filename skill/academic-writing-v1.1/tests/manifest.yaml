@@ -1,0 +1,54 @@
+# 验收样稿清单（v1.1.0）
+# grade: good / mid / bad
+# expect: 允许的命中缺陷数区间 [lo, hi]
+# 判定口径：good 允许 0-1（残余噪声）；mid 3-7；bad 8 以上
+
+samples:
+  # ---------- 定量实证 quant ----------
+  - {file: qnt_good_1.md, track: quant, grade: good, expect: [0, 1]}
+  - {file: qnt_good_2.md, track: quant, grade: good, expect: [0, 1]}
+  - {file: qnt_good_3.md, track: quant, grade: good, expect: [0, 1]}
+  - {file: qnt_mid_1.md,  track: quant, grade: mid,  expect: [3, 7]}
+  - {file: qnt_mid_2.md,  track: quant, grade: mid,  expect: [3, 7]}
+  - {file: qnt_mid_3.md,  track: quant, grade: mid,  expect: [3, 7]}
+  - {file: qnt_bad_1.md,  track: quant, grade: bad,  expect: [8, 16]}
+  - {file: qnt_bad_2.md,  track: quant, grade: bad,  expect: [8, 16]}
+  - {file: qnt_bad_3.md,  track: quant, grade: bad,  expect: [8, 16]}
+
+  # ---------- 质性 qualitative ----------
+  - {file: qlt_good_1.md, track: qualitative, grade: good, expect: [0, 1]}
+  - {file: qlt_good_2.md, track: qualitative, grade: good, expect: [0, 1]}
+  - {file: qlt_good_3.md, track: qualitative, grade: good, expect: [0, 1]}
+  - {file: qlt_mid_1.md,  track: qualitative, grade: mid,  expect: [3, 7]}
+  - {file: qlt_mid_2.md,  track: qualitative, grade: mid,  expect: [3, 7]}
+  - {file: qlt_mid_3.md,  track: qualitative, grade: mid,  expect: [3, 7]}
+  - {file: qlt_bad_1.md,  track: qualitative, grade: bad,  expect: [8, 20]}
+  - {file: qlt_bad_2.md,  track: qualitative, grade: bad,  expect: [8, 20]}
+  - {file: qlt_bad_3.md,  track: qualitative, grade: bad,  expect: [8, 20]}
+
+  # ---------- 预测建模 predictive ----------
+  - {file: prd_good_1.md, track: predictive, grade: good, expect: [0, 1]}
+  - {file: prd_good_2.md, track: predictive, grade: good, expect: [0, 1]}
+  - {file: prd_good_3.md, track: predictive, grade: good, expect: [0, 1]}
+  - {file: prd_mid_1.md,  track: predictive, grade: mid,  expect: [3, 7]}
+  - {file: prd_mid_2.md,  track: predictive, grade: mid,  expect: [3, 7]}
+  - {file: prd_mid_3.md,  track: predictive, grade: mid,  expect: [3, 7]}
+  - {file: prd_bad_1.md,  track: predictive, grade: bad,  expect: [7, 16]}
+  - {file: prd_bad_2.md,  track: predictive, grade: bad,  expect: [7, 16]}
+  - {file: prd_bad_3.md,  track: predictive, grade: bad,  expect: [7, 16]}
+
+  # ---------- 临床 clinical ----------
+  - {file: cln_good_1.md, track: clinical, grade: good, expect: [0, 1]}
+  - {file: cln_good_2.md, track: clinical, grade: good, expect: [0, 1]}
+  - {file: cln_good_3.md, track: clinical, grade: good, expect: [0, 1]}
+  - {file: cln_mid_1.md,  track: clinical, grade: mid,  expect: [3, 8]}
+  - {file: cln_mid_2.md,  track: clinical, grade: mid,  expect: [3, 8]}
+  - {file: cln_mid_3.md,  track: clinical, grade: mid,  expect: [3, 8]}
+  - {file: cln_bad_1.md,  track: clinical, grade: bad,  expect: [8, 18]}
+  - {file: cln_bad_2.md,  track: clinical, grade: bad,  expect: [8, 18]}
+  - {file: cln_bad_3.md,  track: clinical, grade: bad,  expect: [8, 18]}
+
+  # ---------- 基础科学 basic-science（抽检 3 篇）----------
+  - {file: sci_good_1.md, track: basic-science, grade: good, expect: [0, 1]}
+  - {file: sci_mid_1.md,  track: basic-science, grade: mid,  expect: [3, 8]}
+  - {file: sci_bad_1.md,  track: basic-science, grade: bad,  expect: [3, 12]}
