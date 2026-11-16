@@ -209,15 +209,13 @@ academic-writing-agent/
 ├── PaperMate.spec       # PyInstaller 打包配置（onedir，排除 onnxruntime/pandas 等）
 ├── PaperMate.iss        # Inno Setup 安装包脚本（含环境体检页）
 ├── build_installer.bat  # 一键打包（检查工具链 → PyInstaller → Inno Setup）
-├── installer/           # 安装器用到的简体中文语言文件
-├── icon.ico             # 应用图标
+├── installer/           # 安装器用到的简体中文语言文件（编译必需，缺失会直接 aborted）
+├── icon.ico             # 应用图标（spec 与 iss 都引用，缺失会导致打包失败）
 ├── LICENSE.txt          # MIT 许可证 + 使用须知
 ├── requirements.txt
 ├── .env.example         # API Key 配置模板
 ├── start.bat            # Windows 一键启动（找 Python、查版本、装依赖、起服务）
 ├── start.sh             # macOS / Linux 一键启动
-├── server.py            # FastAPI 后端（含鉴权中间件与启动逻辑）
-├── paths.py             # 只读资源 / 可写数据的路径解析（含容器模式）
 ├── auth.py              # 访问口令、签名 Cookie、BYOK 开关（1.3.0 新增）
 ├── state_store.py       # 会话落盘与清理（1.3.0 新增）
 ├── Dockerfile           # 云镜像（含可选 LibreOffice stage）
