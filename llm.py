@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""LLM 层：DeepSeek / Anthropic / 萤算 三家接入 + 六阶段工作流。
+"""LLM 层：DeepSeek / Anthropic / Lumda AI 三家接入 + 六阶段工作流。
 
 只接三家，各按各的协议：
 - DeepSeek 官方：OpenAI 兼容（POST {base}/chat/completions）
 - Anthropic 官方：原生 Messages API（POST {base}/v1/messages，x-api-key 头）
-- 萤算 Lumda：OpenAI 兼容（POST /api/v1/chat/completions），一个 key 转多模型
+- Lumda AI：OpenAI 兼容（POST /api/v1/chat/completions），一个 key 转多模型
 
 - deep_review: 对需人工判读的规则逐条判读，输出三层风险清单
 - workflow: 选题/设计/初稿/引用/投稿返修 的引导
@@ -45,7 +45,7 @@ PROVIDERS = {
         "signup": "https://console.anthropic.com/",
     },
     "lumda": {
-        "label": "萤算 Lumda",
+        "label": "Lumda AI",
         "protocol": "openai",
         "base_url": "https://api.lumdatech.com/api/v1",
         "models": ["deepseek-v4-pro", "deepseek-flash"],
@@ -194,8 +194,8 @@ def explain_http_error(status: int, base: str, body, proto: str | None = None) -
 
     if status == 405:
         if "lumdatech" in host:
-            return ("接口地址不对：这是萤算的官网域名，不接受 API 请求。"
-                    "请在设置里选「萤算 Lumda」预设，或把接口地址填成 "
+            return ("接口地址不对：这是 Lumda AI 的官网域名，不接受 API 请求。"
+                    "请在设置里选「Lumda AI」预设，或把接口地址填成 "
                     "https://api.lumdatech.com/api/v1")
         if is_anthropic:
             return ("接口地址不对：Anthropic 走的是 /v1/messages，不是 /chat/completions。"
@@ -205,7 +205,7 @@ def explain_http_error(status: int, base: str, body, proto: str | None = None) -
                 "https://api.lumdatech.com/api/v1")
     if status == 404:
         if "lumdatech" in host:
-            return ("接口不存在：萤算的 API 地址是 https://api.lumdatech.com/api/v1"
+            return ("接口不存在：Lumda AI 的 API 地址是 https://api.lumdatech.com/api/v1"
                     "（不是 www.lumdatech.com，也不要以 /chat/completions 结尾）")
         if is_anthropic:
             return ("接口不存在：Anthropic 只需填 https://api.anthropic.com；"
@@ -219,7 +219,7 @@ def explain_http_error(status: int, base: str, body, proto: str | None = None) -
     if status == 403:
         if is_anthropic:
             return ("Key 无权限或当前网络地区不支持（403）。Anthropic 按账号地区开放，"
-                    "可换用萤算等中转通道，或检查 key 的额度与权限")
+                    "可换用 Lumda AI 等中转通道，或检查 key 的额度与权限")
         return "Key 被禁用或权限不足（403），请到服务商控制台检查"
     if status == 402:
         return "账户余额不足（402），请先充值再试"
@@ -336,7 +336,7 @@ def chat(api_key, messages, base_url=None, model=None, temperature=0.2, timeout=
             "messages": messages,
             "stream": False,
         }
-        # 部分平台（如萤算）明确忽略 temperature；仍带上以兼容标准实现
+        # 部分平台（如 Lumda AI）明确忽略 temperature；仍带上以兼容标准实现
         if temperature is not None:
             payload["temperature"] = temperature
         if max_tokens:

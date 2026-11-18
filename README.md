@@ -2,7 +2,7 @@
 
 把 academic-writing skill（学术论文写作决策 + 审查知识库）包装成的**独立 Web 应用**——带能力界面、结构化输入、词面检测与**大模型逐条判读**，覆盖论文从选题到投稿返修的完整生命周期。
 
-> 与「资料库工作台」方案的本质区别：本应用是**独立前后端**，后端直连 DeepSeek / Anthropic / 萤算 等大模型，真正完成 298 条需语义判读规则的逐条判读，而不是"复制 Prompt 到对话"的半自动方案。
+> 与「资料库工作台」方案的本质区别：本应用是**独立前后端**，后端直连 DeepSeek / Anthropic / Lumda AI 等大模型，真正完成 298 条需语义判读规则的逐条判读，而不是"复制 Prompt 到对话"的半自动方案。
 
 ## 一、能做什么（七大能力）
 
@@ -145,13 +145,13 @@ ISCC.exe PaperMate.iss                                      # -> dist_installer\
 |---|---|---|---|
 | DeepSeek 官方 | `https://api.deepseek.com` | `deepseek-chat` / `deepseek-v4-pro` / `deepseek-flash` | OpenAI 兼容，直连；chat 为稳定别名，v4-pro 推理更强、flash 更快 |
 | Anthropic 官方 | `https://api.anthropic.com`（不带 `/v1`） | `claude-sonnet-4-5` / `claude-haiku-4-5` / `claude-opus-4-1` | 原生 Messages API：`x-api-key` 头 + `POST /v1/messages`，system 独立字段，`max_tokens` 必填 |
-| 萤算 Lumda（聚合） | `https://api.lumdatech.com/api/v1` | `deepseek-v4-pro` / `deepseek-flash` | OpenAI 兼容，一个 key 调多家模型，低至 6 折起，星际直连 |
+| Lumda AI（聚合） | `https://api.lumdatech.com/api/v1` | `deepseek-v4-pro` / `deepseek-flash` | OpenAI 兼容，一个 key 调多家模型，低至 6 折起，星际直连 |
 
-刻意不设「自定义中转」入口：地址填错时程序自动纠正，比让用户自己猜路径更可靠。设置面板里选服务商会自动填好地址、协议与模型，点「测试连接」探活（DeepSeek / 萤算走 `GET /models`，Anthropic 走 `GET /v1/models`，都不产生 token 费用）。
+刻意不设「自定义中转」入口：地址填错时程序自动纠正，比让用户自己猜路径更可靠。设置面板里选服务商会自动填好地址、协议与模型，点「测试连接」探活（DeepSeek / Lumda AI 走 `GET /models`，Anthropic 走 `GET /v1/models`，都不产生 token 费用）。
 
 **地址填错会自动纠正**：把官网域名 `www.lumdatech.com` 当接口地址填是常见错误，请求会打到 Nginx 的 `/chat/completions` 被返回 **405 Not Allowed**。程序会把 `lumdatech.com` / `www.` / `api.` 一律收敛到 `https://api.lumdatech.com/api/v1`；Anthropic 同样处理（`anthropic.com` / `www.` / `claude.ai` → `https://api.anthropic.com`，误粘的 `/v1`、`/v1/messages` 自动剥掉），并在错误信息里写明纠正结果。
 
-> 推广：萤算搭子平台（Lumda）为本项目推荐的模型通道，注册链接带 UTM 来源标记；本站不代收费用、不抽成，价格以平台实时页面为准。
+> 推广：Lumda AI 为本项目推荐的模型通道，注册链接带 UTM 来源标记；本站不代收费用、不抽成，价格以平台实时页面为准。
 
 ## 三、架构（四层）
 
@@ -406,7 +406,7 @@ academic-writing-agent/
 |---|---|---|
 | 点「测试连接」→ **自检失败 / 说明 Method Not Allowed** | 后端还是**旧进程**，里面没有 `/api/llm/test` 这个路由，所以返回 405。与 API 地址、Key 无关 | 关掉那个命令行窗口，重新双击 `start.bat`。页面顶部如果出现红色「后端还是旧版本」提示条，就是同一件事 |
 | 出现 **405 Not Allowed** 且填的是 `www.lumdatech.com` | 填的是**官网**而不是 API 地址 | 地址改成 `https://api.lumdatech.com/api/v1`（程序会自动纠正，看「实际地址」那行） |
-| 出现 **401 / 402 / 403** | Key 无效 / 余额不足 / 地区或权限限制 | 按提示逐条处理；Anthropic 403 多为账号地区限制，可改走萤算 |
+| 出现 **401 / 402 / 403** | Key 无效 / 余额不足 / 地区或权限限制 | 按提示逐条处理；Anthropic 403 多为账号地区限制，可改走 Lumda AI |
 
 判断后端新旧最快的办法：打开 `http://127.0.0.1:8000/api/meta`，`features` 里有 `llm_test` 和 `title_translate` 才是新版本。
 

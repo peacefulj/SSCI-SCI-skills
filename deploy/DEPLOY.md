@@ -152,7 +152,7 @@ Key 只存在用户自己的浏览器 `localStorage` 里，服务端不落盘。
 | `PAPERMATE_HTTPS` | 空 | `1` = 登录 Cookie 带 Secure。纯 HTTP 千万别设 |
 | `PAPERMATE_TRUSTED_PROXIES` | `127.0.0.1` | 可信反代 IP，决定 `X-Forwarded-For` 是否可信 |
 | `DEEPSEEK_API_KEY` | 空 | 服务端 Key（byok 模式忽略） |
-| `DEEPSEEK_BASE_URL` | DeepSeek 官方 | 也支持 Anthropic / 萤算 |
+| `DEEPSEEK_BASE_URL` | DeepSeek 官方 | 也支持 Anthropic / Lumda AI |
 | `DEEPSEEK_MODEL` | `deepseek-chat` | |
 
 ---

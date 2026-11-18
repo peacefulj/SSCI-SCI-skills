@@ -52,7 +52,7 @@ var CFG_PROVIDER = "";   // 当前选中的服务商预设
 
 var PROMO = {
   url: "https://www.lumdatech.com/?utm_source=academic-writing-agent&utm_medium=referral&utm_campaign=promo",
-  title: "萤算搭子 · 注册即送 5 元体验券",
+  title: "Lumda AI · 注册即送 5 元体验券",
   body: "一个 key 调 DeepSeek V4 / Flash，低至 6 折起，星际直连，OpenAI 兼容。",
   cta: "去看看 →"
 };
@@ -255,7 +255,7 @@ function updateKeyNotice(){
   n.style.display = (CFG.api_key || hasServer) ? "none" : "block";
   if(!CFG.api_key && !hasServer && META && META.access && META.access.mode === "byok"){
     n.innerHTML = '⚠️ 本站不提供公共 Key，请在右上角「设置」里填你自己的 API Key'
-      + '（DeepSeek / Anthropic / 萤算 任选一家）。Key 只保存在你本机浏览器里。';
+      + '（DeepSeek / Anthropic / Lumda AI 任选一家）。Key 只保存在你本机浏览器里。';
   }
 }
 

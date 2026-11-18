@@ -204,7 +204,7 @@ def resolve_llm(body):
 
     base, _note = llm.normalize_base_url(raw_base)
     if not model:
-        # 按服务商给一个能跑通的默认模型（DeepSeek / Claude / 萤算各不同）
+        # 按服务商给一个能跑通的默认模型（DeepSeek / Claude / Lumda AI 各不同）
         model = llm.default_model_for(base)
     return key, base, model
 
@@ -521,7 +521,7 @@ def oneshot_gate(req: OneShotGateReq):
 def oneshot_start(req: OneShotStartReq):
     key, base, model = resolve_llm(req.model_dump())
     if not key:
-        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算），请在设置中填写或写入 .env")
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / Lumda AI），请在设置中填写或写入 .env")
     try:
         jid = oneshot.start(req.cfg, {"api_key": key, "base_url": base, "model": model})
     except ValueError as e:
@@ -550,7 +550,7 @@ def oneshot_title_translate(req: TitleTranslateReq):
 
     key, base, model = resolve_llm(req.model_dump())
     if not key:
-        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算），请在设置中填写或写入 .env")
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / Lumda AI），请在设置中填写或写入 .env")
 
     try:
         en = oneshot.translate_title(title, {"api_key": key, "base_url": base, "model": model})
@@ -722,7 +722,7 @@ def review_lexical(req: LexicalReq):
 def review_deep(req: DeepReq):
     key, base, model = resolve_llm(req.model_dump())
     if not key:
-        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算），请在设置中填写或写入 .env")
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / Lumda AI），请在设置中填写或写入 .env")
     if not req.text or not req.text.strip():
         raise HTTPException(400, "稿件正文不能为空")
     try:
@@ -752,7 +752,7 @@ def review_combined(req: CombinedReq):
     """结合审查：脚本词面检测 → 模型读全文复判脚本 must（多数票）→ 模型深审无检测器规则。"""
     key, base, model = resolve_llm(req.model_dump())
     if not key:
-        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算），请在设置中填写或写入 .env")
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / Lumda AI），请在设置中填写或写入 .env")
     if not req.text or not req.text.strip():
         raise HTTPException(400, "稿件正文不能为空")
     if req.track not in engine.TRACKS:
@@ -769,7 +769,7 @@ def review_combined(req: CombinedReq):
 def do_workflow(req: WorkflowReq):
     key, base, model = resolve_llm(req.model_dump())
     if not key:
-        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算），请在设置中填写或写入 .env")
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / Lumda AI），请在设置中填写或写入 .env")
     if req.stage not in (1, 2, 3, 4, 6):
         raise HTTPException(400, "该阶段请走审查接口")
     try:
@@ -796,7 +796,7 @@ def do_workflow(req: WorkflowReq):
 def do_chat(req: ChatReq):
     key, base, model = resolve_llm(req.model_dump())
     if not key:
-        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算）")
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / Lumda AI）")
     if not req.message or not req.message.strip():
         raise HTTPException(400, "消息不能为空")
 
