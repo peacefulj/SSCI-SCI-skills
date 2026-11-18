@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.3.2（2026-11-18）工程/AI 主线检测器分派修复 + 盲标复核校准
+
+- **修 bug（`scripts/score.py`）**：`score_file` 原来只按 `detector.track == track` 取检测器，而 `PRD-*` 等检测器 `track=predictive`、`genre` 却含 `ei-conf`/`sci-journal`。结果 ei-conf 只有 4 个通用检测器、ai-conf 只有 2 个引用类检测器在跑，工程/AI 主线的规则实际没被自动检查。现改为：检测器 id 在该主线的 `applicable` 规则集合内也纳入。跨主线分派进来的检测器只收 `defect`，不产生 `pass`（否则会把只检查了一部分的规则误报成"通过"）。
+- 新增 4 条工程/AI 专用检测器（`track` 直接写 `ei-conf`/`ai-conf`，不参与 sci-journal 分派）：`ENG-REP-001/002`（代码/数据可得性）、`ENG-DAT-001/002`（归一化须在训练集内拟合；`batch/layer normalization` 判 na）。
+- `SCI-MET-004` 的 `not_when` 收紧：去掉过宽的 `SDS-PAGE … molecular mass` 一条（会放过确有缺陷的纯化表征论文），保留显微镜描述/形态学观察/单批单次实验三条。
+- 检测器 95 → 99，规则库仍 393 条。
+- 回归：40 篇语料 must 命中 48 条（原 63 条口径下 Y 17/17 全保留，误报 N+NA 仍为 14），新增的 5 条都是 ei-conf 的 `PRD-*` 命中；`tests/manifest.yaml` 39 份样稿、`manifest_real.yaml` 12 篇越界数改前改后均为 0。
+- 盲标复核（独立模型、只给全文与规则、看不到旧标签，两轮）：Y 保留 17/17，完全一致 70–73%；据此把 13 条"待定"与 4 条分歧定稿，语料真值更新为 Y 26 / N 18 / NA 18 / 待定 1（`对比测试/盲标复核/裁决.json`）。
+
 ## v1.3.1（2026-11-18）检测器作用域校准
 
 依据 40 篇真实论文重标注（63 条 must 命中：真缺陷 17 / 无缺陷 12 / 规则不适用 21 / 待定 13）校准检测器，只动 `rules/detectors.yaml`，规则库不变：

@@ -5,8 +5,8 @@
   "skill_root": "C:\\Users\\appro\\Desktop\\测试\\academic-writing-agent\\skill\\academic-writing-v1.1",
   "baseline_sha256": {
     "rules/rules.yaml": "0b9aa8fe3aec8ac564ec4a46cd65efacd279a22e480c38edc2bcc4156554d442",
-    "rules/detectors.yaml": "59ce0e78804d75d4427d2fcd680b4d3fc88dabaa78845750007bace7bb61b879",
-    "SKILL.md": "e1de93ff8c745f59ce9e5d1c19666484d7a3121d88164a4a21cf170f43563dd4",
+    "rules/detectors.yaml": "46209337ca4611db09baea96bd6b410df199738a72dcc56932522c186f24898f",
+    "SKILL.md": "6dabc881dd0225a14f39f4f0e3dfd696cf2b952f8d38de1b2349eac618e13336",
     "使用教程.md": "3aca0bb40472bb49caf1e37589beb4710f46c232869b229a843058eba74fc001"
   },
   "files": [
@@ -33,5 +33,5 @@
   ],
   "note": "baseline_sha256 记录挂载前的指纹；rules/* 挂载后必须与之一致，否则视为污染。",
   "upgraded_at": "2026-11-12 18:23:56",
-  "baseline_refreshed_at": "2026-11-18 09:42:33"
+  "baseline_refreshed_at": "2026-11-18 10:51:06"
 }

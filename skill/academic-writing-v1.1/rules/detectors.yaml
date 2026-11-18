@@ -343,6 +343,10 @@ detectors:
     kind: require
     severity: must
     patterns: ["ANOVA", "t-?test", "Tukey", "Kruskal", "Origin", "SPSS", "R version", "Python \\d", "±", "\\bS\\.?D\\.?\\b", "standard deviation", "triplicate", "duplicate", "SigmaPlot", "GraphPad", "Prism", "independent (experiments|replicates)", "n ?= ?\\d+ (replicates|independent)"]
+    # 纯定性/单次观察类基础研究（显微镜描述、单次纯化表征、谱图解读）没有生物重复，
+    # 不报告重复次数不是缺陷。注意：只要文中有任何定量比较（酶活百分比、抑菌圈、
+    # 生长曲线、IC50 等），一律不豁免——那时应报告重复与离散度。
+    not_when: ["\\b(light|fluorescence|electron|confocal) microscop", "morpholog(y|ical) (observation|description|characteri)", "\\bsingle (batch|preparation|run|isolate)\\b"]
 
   - id: SCI-RES-002
     track: basic-science
@@ -663,3 +667,36 @@ detectors:
     severity: should
     when: ["works? through", "operates? (through|via)", "the mechanism (is|lies)", "channel through which", "机制在于"]
     patterns: ["mediat", "direct (effect|path)", "indirect (effect|path)", "decompos", "中介"]
+
+  # ---- 工程/AI 工程实践类（track=ei-conf/ai-conf 专用，不参与 sci-journal 分派）----
+  - id: ENG-REP-001
+    track: ei-conf
+    kind: require
+    severity: should
+    patterns: ["github\\.com", "gitlab", "zenodo", "\\bcode (is |are )?(publicly )?(available|released)", "源码(公开|可得)", "开源(代码|实现)"]
+    not_when: ["data (are |is )?available", "\\bdataset\\b.*\\bpublic", "开源数据集"]
+
+  - id: ENG-REP-002
+    track: ai-conf
+    kind: require
+    severity: should
+    patterns: ["github\\.com", "gitlab", "zenodo", "\\bcode (is |are )?(publicly )?(available|released)", "源码(公开|可得)", "开源(代码|实现)"]
+    not_when: ["data (are |is )?available", "\\bdataset\\b.*\\bpublic", "开源数据集"]
+
+  # 特征/信号归一化必须在训练集内拟合（防泄漏）；批量归一化层属模型结构，不算
+  - id: ENG-DAT-001
+    track: ei-conf
+    kind: require_when
+    severity: should
+    when: ["min-?max", "z-?score", "feature scaling", "normaliz(e|ed|ation) (the )?(feature|signal|amplitude)", "标准化", "归一化"]
+    not_when: ["batch normaliz", "layer normaliz", "\\bBN\\b", "group normaliz"]
+    patterns: ["training (set|data|fold) only", "fitted on the training", "on the training set", "仅(在)?训练集", "训练集(内|上)"]
+
+  - id: ENG-DAT-002
+    track: ai-conf
+    kind: require_when
+    severity: should
+    when: ["min-?max", "z-?score", "feature scaling", "normaliz(e|ed|ation) (the )?(feature|signal|amplitude)", "标准化", "归一化"]
+    not_when: ["batch normaliz", "layer normaliz", "\\bBN\\b", "group normaliz"]
+    patterns: ["training (set|data|fold) only", "fitted on the training", "on the training set", "仅(在)?训练集", "训练集(内|上)"]
+

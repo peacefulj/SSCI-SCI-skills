@@ -121,14 +121,23 @@ def detect_sections(text):
 def score_file(path, track, rules_by_id, detectors, verbose=True):
     full = read_text(path)
     text = body_only(full)
-    dets = [d for d in detectors if d.get("track") == track or d.get("track") is None]
+    # 检测器按 rules.yaml 的 genre 归属分派：PRD-* 等检测器 track=predictive 但
+    # genre 含 ei-conf/sci-journal，原来这里只比 track，导致工程/AI 主线完全取不到
+    # 这些检测器（ei-conf 4 个、ai-conf 2 个，只剩通用引用类）。
     applicable = [r for r in rules_by_id.values()
                   if r.get("track") == track or (track in (r.get("genre") or []))]
+    app_ids = {r["id"] for r in applicable}
+    dets = [d for d in detectors
+            if (d.get("track") == track or d.get("track") is None or d["id"] in app_ids)]
 
     results = []
     for d in dets:
         tgt = full if d.get("scope") == "references" else text
         status, reason = eval_detector(d, tgt)
+        if status == "pass" and d["id"] in app_ids and d.get("track") != track:
+            # 规则适用本主线、但检测器属于别的主线（如 PRD-* 用于 ei-conf）：
+            # 只收 defect，否则会把只有个别检测器的规则误报成"通过"。
+            continue
         results.append({"id": d["id"], "status": status, "reason": reason,
                         "severity": d.get("severity", "should")})
 
