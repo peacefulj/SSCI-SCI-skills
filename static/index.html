@@ -40,7 +40,7 @@ window.MathJax = {
     <div data-page-node-id="m8XnpBhE7A5uw11gOrL7mm" class="hero">
       <span data-page-node-id="IGM73EMigxTFlwxNtdTxuC" class="tag"><!--pnid:bZp83oS4qx0ilahSNuHbiL-->规则驱动的学术论文写作决策 + 审查助手</span>
       <h1 data-page-node-id="EZttylnomfxDRFTWode495"><!--pnid:uTDHWUL4TPfr9UwADtPlBI-->论文全程陪跑，从选题到投稿返修</h1>
-      <p data-page-node-id="KnDTiJEXaLMrZiqJrqx7xP" class="lead"><!--pnid:B2TgjH0yHUZP758dkFpN54-->这不是一个"会写论文的通用 AI"，而是一套<strong data-page-node-id="dYIiJ0XC4A1L2jseoJds8x"><!--pnid:OPTnXFkzO1CaMX3U45D9Y0-->有据可查、可追溯、可判定</strong><!--pnid:Gbj4Cj7w0KBcrqHxlkxasz-->的写作规范库（393 条规则，逐条含出处与正反例句）。本助手识别你的学科与体裁后，加载对应规范，<strong data-page-node-id="bvaWG22OidsL4oAdgKZnT2"><!--pnid:Sz49p6zqCp94S9MzLc6FwI-->词面检测 + 大模型逐条判读</strong><!--pnid:argvUh8gfEBd9eqWN7qF1Y-->，给出可执行的结论。</p>
+      <p data-page-node-id="KnDTiJEXaLMrZiqJrqx7xP" class="lead"><!--pnid:B2TgjH0yHUZP758dkFpN54-->这不是一个"会写论文的通用 AI"，而是一套<strong data-page-node-id="dYIiJ0XC4A1L2jseoJds8x"><!--pnid:OPTnXFkzO1CaMX3U45D9Y0-->有据可查、可追溯、可判定</strong><!--pnid:Gbj4Cj7w0KBcrqHxlkxasz-->的写作规范库（<span class="dyn-rule-count">393</span> 条规则，逐条含出处与正反例句）。本助手识别你的学科与体裁后，加载对应规范，<strong data-page-node-id="bvaWG22OidsL4oAdgKZnT2"><!--pnid:Sz49p6zqCp94S9MzLc6FwI-->词面检测（<span class="dyn-det-count">99</span> 个检测器）+ 大模型逐条判读</strong><!--pnid:argvUh8gfEBd9eqWN7qF1Y-->，给出可执行的结论。</p>
       <div class="notice err" id="staleNotice" style="display:none">⚠️ <b>后端还是旧版本</b>：当前进程里没有「测试连接」「题名英译」这些接口，点了会报 405 Method Not Allowed。请关掉那个命令行窗口，重新双击 <code>start.bat</code>（不用改代码、不用重装）。</div>
       <div data-page-node-id="qJj9NvqfDYZELGOEntT60u" class="notice warn" id="keyNotice" style="display:none"><!--pnid:o7lAsozHCiQVm0zRO48NiI-->⚠️ 尚未配置 API Key，深度判读、六阶段引导与一键成稿将无法使用。点右上角「设置」填写（DeepSeek / Anthropic / 萤算 任选一家）。</div>
     </div>
@@ -51,14 +51,14 @@ window.MathJax = {
     <h2 data-page-node-id="wLjAfMtaN67sEdwhkLxfTh"><!--pnid:vjZ0Y39JmjPNDn9BwTtUGW-->能力边界（使用前必读）</h2>
     <div data-page-node-id="JMOEJGgbeJmULYq5y98Pi3" class="card">
       <div data-page-node-id="yygvcmxXn6wuHjavI97WGl" class="bound"><div data-page-node-id="MYUc6Fk0fZ68nYKQvx4kQL" class="t"><!--pnid:i1wi6aTQpaSNx6XiluQVAA-->不支持纯理论数理类论文</div><div data-page-node-id="G1yWBUDkn76A4jkMEa33X7" class="d"><!--pnid:loVRvPjoxSP6Bs2dl6KZjq-->数学 / 理论物理 / 理论经济等"定义-定理-证明"结构文章不支持——规则库基于 IMRaD（摘要/引言/方法/结果/讨论），理论文章无"实验/结果"章节，硬套会系统性误判。</div></div>
-      <div data-page-node-id="5hmQaA7a7SX1By7M8Ytnpz" class="bound warn"><div data-page-node-id="GMYOCCNHe7Ih4Y6p0HMe1O" class="t"><!--pnid:NWLw1FsWO1y6bVxCpPTYkX-->基础科学、临床两条线可信度较低</div><div data-page-node-id="4raPpTyHDQUyMHMMt11nyo" class="d"><!--pnid:JMNpxt8SslpmeZozHfZwWw-->规则已建立但未做真实全文校验。定量实证、质性研究两条线最可靠（已用 12 篇真实论文逐条核对）。</div></div>
+      <div data-page-node-id="5hmQaA7a7SX1By7M8Ytnpz" class="bound"><div data-page-node-id="GMYOCCNHe7Ih4Y6p0HMe1O" class="t"><!--pnid:NWLw1FsWO1y6bVxCpPTYkX-->各主线可信度不一，工程量最悬殊</div><div data-page-node-id="4raPpTyHDQUyMHMMt11nyo" class="d"><!--pnid:JMNpxt8SslpmeZozHfZwWw-->所有主线都进过 40 篇真实论文的逐条核对，但自动判读比例差别很大：临床 27 个词面检测器管 32 条规则，AI 会议只有 6 个管 93 条，其余基本靠大模型判读。看下面的"需大模型判读"列，那个数字越大，结论越依赖模型本身，越需要你自己复核。</div></div>
       <div data-page-node-id="9SrtHCiQpLHwdxUkxZCIq5" class="bound"><div data-page-node-id="LKEoLe2ihKxApqFw6Ih9Qi" class="t"><!--pnid:1fPvAcVFw5HZWqYatwuuQN-->不覆盖领域表征标准</div><div data-page-node-id="QIetdiDTa7Nkbagaw1o16X" class="d"><!--pnid:Evt7KIa8R75S4jSNs8ucRT-->ACS Style Guide、IUPAC 命名、晶体学 CIF 等领域标准不在规则库内，须核对目标期刊作者指南。</div></div>
       <div data-page-node-id="bound-oneshot" class="bound warn"><div class="t">一键成稿产出的是工作稿</div><div class="d">它保证结构、章节与表达符合规则库，但不会替你有数据、有文献、有真实结果：正文里的 <code>[TBD: ...]</code> 必须用真实数据填，<code>[CITE: ...]</code> 必须换成可核实的文献。英文优先，中文为受限通道。</div></div>
       <div data-page-node-id="bound-aiwatermark" class="bound warn"><div class="t">AI 生成内容带水印，不可直接使用</div><div class="d">本应用产出的一切文本都是 <b>AI 生成内容</b>，平台导出或转存的副本可能带可见/不可见的 AI 标记（水印、隐写标识、元数据）。<b>严禁把带水印的成稿用于投稿、交稿或发表</b>——会被期刊的 AI 检测判定为代写，且隐写标记无法通过转存、截图、复制粘贴去除。正确用法：只当写作骨架，逐段用自己的语言重写，数据与文献全部换成真实可核实的。</div></div>
-      <div data-page-node-id="MeQVxgSAP3H7gEjEBjp1n2" class="bound warn"><div data-page-node-id="esKWMFQUXCDVV6a48u8H4V" class="t"><!--pnid:O9C2tN2yQliWYWOtwlR6zC-->词面检测 ≠ 审查结论</div><div data-page-node-id="KbW1IjDNbT6b1ZdZpEeoqb" class="d"><!--pnid:gFMCzyuVc7tGHxxd6OcSwS-->全库 393 条规则中仅 95 条可词面自动判定，其余约 298 条需大模型对照 signal 逐条判读。本应用两者都做：词面即时检测 + 大模型深度判读。</div></div>
+      <div data-page-node-id="MeQVxgSAP3H7gEjEBjp1n2" class="bound warn"><div data-page-node-id="esKWMFQUXCDVV6a48u8H4V" class="t"><!--pnid:O9C2tN2yQliWYWOtwlR6zC-->词面检测 ≠ 审查结论</div><div data-page-node-id="KbW1IjDNbT6b1ZdZpEeoqb" class="d"><!--pnid:gFMCzyuVc7tGHxxd6OcSwS-->全库 <span id="bRuleCount">393</span> 条规则中，仅 <span id="bDetCount">99</span> 条有词面检测器（各主线 4–77 条不等，见下表"词面检测器"列），其余需大模型对照 signal 逐条判读。本应用两者都做：词面即时检测 + 大模型深度判读。<b>词面检测只覆盖能靠字面判定的部分，命中不等于定论，未命中更不等于没问题。</b></div></div>
 
       <div class="quote-card" id="boundSlogan">
-        <p class="q">30 余本方法论专著，393 条可核查规则，管得住写法，管不了数据。</p>
+        <p class="q">30 余本方法论专著，<span class="dyn-rule-count">393</span> 条可核查规则，管得住写法，管不了数据。</p>
         <p class="q2">没有完美的论文，PaperMate 也一样。</p>
         <p class="q-src">书单与逐条出处：<code>skill/academic-writing-v1.1/references/book-index.md</code>（31 本专著 + 6 份报告规范，规则标注到章节与页码）</p>
       </div>
@@ -67,7 +67,7 @@ window.MathJax = {
     <h2 data-page-node-id="JtkUbcQXQo4hKCGx89I0Os"><!--pnid:fhkJHWvj56lT0KsH8HUZyF-->支持的学科主线</h2>
     <div data-page-node-id="L9iEhcRqBf2AMbI7K7HlYj" class="card">
       <table data-page-node-id="RKLLa8zBWW7eTVrZllrZZa" id="trackTable"></table>
-      <p data-page-node-id="dM5bLPIKunuju4XluRAeHJ" class="muted mt"><!--pnid:zti3D565JKYFQoLnfGwmRN-->规则数 = 该主线适用的规则总量（含共用规则）。"自动"= 有词面检测器的规则，"人工"= 需大模型判读的规则。</p>
+      <p data-page-node-id="dM5bLPIKunuju4XluRAeHJ" class="muted mt"><!--pnid:zti3D565JKYFQoLnfGwmRN--><b>规则数</b> = 该主线适用的规则总量（含与其他主线共用的）。<b>词面检测器</b> = 能靠字面自动判定的规则数。<b>需大模型判读</b> = 剩下要靠模型逐条读的。三列数字取自规则库实时统计，不是估计值；跨主线共用的检测器会在多条主线里重复计入，所以"检测器 + 需判读"可能略大于规则数。</p>
     </div>
   </section>
 
@@ -376,7 +376,7 @@ window.MathJax = {
     <div class="promo mt" id="osPromo"></div>
   </section>
 
-  <footer data-page-node-id="YQVqSyKya9SfCJyDogX8Qx"><!--pnid:3hXvnCAb56EHyqxssuT1RO-->Academic Writing Skill v1.2.0 · 规则库 393 条 · 检测器 95 个 · 选题雷达已内置 · 支持 Word / Markdown / LaTeX 输入输出 · 模型可自配（DeepSeek / Anthropic / 萤算）· 开源论文搭子 · 独立 Web 应用（本地运行）</footer>
+  <footer data-page-node-id="YQVqSyKya9SfCJyDogX8Qx"><!--pnid:3hXvnCAb56EHyqxssuT1RO--><span id="footVersion">Academic Writing Skill v1.3.2</span> · 规则库 <span id="footRules">393</span> 条 · 检测器 <span id="footDetectors">99</span> 个 · 选题雷达已内置 · 支持 Word / Markdown / LaTeX 输入输出 · 模型可自配（DeepSeek / Anthropic / 萤算）· 开源论文搭子 · 独立 Web 应用（本地运行）</footer>
 </div>
 
 <!--pnid:8PZuK8tkzMmZiDz8ENPWFG--><!-- 设置弹窗 -->

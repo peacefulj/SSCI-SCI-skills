@@ -316,23 +316,61 @@ function buildCapabilities(){
 }
 
 function buildTrackTable(){
+  // 规则数 / 检测器数一律取自后端 meta.track_stats，不在前端写死：
+  // 以前这里硬编码 "113"/"25 + 16"，规则库升级后首页与实测长期不一致。
+  var st = (META && META.track_stats) || {};
+  function num(t, k){
+    return (st[t] && typeof st[t][k] === "number") ? String(st[t][k]) : "—";
+  }
+  // [显示名, track, 支持度, 校验状态, 检测器是否偏少]
   var rows = [
-    ["工程/AI（EI、AI 会议；工程类 SCI）","ei-conf / ai-conf","ok","113"],
-    ["定量实证（经济/管理/金融/社会学）","quant","ok","56 + 共用"],
-    ["预测建模 / 数据科学","predictive","ok","25 + 16"],
-    ["质性研究（案例/现象学/扎根/民族志）","qualitative","ok","41"],
-    ["博士大论文","dissertation","ok","15 + 共用"],
-    ["基础科学实验（化学/生物/材料/物理）","basic-science","warn","24（未校验）"],
-    ["临床与医学","clinical","warn","32（未校验）"],
-    ["纯理论数理（数学/理论物理/理论经济）","—","no","不支持"]
+    ["工程会议（EI）","ei-conf","ok","已校验",false],
+    ["AI 会议","ai-conf","warn","已校验",true],
+    ["定量实证（经济/管理/金融/社会学）","quant","ok","已校验",false],
+    ["预测建模 / 数据科学","predictive","ok","已校验",false],
+    ["质性研究（案例/现象学/扎根/民族志）","qualitative","ok","已校验",false],
+    ["博士大论文","dissertation","ok","已校验",false],
+    ["基础科学实验（化学/生物/材料/物理）","basic-science","ok","已校验",false],
+    ["临床与医学","clinical","ok","已校验",false],
+    ["科学期刊（SCI）","sci-journal","ok","已校验",false],
+    ["社科期刊（SSCI）","ssci","ok","已校验",false],
+    ["纯理论数理（数学/理论物理/理论经济）","—","no","不支持",false]
   ];
-  var html = "<tr><th>学科主线</th><th>track</th><th>支持度</th><th>规则数</th></tr>";
+  var html = "<tr><th>学科主线</th><th>track</th><th>支持度</th>"
+           + "<th class=\"num\">规则数</th><th class=\"num\">词面检测器</th><th class=\"num\">需大模型判读</th></tr>";
   rows.forEach(function(r){
     var b = r[2]==="ok"?"ok":(r[2]==="warn"?"warn":"no");
-    var label = r[2]==="ok"?"完整":(r[2]==="warn"?"次要线·未校验":"不支持");
-    html += "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td><td><span class=\"badge "+b+"\">"+label+"</span></td><td>"+r[3]+"</td></tr>";
+    var label = r[2]==="ok"?"完整":(r[2]==="warn"?"完整（词面偏少）":"不支持");
+    var counts = r[1]==="—"
+      ? "<td class=\"num\">—</td><td class=\"num\">—</td><td class=\"num\">—</td>"
+      : "<td class=\"num\">"+num(r[1],"rules")+"</td>"
+        + "<td class=\"num\">"+num(r[1],"detectors")+"</td>"
+        + "<td class=\"num\">"+num(r[1],"manual")+"</td>";
+    html += "<tr><td>"+r[0]+"</td><td class=\"mono\">"+r[1]+"</td>"
+          + "<td><span class=\"badge "+b+"\">"+label+"</span></td>"+counts+"</tr>";
   });
   $("trackTable").innerHTML = html;
+}
+
+// 把 meta 里的规则数/检测器数/版本号填进首页所有占位符。
+// 这些数字以前在 HTML 里写死（95 个检测器、v1.2.0），规则库升级后长期对不上，
+// 现在统一由后端 meta 驱动，升级规则库后首页自动跟着变。
+function fillMetaCounts(){
+  if(!META) return;
+  var rules = META.rule_count || 393;
+  var dets = META.detector_count || 0;
+  document.querySelectorAll(".dyn-rule-count").forEach(function(el){ el.textContent = rules; });
+  document.querySelectorAll(".dyn-det-count").forEach(function(el){ el.textContent = dets; });
+  var r = $("footRules"), d = $("footDetectors"), br = $("bRuleCount"), bd = $("bDetCount");
+  if(r) r.textContent = rules;
+  if(d) d.textContent = dets;
+  if(br) br.textContent = rules;
+  if(bd) bd.textContent = dets;
+  // 规则库版本与应用版本分开演进，页脚标的是规则库版本
+  var fv = $("footVersion");
+  if(fv && META.skill_version){
+    fv.textContent = "Academic Writing Skill v" + META.skill_version;
+  }
 }
 
 function fillTrackSelects(){
@@ -1907,6 +1945,10 @@ async function init(){
     var res = await fetch("/api/meta");
     META = await res.json();
     fillTrackSelects();
+    // 主线能力表的规则/检测器数来自 meta.track_stats，必须等 meta 到手再建；
+    // init() 里那次调用只是先占位（此时 META 为空，表格显示"—"）。
+    buildTrackTable();
+    fillMetaCounts();
     renderProviders();
     fillPromo();
     checkBackend();

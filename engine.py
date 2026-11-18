@@ -387,6 +387,43 @@ def get_addon_info():
     return None
 
 
+def get_skill_version():
+    """读内嵌 skill 的 SKILL.md 版本号（frontmatter 里的 `version: "x.y.z"`）。
+
+    首页页脚展示的是"规则库版本"而不是应用版本，两者独立演进
+    （应用 1.3.1 / 规则库 1.3.2）。取不到就返回空串，前端回退到写死的值。
+    """
+    try:
+        for line in (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8").splitlines()[:20]:
+            line = line.strip()
+            if line.startswith("version:"):
+                return line.split(":", 1)[1].strip().strip('"').strip("'")
+    except Exception:
+        pass
+    return ""
+
+
+def skill_label():
+    """规则库的版本描述，供成稿声明等对外文本使用。
+
+    以前 oneshot 的草稿声明里写死 "Academic Writing Skill v1.2.0, 393 rules"，
+    规则库升到 1.3.2 后，用户手里的每份成稿都带着错误版本号。这里统一从
+    SKILL.md + 实际规则数生成，不再硬编码。
+    """
+    _ensure_loaded()
+    ver = get_skill_version()
+    name = f"Academic Writing Skill v{ver}" if ver else "Academic Writing Skill"
+    return f"{name}\uff0c{len(_RULES)} \u6761\u89c4\u5219"
+
+
+def skill_label_en():
+    """skill_label 的英文版（成稿的英文草稿声明用）。"""
+    _ensure_loaded()
+    ver = get_skill_version()
+    name = f"Academic Writing Skill v{ver}" if ver else "Academic Writing Skill"
+    return f"{name}, {len(_RULES)} rules"
+
+
 def meta():
     """前端所需元数据。"""
     _ensure_loaded()
@@ -397,6 +434,7 @@ def meta():
         "track_stats": track_stats(),
         "rule_count": len(_RULES),
         "detector_count": len(_DETECTORS),
+        "skill_version": get_skill_version(),
         "venues": get_venues(),
         "version": "1.3.1",
         "addon": get_addon_info(),
