@@ -532,8 +532,10 @@ def gate_check(cfg: dict) -> dict:
     tr = engine.track_stats().get(cfg["track"], {})
     tot = tr.get("rules") or 0
     auto = tr.get("detectors") or 0
+    manual = tr.get("manual") or 0
     add("coverage", "自检覆盖面", "warn",
-        f"共 {tot} 条适用规则，其中 {auto} 条可词面自动判定，其余 {max(tot - auto, 0)} 条需人工或大模型判读")
+        f"共 {tot} 条适用规则，其中 {auto} 条有词面检测器，{manual} 条需人工或大模型判读"
+        "（跨主线检测器的规则两者都算，故两数之和可能大于总数）")
 
     # 11 文献装配口径
     add("refs", "文献装配", "pass",

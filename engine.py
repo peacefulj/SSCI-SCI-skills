@@ -186,31 +186,63 @@ def applicable_rules(track):
 
 
 def auto_rule_ids(track):
-    """返回该主线下有词面检测器、可自动判定的规则 id 集合。"""
+    """返回该主线下实际会跑词面检测器的规则 id 集合（与 score_file 的分派一致）。
+
+    对齐 score.py v1.3.2：检测器按 rules.yaml 的 genre 归属分派，PRD-* 等
+    track=predictive 但 genre 含 ei-conf/sci-journal 的检测器也要算进来，
+    否则工程/AI 主线的"需人工"数量会被高估（实际能自动跑的规则被算成人工）。
+    """
     _ensure_loaded()
-    dets = [d for d in _DETECTORS if d.get("track") == track or d.get("track") is None]
+    app_ids = {r["id"] for r in applicable_rules(track)}
+    dets = [d for d in _DETECTORS
+            if (d.get("track") == track or d.get("track") is None or d["id"] in app_ids)]
     return {d["id"] for d in dets}
 
 
+def _silent_ids(track):
+    """返回"跑了检测器但不会产出 pass"的规则 id（真正的跨主线检测器）。
+
+    与 score.py 的 cross 判定严格一致：检测器自身 track 非空、且不等于当前
+    track、且该规则适用本主线。track=None 的通用检测器不算跨主线，它的 pass
+    是可信的（不算静默跳过）。
+    这类规则在 score_file 里只收 defect、不产出 pass；defect 未命中时它既不在
+    defects、也不在 passed/na 里，等于静默跳过，必须仍然交给大模型判读。
+    """
+    _ensure_loaded()
+    app_ids = {r["id"] for r in applicable_rules(track)}
+    return {d["id"] for d in _DETECTORS
+            if d.get("track") is not None
+            and d.get("track") != track
+            and d["id"] in app_ids}
+
+
 def manual_rules(track):
-    """返回该主线下需 LLM 逐条判读的规则（applicable 且无自动检测器）。"""
+    """返回该主线下需 LLM 逐条判读的规则。
+
+    口径：适用本主线、且没有"能给出 pass/defect 结论"的专属检测器。
+    跨主线检测器（只收 defect）不算，因为它没命中时不能说明规则通过。
+    """
     _ensure_loaded()
     app = applicable_rules(track)
-    auto_ids = auto_rule_ids(track)
+    auto_ids = auto_rule_ids(track) - _silent_ids(track)
     return [r for r in app if r["id"] not in auto_ids]
 
 
 def track_stats():
-    """每个主线的规则/检测器/需人工 统计，供前端能力矩阵展示。"""
+    """每个主线的规则/检测器/需人工 统计，供前端能力矩阵展示。
+
+    detectors = 实际参与词面检测的检测器数（与 score_file 一致）；
+    manual    = 仍需大模型判读的条数（口径见 manual_rules）。
+    两者相加未必等于 rules：跨主线检测器的规则既往检测、也需判读。
+    """
     _ensure_loaded()
     stats = {}
     for t in TRACKS:
         app = applicable_rules(t)
-        auto = auto_rule_ids(t)
         stats[t] = {
             "rules": len(app),
-            "detectors": len([d for d in _DETECTORS if d.get("track") == t or d.get("track") is None]),
-            "manual": len([r for r in app if r["id"] not in auto]),
+            "detectors": len(auto_rule_ids(t)),
+            "manual": len(manual_rules(t)),
         }
     return stats
 

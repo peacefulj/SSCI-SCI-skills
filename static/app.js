@@ -535,7 +535,9 @@ function updateStats(){
   var st = META.track_stats[t];
   var el = $("s5-stats");
   if(!st){ el.textContent = ""; return; }
-  el.textContent = "该主线：适用规则 " + st.rules + " 条 ｜ 词面自动判定 " + st.detectors + " 条 ｜ 需大模型判读 " + st.manual + " 条";
+  // detectors 与 manual 可能重叠：跨主线检测器的规则既跑词面检测、也需大模型判读
+  el.textContent = "该主线：适用规则 " + st.rules + " 条 ｜ 词面检测器 " + st.detectors
+    + " 个 ｜ 需大模型判读 " + st.manual + " 条";
 }
 
 /* ---------- 阶段 5：词面检测 ---------- */

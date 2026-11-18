@@ -134,9 +134,14 @@ def score_file(path, track, rules_by_id, detectors, verbose=True):
     for d in dets:
         tgt = full if d.get("scope") == "references" else text
         status, reason = eval_detector(d, tgt)
-        if status == "pass" and d["id"] in app_ids and d.get("track") != track:
+        cross = (d.get("track") is not None
+                 and d.get("track") != track
+                 and d["id"] in app_ids)
+        if status == "pass" and cross:
             # 规则适用本主线、但检测器属于别的主线（如 PRD-* 用于 ei-conf）：
             # 只收 defect，否则会把只有个别检测器的规则误报成"通过"。
+            # 注意 track=None 的通用检测器不算跨主线，它的 pass 是可信的
+            # （原条件写 d.get("track") != track，会把通用检测器的 pass 一起丢掉）。
             continue
         results.append({"id": d["id"], "status": status, "reason": reason,
                         "severity": d.get("severity", "should")})
