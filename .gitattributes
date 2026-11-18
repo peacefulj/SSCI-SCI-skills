@@ -1,0 +1,18 @@
+# 规则层必须与 skill 源逐字节一致，统一用 LF，避免检出自带 CRLF 导致
+# check_skill_sync.py 报"不一致"
+*.yaml   text eol=lf
+*.yml    text eol=lf
+*.md     text eol=lf
+*.json   text eol=lf
+*.py     text eol=lf
+*.html   text eol=lf
+*.js     text eol=lf
+*.css    text eol=lf
+
+# 二进制/大文件不做换行转换
+*.png    binary
+*.jpg    binary
+*.ico    binary
+*.exe    binary
+*.docx   binary
+*.pdf    binary
