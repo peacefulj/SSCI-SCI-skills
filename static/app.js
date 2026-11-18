@@ -668,7 +668,15 @@ function renderDeep(r){
     + '<div class="s should"><div class="v">'+s.should+'</div><div class="l">建议 should</div></div>'
     + '<div class="s nice"><div class="v">'+s.nice+'</div><div class="l">可选 nice</div></div>'
     + '</div>';
-  html += '<div class="muted">大模型判读 '+s.judged+' 条需人工的规则，分 '+r.batches+' 批完成。</div>';
+  html += '<div class="muted">大模型判读 '+s.judged+' 条需人工的规则（不适用 '+(s.na||0)+' 条），分 '+r.batches+' 批完成。</div>';
+  if(s.unjudged){
+    html += '<div class="notice warn">有 '+s.unjudged+' 条规则模型未返回判读（已重试），<b>未计为通过</b>，请人工核对：'
+      + escapeHtml((s.unjudged_ids||[]).join('、'))+'</div>';
+  }
+  if(s.review){
+    var rv = r.verdicts.filter(function(v){ return v.verdict === "review"; });
+    html += renderRiskGroups(rv, "分块判读冲突、需人工复核");
+  }
 
   html += renderRiskGroups(defects, "大模型判读出的缺陷");
 
@@ -683,6 +691,60 @@ function renderDeep(r){
 
   var deepArea = $("deepArea");
   deepArea.innerHTML = html;
+}
+
+/* ---------- 结合审查：脚本初筛 → 模型全文复判 → 深审 ---------- */
+async function runCombined(){
+  var track = $("s5-track").value;
+  var text = getReviewText();
+  if(!text.trim()){ alert("请先粘贴或上传稿件正文"); return; }
+  var btn = $("btnCombined");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> 结合审查中（约 2~5 分钟）…';
+  $("resultArea").innerHTML = '<div class="card"><div class="loading"><span class="spin" style="border-color:#0f8a5f;border-top-color:transparent"></span> 脚本初筛 → 模型读全文复判 → 深审其余规则…</div></div>';
+  try{
+    var body = llmFields();
+    body.text = text; body.track = track; body.votes = 3; body.with_deep = true;
+    var r = await api("/api/review/combined", body);
+    renderCombined(r);
+  }catch(e){
+    $("resultArea").innerHTML = '<div class="card"><div class="notice warn">'+escapeHtml(e.message)+'</div></div>';
+  }finally{
+    btn.disabled = false; btn.textContent = "③ 结合审查（推荐）";
+  }
+}
+
+function renderCombined(r){
+  var s = r.summary, f = r.findings;
+  var by = function(st){ return f.filter(function(x){ return x.status === st; }); };
+  var html = '<div class="card"><h3>③ 结合审查结果 · '+(META.tracks[r.lexical.track]||r.lexical.track)+'</h3>';
+  html += '<div class="stat">'
+    + '<div class="s must"><div class="v">'+s.confirmed_must+'</div><div class="l">确认硬伤</div></div>'
+    + '<div class="s total"><div class="v">'+s.confirmed+'</div><div class="l">确认缺陷</div></div>'
+    + '<div class="s should"><div class="v">'+(s.review+s.unjudged)+'</div><div class="l">需人工</div></div>'
+    + '<div class="s nice"><div class="v">'+(s.dismissed_not_applicable+s.dismissed_passed)+'</div><div class="l">已剔除脚本误报</div></div>'
+    + '</div>';
+  html += '<div class="muted">脚本命中 '+r.lexical.defect_count+' 处，其中硬伤经大模型读全文复判（'+r.recheck.votes+' 次多数票，共 '+r.recheck.calls+' 次调用）。</div>';
+
+  html += renderRiskGroups(by("confirmed"), "确认缺陷（脚本命中且复判确认 / 模型深审发现）");
+  var rev = by("review").concat(by("unjudged"));
+  if(rev.length){ html += renderRiskGroups(rev, "需人工复核（票数不过半 / 分块冲突 / 未判读）"); }
+  var so = by("script");
+  if(so.length){ html += renderRiskGroups(so, "脚本命中（非硬伤，未复判）"); }
+
+  var dis = by("not_applicable").concat(by("passed"));
+  if(dis.length){
+    html += '<details style="margin-top:16px"><summary>已被复判剔除的脚本命中（'+dis.length+'）</summary>';
+    dis.forEach(function(d){
+      var why = d.status === "not_applicable" ? "规则不适用本文设计" : "要素已出现（脚本未识别写法）";
+      html += '<div class="risk-item"><span class="rid">'+d.id+'</span><span class="pill nice">'+why+'</span>'
+        + '<div class="why">'+escapeHtml((d.recheck && d.recheck.evidence)||"")+'</div>'
+        + '<div class="src">投票：'+escapeHtml(((d.recheck && d.recheck.votes)||[]).join(' / '))+'</div></div>';
+    });
+    html += '</details>';
+  }
+  html += '<div class="notice info">依据：40 篇真实论文实测，脚本硬伤单独精确率约 34%；读全文复判后真缺陷保留 17/17、误报剔除 33/33（标注存在偏差风险，仍建议人工抽查确认硬伤）。</div>';
+  html += '</div>';
+  $("resultArea").innerHTML = html;
 }
 
 /* ---------- 结果卡：渲染 + 导出（md / docx / tex） ---------- */
@@ -1168,7 +1230,8 @@ function osCfg(){
     // 题目即研究方向：不再单独收「研究方向」与「英文检索词」，检索式由模型从题目生成
     title: title,
     dataset_id: OS_DATA ? OS_DATA.id : "",
-    sources: cached
+    sources: cached,
+    recheck: !!($("s7-recheck") && $("s7-recheck").checked)
   };
 }
 

@@ -206,6 +206,7 @@ window.MathJax = {
       <div data-page-node-id="vUlfb0XhzcwNUdG1DJLcax" class="row mt">
         <button data-page-node-id="stKuuCGiSfWJvz0mCEZAAU" class="btn" id="btnReview" onclick="runLexical()"><!--pnid:6iVCYILD7npZ1Uj3sq4J8Z-->① 词面检测</button>
         <button data-page-node-id="vufEOOs6QWYpYIafkG1dON" class="btn" id="btnDeep" onclick="runDeep()" style="background:#6a4fd0"><!--pnid:g5NRODKmAdx8fLP584jYUU-->② 深度判读（LLM）</button>
+        <button class="btn" id="btnCombined" onclick="runCombined()" style="background:#0f8a5f" title="脚本初筛 → 大模型读全文复判脚本硬伤（3 次多数票）→ 深审其余规则">③ 结合审查（推荐）</button>
         <button data-page-node-id="bCYZdk6SpWXCQCnl0wCp4I" class="btn ghost" onclick="loadSample('good')"><!--pnid:5G991dCCCZcW4GqxyChfiY-->载入好样稿</button>
         <button data-page-node-id="LnKaihB52fhwnxYxVlKS4l" class="btn ghost" onclick="loadSample('bad')"><!--pnid:NtjMSbGglfuyqk7IkQytyD-->载入差样稿</button>
         <button data-page-node-id="lSb5VDPrEo505JjDWcmrfi" class="btn ghost" onclick="clearText()"><!--pnid:tsHkkBA6shOAiDYO7v6Mw6-->清空</button>
@@ -320,6 +321,10 @@ window.MathJax = {
         <div>
           <label>目标字数（正文，不含摘要与文献）</label>
           <input id="s7-words" max="15000" min="3000" step="500" type="number" value="7000">
+        </div>
+        <div>
+          <label>自检复核</label>
+          <label style="font-weight:normal"><input id="s7-recheck" type="checkbox"> 用大模型 3 票复核 must 级命中（过滤误报，额外计费）</label>
         </div>
         <div>
           <label>数据状态（决定结果章怎么写）</label>

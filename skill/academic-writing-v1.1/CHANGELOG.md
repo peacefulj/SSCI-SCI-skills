@@ -1,5 +1,44 @@
 # CHANGELOG
 
+## v1.3.1（2026-11-18）检测器作用域校准
+
+依据 40 篇真实论文重标注（63 条 must 命中：真缺陷 17 / 无缺陷 12 / 规则不适用 21 / 待定 13）校准检测器，只动 `rules/detectors.yaml`，规则库不变：
+
+- 新增 `not_when`（命中即判 na）：`QNT-IDF-001/002`（横断面/关联设计自述、方法学教程）、`SCI-ETH-001`（纯酶学/微生物/重组蛋白）、`CLN-PRI-001/003`（报告质量元研究、指南制定/声明、Delphi）、`QLT-DSN-003/DSP-003/ETH-001/TRU-001/CAS-001`（论述性方法论文）。带 `not_when` 的检测器 15 → 25。
+- 放宽 patterns：`SCI-MET-004` 认 `±`/`SD`/`triplicate`/`SigmaPlot`/`GraphPad` 等；`QLT-DSP-003` 认括号内参与者代号（`[GP 1]`、`(MNS, FG6)`）与参与者特征表行首代号（`HP6 GP …`）；`CLN-ETH-002` 认 `availability of data`、`data are available`、`on reasonable request`。
+- 结果：40 篇语料 must 命中 63 → 43；真缺陷 17/17 全保留，误报（无缺陷+不适用）33 → 14；`tests/manifest.yaml`（39 份样稿）与 `manifest_real.yaml`（12 篇）逐份 defect 数改前改后完全一致。
+- 剩余误报交由 PaperMate「结合审查」的大模型全文复核处理。
+
+## v1.3.0（2026-11-12）
+
+### 选题环节：移植研墨平台「选题雷达」
+
+本版补齐 skill 一直缺失的**选题能力**（此前 SKILL.md 只有一句"选题 → 产出研究问题 + gap 论证"），移植自研墨平台 v1.10.0 工作台的「选题雷达（OpenAlex 全球发文趋势 + AI 三维评估）」。
+
+新增文件：
+
+| 文件 | 类型 | 内容 |
+|---|---|---|
+| `references/topic-selection.md` | 文档 | 选题三步法：定范式/层级 → 跑趋势 → AI 三维评估；趋势三档判读、gap 论证标准、输出物清单 |
+| `references/topic-scoring-dimensions.md` | 文档 | 评分维度矩阵：6 范式 `evalFocus` × 5 层级 `innovation` 标尺，三维固定、标准随范式/层级变 |
+| `assets/topic-prompts.md` | 文档 | AI 选题评估提示词模板：通用骨架 + 6 范式片段 + 5 层级片段 + 完整拼装示例（移动支付与农户创业） |
+| `assets/target-venues.yaml` | 数据 | 目标期刊/会议清单：6 范式各一份，含中英文名与 CCF/SCI/SSCI 分区标注，作"下拉"数据源 |
+| `scripts/topic_radar.py` | 脚本 | OpenAlex 趋势拉取（标准库 urllib）+ 文本柱状图 + 增长率三档判读 + 小样本防护 |
+
+设计决策（与用户确认）：
+- **形态**：规则/数据资产 + 可选脚本；LLM 评估由 agent 按提示词模板完成（不内嵌 API key，符合 skill 纯资产架构）
+- **评分维度**：三维固定（新颖性/可行性/数据·材料可得性），评价标准随范式（evalFocus）与层级（innovation）切换——忠实还原研墨
+- **期刊下拉**：做成清单数据文件而非 HTML 控件（skill 是给 agent 用的）
+
+验证：`topic_radar.py` 实测可跑通 OpenAlex（"digital finance" 拉出 2021→2025 逐年量，正确排除未完成的 2026 年），小样本主题自动加"增长率仅供参考"提示。
+
+### 文档同步
+
+- `SKILL.md`：新增"选题环节（选题雷达）"小节，第二步阶段表、第三步执行表补选题入口
+- `使用教程.md`：新增"场景 0 选题雷达"，目录结构补 3 个新文件
+
+---
+
 ## v1.2.0（2026-11-11）
 
 ### 补齐 4 本欠梳理书目（+17 条规则）

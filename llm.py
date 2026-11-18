@@ -534,7 +534,62 @@ severity 分级（仅 verdict=defect 时给出）：
 [{"id":"规则id","verdict":"defect|pass|na","severity":"must|should|nice","evidence":"理由"}]"""
 
 
+VALID_VERDICTS = ("defect", "pass", "na")
+# 单次送模型的正文上限（字符）。DeepSeek/Claude 上下文足以容纳绝大多数整篇论文正文；
+# 超过时按段落切块分别判读再合并，而不是像旧版那样直接截断 [:8000]。
+JUDGE_CHUNK_CHARS = 60000
+
+
+def _chunks(text, size=JUDGE_CHUNK_CHARS):
+    if len(text) <= size:
+        return [text]
+    out, cur = [], ""
+    for para in re.split(r"(\n\s*\n)", text):
+        if len(cur) + len(para) > size and cur:
+            out.append(cur)
+            cur = ""
+        cur += para
+    if cur:
+        out.append(cur)
+    return out
+
+
+def _merge_chunk_verdicts(per_chunk):
+    """多块判读合并：任一块 pass（要素已出现）且另一块 defect → 交人工；
+    否则 defect > pass > na。"""
+    merged = {}
+    for verdicts in per_chunk:
+        for v in verdicts:
+            merged.setdefault(v.get("id"), []).append(v)
+    out = []
+    for vid, vs in merged.items():
+        kinds = {v.get("verdict") for v in vs}
+        if "defect" in kinds and "pass" in kinds:
+            base = next(v for v in vs if v.get("verdict") == "defect")
+            out.append({**base, "verdict": "review",
+                        "evidence": "分块判读结果冲突（部分块通过、部分块缺陷），需人工复核：" + str(base.get("evidence", ""))})
+            continue
+        for k in ("defect", "pass", "na"):
+            hit = [v for v in vs if v.get("verdict") == k]
+            if hit:
+                out.append(hit[0])
+                break
+        else:
+            out.append(vs[0])
+    return out
+
+
 def judge_batch(track, section_label, section_text, rules, api_key, base_url, model):
+    """判读一批规则。正文超长时分块判读后合并（不再硬截断）。"""
+    chunks = _chunks(section_text)
+    if len(chunks) == 1:
+        return _judge_once(track, section_label, chunks[0], rules, api_key, base_url, model)
+    per = [_judge_once(track, f"{section_label}（第 {i + 1}/{len(chunks)} 块）", c,
+                       rules, api_key, base_url, model) for i, c in enumerate(chunks)]
+    return _merge_chunk_verdicts(per)
+
+
+def _judge_once(track, section_label, section_text, rules, api_key, base_url, model):
     rules_block = [
         {
             "id": r["id"],
@@ -547,7 +602,7 @@ def judge_batch(track, section_label, section_text, rules, api_key, base_url, mo
     ]
     user = (
         f"论文学科主线：{track}（{engine.TRACK_LABELS.get(track, track)}）\n\n"
-        f"【论文正文 · {section_label} 章节】\n{section_text[:8000]}\n\n"
+        f"【论文正文 · {section_label} 章节】\n{section_text}\n\n"
         f"【待判读规则】{len(rules)} 条：\n"
         + json.dumps(rules_block, ensure_ascii=False, indent=2)
         + "\n\n请逐条判读并输出 JSON 数组。"
@@ -569,51 +624,69 @@ def deep_review(text, track, api_key, base_url=None, model=None):
     for r in rules:
         groups.setdefault(r.get("section", "general"), []).append(r)
 
+    rules_by_id = engine.get_rules_by_id()
     verdicts = []
     batches = 0
-    for sec, group in groups.items():
-        sec_text = engine._section_text_for_rule(text, group[0])
-        sec_label = engine.SECTION_LABELS.get(sec, sec)
-        for i in range(0, len(group), 10):
-            batch = group[i:i + 10]
-            batch_verdicts = judge_batch(track, sec_label, sec_text, batch,
-                                         api_key, base_url, model)
-            for v in batch_verdicts:
-                vid = v.get("id")
-                verdict = v.get("verdict", "pass")
-                if verdict not in ("defect", "pass", "na"):
-                    verdict = "pass"
-                sev = v.get("severity", "should")
-                if sev not in ("must", "should", "nice"):
-                    sev = "should"
-                rule = engine.get_rules_by_id().get(vid, {})
-                verdicts.append({
-                    "id": vid,
-                    "verdict": verdict,
-                    "severity": sev if verdict == "defect" else None,
-                    "evidence": v.get("evidence", ""),
-                    "rule": rule.get("rule", ""),
-                    "signal": rule.get("signal", ""),
-                    "fix": rule.get("fix", ""),
-                    "source": rule.get("source", ""),
-                    "example_good": rule.get("example_good", ""),
-                    "section": rule.get("section", ""),
-                })
-            batches += 1
 
-    # 校验：LLM 可能漏判某些规则，补上漏掉的
-    judged_ids = {v["id"] for v in verdicts}
-    for r in rules:
-        if r["id"] not in judged_ids:
-            verdicts.append({
-                "id": r["id"], "verdict": "pass", "severity": None,
-                "evidence": "未判读（自动补为通过）", "rule": r.get("rule", ""),
-                "signal": r.get("signal", ""), "fix": r.get("fix", ""),
-                "source": r.get("source", ""), "example_good": r.get("example_good", ""),
-                "section": r.get("section", ""),
-            })
+    def _run(sec, batch):
+        sec_text = engine._section_text_for_rule(text, batch[0])
+        sec_label = engine.SECTION_LABELS.get(sec, sec)
+        try:
+            return judge_batch(track, sec_label, sec_text, batch, api_key, base_url, model)
+        except Exception as e:  # 单批失败不拖垮整次判读，相关规则记为 unjudged
+            return [{"id": r["id"], "verdict": "unjudged",
+                     "evidence": f"本批调用失败：{type(e).__name__}"} for r in batch]
+
+    pending = [(sec, group[i:i + 10]) for sec, group in groups.items()
+               for i in range(0, len(group), 10)]
+    for attempt in range(2):  # 第 2 轮只重试漏判的规则
+        next_pending = []
+        for sec, batch in pending:
+            out = _run(sec, batch)
+            batches += 1
+            got = set()
+            for v in out:
+                vid = v.get("id")
+                if vid not in {r["id"] for r in batch} or vid in got:
+                    continue
+                got.add(vid)
+                verdicts.append(_make_verdict(v, rules_by_id.get(vid, {}), vid))
+            missing = [r for r in batch if r["id"] not in got]
+            if missing:
+                next_pending.append((sec, missing))
+        pending = next_pending
+        if not pending:
+            break
+
+    # 重试后仍漏判：如实标为 unjudged，不再静默补 pass
+    for sec, batch in pending:
+        for r in batch:
+            verdicts.append(_make_verdict(
+                {"verdict": "unjudged", "evidence": "模型未返回该规则的判读（已重试一次）"}, r, r["id"]))
 
     return {"verdicts": verdicts, "batches": batches, "summary": _summarize(verdicts, track)}
+
+
+def _make_verdict(v, rule, vid):
+    verdict = v.get("verdict")
+    if verdict not in VALID_VERDICTS + ("unjudged", "review"):
+        # 修复：无效 verdict 不再转为 pass
+        verdict = "unjudged"
+    sev = v.get("severity", "should")
+    if sev not in ("must", "should", "nice"):
+        sev = rule.get("severity") if rule.get("severity") in ("must", "should", "nice") else "should"
+    return {
+        "id": vid,
+        "verdict": verdict,
+        "severity": sev if verdict in ("defect", "review") else None,
+        "evidence": v.get("evidence", ""),
+        "rule": rule.get("rule", ""),
+        "signal": rule.get("signal", ""),
+        "fix": rule.get("fix", ""),
+        "source": rule.get("source", ""),
+        "example_good": rule.get("example_good", ""),
+        "section": rule.get("section", ""),
+    }
 
 
 def _summarize(verdicts, track):
@@ -621,14 +694,148 @@ def _summarize(verdicts, track):
     must = [v for v in defects if v.get("severity") == "must"]
     should = [v for v in defects if v.get("severity") == "should"]
     nice = [v for v in defects if v.get("severity") == "nice"]
+    unjudged = [v for v in verdicts if v.get("verdict") == "unjudged"]
+    review = [v for v in verdicts if v.get("verdict") == "review"]
     return {
         "track": track,
-        "judged": len(verdicts),
+        "judged": len(verdicts) - len(unjudged),
+        "total": len(verdicts),
         "defects": len(defects),
         "must": len(must),
         "should": len(should),
         "nice": len(nice),
+        "na": sum(1 for v in verdicts if v.get("verdict") == "na"),
+        "unjudged": len(unjudged),
+        "review": len(review),
         "defect_ids": [v["id"] for v in defects],
+        "unjudged_ids": [v["id"] for v in unjudged],
+    }
+
+
+# ---------------- 结合流程：脚本初筛 → 模型全文复判 ----------------
+#
+# 依据：40 篇真实论文、63 条脚本 must 命中的实测（对比测试/两方案结合必要性分析.md）：
+#   脚本单独精确率 34%；送“章节 + 8000 字”复判保留真缺陷 10/17；
+#   送“去参考文献全文”复判保留 17/17、剔除无缺陷/不适用 33/33；3 次多数票后误留 0。
+
+RECHECK_VOTES = 3
+
+
+def _recheck_once(track, body, rules, api_key, base_url, model):
+    rb = [{"id": r["id"], "rule": r.get("rule", ""), "signal": r.get("signal", ""),
+           "fix": r.get("fix", ""), "source": r.get("source", "")} for r in rules]
+    user = (
+        f"论文学科主线：{track}（{engine.TRACK_LABELS.get(track, track)}）\n\n"
+        # 刻意用中性提示（与 40 篇验证中的 V2 一致）：曾提示"脚本常误判不适用/漏认写法"，
+        # 结果模型偏向 na，真缺陷从 17/17 掉到 14/17（见 PaperMate改造说明.md 阶段 4）。
+        f"【论文全文（已去参考文献）】\n{body}\n\n"
+        f"【待判读规则】{len(rules)} 条：\n" + json.dumps(rb, ensure_ascii=False, indent=2)
+        + "\n\n请逐条判读并输出 JSON 数组。"
+    )
+    raw = chat(api_key, [{"role": "system", "content": _SYSTEM_JUDGE},
+                         {"role": "user", "content": user}],
+               base_url=base_url, model=model, temperature=0.1)
+    return {v.get("id"): v for v in extract_json(raw) if isinstance(v, dict)}
+
+
+def recheck_lexical(text, track, lexical_defects, api_key, base_url=None, model=None,
+                    votes=RECHECK_VOTES, severities=("must",)):
+    """用模型读全文复判脚本命中的缺陷（默认只复判 must），多数票决定最终结论。
+
+    返回每条：final ∈ confirmed / not_applicable / passed / review
+      - confirmed：多数票 defect
+      - not_applicable：多数票 na（规则不适用于本文设计）
+      - passed：多数票 pass（要素存在，脚本漏认写法）
+      - review：票数不过半或调用失败，交人工
+    """
+    rules_by_id = engine.get_rules_by_id()
+    targets = [d for d in lexical_defects if d.get("severity") in severities]
+    if not targets:
+        return {"items": [], "calls": 0, "votes": votes,
+                "summary": {"checked": 0, "confirmed": 0, "not_applicable": 0, "passed": 0, "review": 0}}
+    rules = [rules_by_id[d["id"]] for d in targets if d["id"] in rules_by_id]
+    body = engine.body_only(text)
+    chunks = _chunks(body)
+
+    ballots = []  # 每次投票：{id: verdict_dict}
+    calls = 0
+    for _ in range(max(1, votes)):
+        merged = {}
+        for c in chunks:
+            try:
+                out = _recheck_once(track, c, rules, api_key, base_url, model)
+            except Exception:
+                out = {}
+            calls += 1
+            for vid, v in out.items():
+                prev = merged.get(vid)
+                # 多块时：任一块 pass 即视为要素存在；否则 defect 优先于 na
+                order = {"pass": 3, "defect": 2, "na": 1}
+                if prev is None or order.get(v.get("verdict"), 0) > order.get(prev.get("verdict"), 0):
+                    merged[vid] = v
+        ballots.append(merged)
+
+    items = []
+    final_map = {"defect": "confirmed", "na": "not_applicable", "pass": "passed"}
+    for d in targets:
+        vs = [b.get(d["id"], {}).get("verdict") for b in ballots]
+        valid = [v for v in vs if v in VALID_VERDICTS]
+        top, n = (None, 0)
+        if valid:
+            from collections import Counter
+            top, n = Counter(valid).most_common(1)[0]
+        final = final_map[top] if top and n * 2 > len(vs) else "review"
+        ev = next((b[d["id"]].get("evidence", "") for b in ballots
+                   if d["id"] in b and b[d["id"]].get("verdict") == top), "")
+        items.append({**d, "recheck": {"final": final, "votes": vs, "evidence": ev}})
+    summary = {"checked": len(items)}
+    for k in ("confirmed", "not_applicable", "passed", "review"):
+        summary[k] = sum(1 for it in items if it["recheck"]["final"] == k)
+    return {"items": items, "calls": calls, "votes": votes, "summary": summary}
+
+
+def combined_review(text, track, api_key, base_url=None, model=None, genre=None,
+                    votes=RECHECK_VOTES, with_deep=True):
+    """结合流程：脚本词面检测 → 模型全文复判脚本 must → （可选）模型深审无检测器规则。"""
+    lex = engine.lexical_review(text, track, genre)
+    rc = recheck_lexical(text, track, lex["defects"], api_key, base_url, model, votes=votes)
+    rechecked = {i["id"]: i["recheck"] for i in rc["items"]}
+
+    findings = []
+    for d in lex["defects"]:
+        r = rechecked.get(d["id"])
+        if r is None:
+            status = "script"  # 非 must 级，未复判，保留脚本结论
+        else:
+            status = r["final"]
+        findings.append({**d, "origin": "script", "status": status, "recheck": r})
+
+    deep = None
+    if with_deep:
+        deep = deep_review(text, track, api_key, base_url, model)
+        for v in deep["verdicts"]:
+            if v["verdict"] in ("defect", "review", "unjudged"):
+                findings.append({**v, "origin": "model",
+                                 "status": {"defect": "confirmed", "review": "review",
+                                            "unjudged": "unjudged"}[v["verdict"]]})
+
+    def cnt(s):
+        return sum(1 for f in findings if f["status"] == s)
+
+    return {
+        "lexical": lex,
+        "recheck": {"calls": rc["calls"], "votes": rc["votes"]},
+        "deep": deep,
+        "findings": findings,
+        "summary": {
+            "confirmed": cnt("confirmed"),
+            "confirmed_must": sum(1 for f in findings if f["status"] == "confirmed" and f.get("severity") == "must"),
+            "script_only": cnt("script"),
+            "review": cnt("review"),
+            "unjudged": cnt("unjudged"),
+            "dismissed_not_applicable": cnt("not_applicable"),
+            "dismissed_passed": cnt("passed"),
+        },
     }
 
 

@@ -216,11 +216,18 @@ def track_stats():
 
 
 def split_sections(text):
-    """把稿件按章节标题切分成 dict，供 LLM 判读取相关文本。"""
+    """把稿件按章节标题切分成 dict，供 LLM 判读取相关文本。
+
+    修复（fix/review-pipeline）：
+    - skill 的 SECTION_PATTERNS 是小写正则（check_structure 先 lower() 再匹配），
+      原实现缺 re.IGNORECASE，导致 "## Methods" 等标题全部识别失败（40 篇实测 0 章节）。
+    - 同一章节名多次出现时（如方法章内含多个小节、讨论后再出现 "results" 字样），
+      合并所有片段而非只留最后一个，避免证据被覆盖。
+    """
     positions = []
     for name, pat in _check.SECTION_PATTERNS.items():
         try:
-            for m in re.finditer(pat, text, re.MULTILINE):
+            for m in re.finditer(pat, text, re.MULTILINE | re.IGNORECASE):
                 positions.append((m.start(), name))
         except re.error:
             continue
@@ -228,27 +235,31 @@ def split_sections(text):
     sections = {}
     for i, (pos, name) in enumerate(positions):
         end = positions[i + 1][0] if i + 1 < len(positions) else len(text)
-        sections[name] = text[pos:end]
+        sections[name] = sections.get(name, "") + text[pos:end]
     if positions:
         sections["title"] = text[:positions[0][0]]
     return sections
 
 
+def body_only(text):
+    """去参考文献（复用 skill 原生 body_only，保证与 score.py 口径一致）。"""
+    return _score.body_only(text)
+
+
 def _section_text_for_rule(text, rule):
-    """按规则的 section 字段取相关文本；取不到则返回全文前段。"""
+    """按规则的 section 字段取相关文本（不截断，由调用方负责分块）。
+
+    修复：原实现对通用规则截 12000 字、兜底截 8000 字，长稿关键证据常被截掉。
+    现改为：通用规则用去参考文献的全文；章节缺失时也用全文，而不是摘要+引言。
+    """
+    body = body_only(text)
     target = SECTION_TEXT_MAP.get(rule.get("section"), None)
     if target is None:
-        # 通用/投稿/返修类规则，用全文（截断）
-        return text[:12000]
-    sections = split_sections(text)
-    if target in sections:
+        return body
+    sections = split_sections(body)
+    if sections.get(target):
         return sections[target]
-    # 该章节在稿件中不存在，用摘要+引言兜底
-    fallback = ""
-    for k in ("abstract", "introduction"):
-        if k in sections:
-            fallback += sections[k]
-    return fallback or text[:8000]
+    return body
 
 
 def lexical_review(text, track, genre=None):

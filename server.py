@@ -225,6 +225,17 @@ class DeepReq(BaseModel):
     model: str | None = None
 
 
+class CombinedReq(BaseModel):
+    text: str
+    track: str
+    genre: str | None = None
+    api_key: str | None = None
+    base_url: str | None = None
+    model: str | None = None
+    votes: int = 3          # 复判投票次数（1–5）
+    with_deep: bool = True  # 是否同时深审无检测器规则
+
+
 class WorkflowReq(BaseModel):
     stage: int
     params: dict = {}
@@ -734,6 +745,24 @@ def review_deep(req: DeepReq):
     state_store.save_session(sid, SESSIONS[sid])
     result["session_id"] = sid
     return result
+
+
+@app.post("/api/review/combined")
+def review_combined(req: CombinedReq):
+    """结合审查：脚本词面检测 → 模型读全文复判脚本 must（多数票）→ 模型深审无检测器规则。"""
+    key, base, model = resolve_llm(req.model_dump())
+    if not key:
+        raise HTTPException(400, "未配置 API Key（DeepSeek / Anthropic / 萤算），请在设置中填写或写入 .env")
+    if not req.text or not req.text.strip():
+        raise HTTPException(400, "稿件正文不能为空")
+    if req.track not in engine.TRACKS:
+        raise HTTPException(400, f"未知学科主线：{req.track}")
+    votes = max(1, min(5, req.votes))
+    try:
+        return llm.combined_review(ingest.normalize_for_rules(req.text), req.track, key, base, model,
+                                   genre=req.genre, votes=votes, with_deep=req.with_deep)
+    except Exception as e:
+        raise HTTPException(500, f"结合审查失败：{e}")
 
 
 @app.post("/api/workflow")

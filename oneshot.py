@@ -309,6 +309,8 @@ def normalize_cfg(cfg: dict) -> dict:
         # 作者从选题页自己复制过来的题目：有它就不再让模型另挑候选
         "title": str(cfg.get("title") or "").strip()[:300],
         "dataset_id": str(cfg.get("dataset_id") or "").strip()[:32],
+        # 自检时让大模型对 must 级词面命中做 3 票全文复核（默认关；需 API Key，按调用计费）
+        "recheck": str(cfg.get("recheck") or "").lower() in ("1", "true", "yes", "on"),
     }
 
 
@@ -1874,6 +1876,25 @@ def _step_check(job: dict, llm_cfg: dict) -> None:
         stats["refs_weak"] = rs.get("weak", 0)
         stats["refs_unresolved"] = rs.get("unresolved", 0)
         stats["refs_doi"] = rs.get("with_doi", 0)
+    # 可选：大模型全文复核 must 级词面命中（40 篇实测：脚本 must 精度约 34%，复核后真缺陷全保留）
+    recheck = None
+    if cfg.get("recheck") and (llm_cfg or {}).get("api_key"):
+        try:
+            recheck = llm.recheck_lexical(
+                man, cfg["track"], defects, llm_cfg["api_key"],
+                base_url=llm_cfg.get("base_url"), model=llm_cfg.get("model"),
+                votes=llm.RECHECK_VOTES, severities=("must",))
+            rc = recheck.get("summary") or {}
+            stats["recheck"] = rc
+            stats["must_confirmed"] = rc.get("confirmed", 0)
+            _log(job, f"复核：must {rc.get('checked', 0)} 条 → 确认 {rc.get('confirmed', 0)}／"
+                      f"不适用 {rc.get('not_applicable', 0)}／已满足 {rc.get('passed', 0)}／"
+                      f"待人工 {rc.get('review', 0)}")
+        except Exception as e:
+            recheck = None
+            _log(job, f"复核未执行（{type(e).__name__}），沿用脚本结果")
+    elif cfg.get("recheck"):
+        _log(job, "复核已开启但未配置 API Key，跳过")
     job["data"]["selfcheck"] = stats
     _log(job, f"自检：词面命中 {stats['hits']} 条（硬伤 {stats['must']}）｜TBD {tbd} 处｜CITE {cite} 处")
 
@@ -1928,15 +1949,35 @@ def _step_check(job: dict, llm_cfg: dict) -> None:
     md.append("| --- | --- | --- | --- |")
     md.append(f"| {stats['hits']} | {stats['must']} | {stats['should']} | {stats['nice']} |")
 
+    rc_map = {}
+    rc_label = {"confirmed": "确认缺陷", "not_applicable": "不适用（已排除）",
+                "passed": "已满足（已排除）", "review": "待人工"}
+    if recheck:
+        rc_map = {it["id"]: it["recheck"] for it in recheck.get("items") or []}
+        rs_ = stats["recheck"]
+        md.append(f"\n**大模型全文复核（{recheck.get('votes')} 票多数）**：must {rs_.get('checked', 0)} 条 → "
+                  f"确认 {rs_.get('confirmed', 0)} ｜ 不适用 {rs_.get('not_applicable', 0)} ｜ "
+                  f"已满足 {rs_.get('passed', 0)} ｜ 待人工 {rs_.get('review', 0)}"
+                  f"（调用 {recheck.get('calls', 0)} 次）")
+
     md.append("\n## 缺陷清单（按严重度）\n")
     if defects:
         order = {"must": 0, "should": 1, "nice": 2}
-        md.append("| 规则 | 级别 | 为什么命中 | 改法 |")
-        md.append("| --- | --- | --- | --- |")
+        if rc_map:
+            md.append("| 规则 | 级别 | 复核 | 为什么命中 | 改法 |")
+            md.append("| --- | --- | --- | --- | --- |")
+        else:
+            md.append("| 规则 | 级别 | 为什么命中 | 改法 |")
+            md.append("| --- | --- | --- | --- |")
         for d in sorted(defects, key=lambda x: order.get(x.get("severity"), 3)):
             why = (d.get("reason") or d.get("evidence") or "").replace("|", "／").replace("\n", " ")[:120]
             fix = (d.get("fix") or "").replace("|", "／").replace("\n", " ")[:120]
-            md.append(f"| {d.get('id','')} | {d.get('severity','should')} | {why} | {fix} |")
+            if rc_map:
+                r = rc_map.get(d.get("id"))
+                tag = rc_label.get(r["final"], r["final"]) if r else "未复核"
+                md.append(f"| {d.get('id','')} | {d.get('severity','should')} | {tag} | {why} | {fix} |")
+            else:
+                md.append(f"| {d.get('id','')} | {d.get('severity','should')} | {why} | {fix} |")
     else:
         md.append("_词面可判定的规则全部通过。这不等于全文合格——剩下 "
                   f"{stats['manual']} 条需人工/大模型判读，建议交回「投稿前审查」做深度判读。_")
@@ -2032,8 +2073,15 @@ def _step_check(job: dict, llm_cfg: dict) -> None:
     weak = stats.get("refs_weak", 0)
     if weak:
         todo.append(f"核对 {weak} 条弱匹配文献的 DOI，确认内容确实支撑该处论点")
-    if stats["must"]:
-        todo.append(f"先处理 {stats['must']} 条硬伤（会被直接拒稿的那类）")
+    if recheck:
+        rs_ = stats["recheck"]
+        if rs_.get("confirmed"):
+            todo.append(f"先处理复核确认的 {rs_['confirmed']} 条硬伤（会被直接拒稿的那类）")
+        if rs_.get("review"):
+            todo.append(f"人工判定 {rs_['review']} 条复核票数不过半的硬伤")
+    elif stats["must"]:
+        todo.append(f"先处理 {stats['must']} 条硬伤（会被直接拒稿的那类；"
+                    "脚本 must 命中实测约 1/3 为真，可开启「大模型复核」过滤误报）")
     if cfg["language"] == "zh":
         todo.append("中文稿须按目标刊要求补政策建议/研究局限等国内刊惯例（规则库不含这些）")
     if not todo:
