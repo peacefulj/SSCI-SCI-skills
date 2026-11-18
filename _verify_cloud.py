@@ -79,7 +79,7 @@ def main():
         st, hd, raw = req("/api/health")
         h = json.loads(raw)
         check("health 免登录可访问", st == 200)
-        check("health 报版本 1.3.0", h.get("version") == "1.3.0", h.get("version"))
+        check("health 报版本 1.3.1", h.get("version") == "1.3.1", h.get("version"))
         check("health 报 access_mode=shared", h.get("access_mode") == "shared",
               h.get("access_mode"))
 
@@ -196,7 +196,7 @@ def main():
                   st == 200 and s.get("logged_in") is True, str(s))
             st, _, raw = req("/api/health")
             h2 = json.loads(raw)
-            check("重启后 health 正常", st == 200 and h2.get("version") == "1.3.0")
+            check("重启后 health 正常", st == 200 and h2.get("version") == "1.3.1")
 
             # 会话落盘验证：造一个会话文件，确认能被读
             sd = os.path.join(DATA, "_sessions")

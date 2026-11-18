@@ -55,7 +55,7 @@ def main():
         check("无需登录即访问 /api/meta", True)
         check("access.mode = private", (m.get("access") or {}).get("mode") == "private")
         check("规则数仍 393", m.get("rule_count") == 393, m.get("rule_count"))
-        check("版本 1.3.0", m.get("version") == "1.3.0", m.get("version"))
+        check("版本 1.3.1", m.get("version") == "1.3.1", m.get("version"))
 
         with urllib.request.urlopen(BASE + "/api/health", timeout=10) as r:
             h = json.loads(r.read())
@@ -100,7 +100,7 @@ def main():
         # 版本号已更新到前端
         with urllib.request.urlopen(BASE + "/", timeout=10) as r:
             html = r.read().decode("utf-8", "replace")
-        check("首页显示 v1.3.0", "v1.3.0" in html)
+        check("首页显示 v1.3.1", "v1.3.1" in html)
         check("首页有退出按钮（默认隐藏）", 'id="btnLogout"' in html)
 
     finally:

@@ -398,6 +398,6 @@ def meta():
         "rule_count": len(_RULES),
         "detector_count": len(_DETECTORS),
         "venues": get_venues(),
-        "version": "1.3.0",
+        "version": "1.3.1",
         "addon": get_addon_info(),
     }

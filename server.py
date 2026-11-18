@@ -49,7 +49,7 @@ BASE_DIR = paths.resource_root()
 DATA_DIR = paths.data_root()
 STATIC_DIR = BASE_DIR / "static"
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 app = FastAPI(title="PaperMate", version=VERSION)
 
 # 会话存储：内存 dict + 每次写入同步落盘（见 state_store）。

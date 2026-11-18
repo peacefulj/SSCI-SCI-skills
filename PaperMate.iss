@@ -14,7 +14,7 @@
 
 #define AppName        "PaperMate"
 #define AppNameCN      "开源论文搭子"
-#define AppVersion     "1.3.0"
+#define AppVersion     "1.3.1"
 #define AppPublisher   "PaperMate"
 #define AppExeName     "PaperMate.exe"
 #define BuildDir       "dist\PaperMate"
