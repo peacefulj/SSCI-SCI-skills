@@ -3,6 +3,7 @@
 ## v1.3.2（2026-11-18）工程/AI 主线检测器分派修复 + 盲标复核校准
 
 - **修 bug（`scripts/score.py`）**：`score_file` 原来只按 `detector.track == track` 取检测器，而 `PRD-*` 等检测器 `track=predictive`、`genre` 却含 `ei-conf`/`sci-journal`。结果 ei-conf 只有 4 个通用检测器、ai-conf 只有 2 个引用类检测器在跑，工程/AI 主线的规则实际没被自动检查。现改为：检测器 id 在该主线的 `applicable` 规则集合内也纳入。跨主线分派进来的检测器只收 `defect`，不产生 `pass`（否则会把只检查了一部分的规则误报成"通过"）。
+- **修 bug（`scripts/score.py`，打包时发现）**：上面那条"跨主线只收 defect"的判断写成了 `d.get("track") != track`，这会把 `track: null` 的**通用**检测器也算成跨主线。`CIT-CHK-002`（"as cited in"/转引自）、`CIT-IEEE-004`（`doi://` 拼接错误）两条 `forbid` 类因此永远拿不到 `pass`，既不在 defects 也不在 passed/na——等于每条稿子都静默跳过这两条。现改为显式要求"检测器自身 `track` 非空且不等于当前 track"。实测 40 篇里 7 篇恢复这两条 pass，缺陷集合零变化。
 - 新增 4 条工程/AI 专用检测器（`track` 直接写 `ei-conf`/`ai-conf`，不参与 sci-journal 分派）：`ENG-REP-001/002`（代码/数据可得性）、`ENG-DAT-001/002`（归一化须在训练集内拟合；`batch/layer normalization` 判 na）。
 - `SCI-MET-004` 的 `not_when` 收紧：去掉过宽的 `SDS-PAGE … molecular mass` 一条（会放过确有缺陷的纯化表征论文），保留显微镜描述/形态学观察/单批单次实验三条。
 - 检测器 95 → 99，规则库仍 393 条。
